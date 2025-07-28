@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script type="module" src="main.ts"></script>
+        <script type="module" src="js/main.ts"></script>
         <title>Choreographer</title>
     </head>
     <body>
@@ -11,13 +11,43 @@
             <div id="title">Choreographer</div>
         </header>
         <main>
-            <div id="cover-view">
-                <label for="logihub-import">Paste data from LogiHub:</label>
-                <input id="logihub-import" name="logihub-import" />
-                <div>Or manually enter data:</div>
-                <button>Manual Entry</button>
+            <div id="config-view">
+                <div id="data-input">
+                    <div id="logihub-input">To be added later!</div>
+                    <div id="manual-input">
+                        <div id="name-input">
+                            <label for="item-name">Item name:</label>
+                            <input
+                                list="item-names-list"
+                                name="item-name"
+                                placeholder="Type here..."
+                            />
+                            <datalist id="item-names-list">
+                                <!-- Populated by initialization code -->
+                            </datalist>
+                        </div>
+                        <div id="priority-input">
+                            <label for="priority">Priority:</label>
+                            <input
+                                list="priorities-list"
+                                name="priority"
+                                value="-"
+                            />
+                            <datalist id="priorities-list">
+                                <option value="-"></option>
+                                <option value="Priority"></option>
+                                <option value="High Priority"></option>
+                            </datalist>
+                        </div>
+                        <div id="amount-input">
+                            <label for="amount">Amount:</label>
+                            <input type="number" name="amount" min="0" />
+                        </div>
+                        <button onclick="">Submit</button>
+                    </div>
+                </div>
+                <div id="data-view"></div>
             </div>
-            <div id="config-view" class="hidden"></div>
             <div id="manu-view" class="hidden"></div>
         </main>
     </body>
