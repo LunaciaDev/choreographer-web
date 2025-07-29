@@ -1,6 +1,17 @@
-import { ItemType, type Item } from './types/item';
+import type { ItemData } from '../types/item-data';
+import { ItemType } from '../types/item-type';
 
-export const itemData: Item[] = [
+/**
+ * Hey, you. Yes, you.
+ *
+ * You probably editing this because something is missing/outdated?
+ * If there is a new queue type, add them in ItemType (follow the import above).
+ * You can add item in any position you want, the order doesn't really matter.
+ * The app do not persist any data inbetween sessions, so having internal ID
+ * being changed is not a big deal.
+ * Make sure that the cost is per crate though!
+ */
+export const itemData: ItemData[] = [
     {
         name: 'Neville AT Rifle',
         type: ItemType.HEAVY_ARM,

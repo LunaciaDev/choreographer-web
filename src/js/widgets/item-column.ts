@@ -1,10 +1,24 @@
-export function createItemColumn(itemType: string): Node {
-    const column = document.createElement('div');
-    const columnLabel = document.createElement('div');
+import { getTemplateChildOrThrow } from '../helper';
 
-    columnLabel.innerHTML = itemType;
+/**
+ * Create a column HTML node with a title.
+ *
+ * @param itemType Title of the column
+ * @returns A HTML Node of the created column
+ * @author LunaciaDev
+ */
+export function createItemColumn(itemType: string): HTMLTemplateElement {
+    const itemColTemplate = dataStore.templateReference.itemColumn.cloneNode(
+        true
+    ) as HTMLTemplateElement;
+    const itemColClassName = ['item-column-label'];
+    const itemColRefs = getTemplateChildOrThrow(
+        itemColTemplate,
+        'item-column-template',
+        itemColClassName
+    );
 
-    column.appendChild(columnLabel);
+    itemColRefs['item-column-label'].innerText = itemType;
 
-    return column;
+    return itemColTemplate;
 }

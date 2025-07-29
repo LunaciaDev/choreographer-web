@@ -6,9 +6,32 @@
         <script type="module" src="js/main.ts"></script>
         <title>Choreographer</title>
     </head>
+
+    <template id="item-card-template">
+        <div class="item-card">
+            <div class="item-image">
+                <!-- <img> -->
+            </div>
+            <div class="item-name"></div>
+            <div class="item-amount"></div>
+            <div class="item-cost"></div>
+            <div class="item-priority"></div>
+            <button class="remove-card">Delete</button>
+        </div>
+    </template>
+
+    <template id="item-column-template">
+        <div class="item-column">
+            <div class="item-column-label"></div>
+            <div class="item-list"></div>
+        </div>
+    </template>
+
     <body>
         <header>
             <div id="title">Choreographer</div>
+            -
+            <div id="current-view">Configuration</div>
         </header>
         <main>
             <div id="config-view">
@@ -18,6 +41,7 @@
                         <div id="name-input">
                             <label for="item-name">Item name:</label>
                             <input
+                                id="item-name"
                                 list="item-names-list"
                                 name="item-name"
                                 placeholder="Type here..."
@@ -29,6 +53,7 @@
                         <div id="priority-input">
                             <label for="priority">Priority:</label>
                             <input
+                                id="priority"
                                 list="priorities-list"
                                 name="priority"
                                 value="-"
@@ -41,9 +66,14 @@
                         </div>
                         <div id="amount-input">
                             <label for="amount">Amount:</label>
-                            <input type="number" name="amount" min="0" />
+                            <input
+                                id="amount"
+                                type="number"
+                                name="amount"
+                                min="0"
+                            />
                         </div>
-                        <button onclick="">Submit</button>
+                        <button id="submit-item-button">Submit</button>
                     </div>
                 </div>
                 <div id="data-view"></div>
