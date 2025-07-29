@@ -1,6 +1,6 @@
-import { itemData } from "./data";
-import { type Item, ItemType } from "./types/item";
-import { createItemColumn } from "./widgets/item-column";
+import { itemData } from './data';
+import { type Item, ItemType } from './types/item';
+import { createItemColumn } from './widgets/item-column';
 
 /**
  * Populate the item-name-list <datalist> in the application.
