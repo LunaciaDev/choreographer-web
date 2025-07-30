@@ -3,42 +3,57 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
         <script type="module" src="js/main.ts"></script>
         <title>Choreographer</title>
     </head>
 
     <template id="item-card-template">
         <div class="item-card">
-            <div class="item-image">
-                <!-- <img> -->
+            <div class="item-card-line">
+                <div class="item-image">
+                    <!-- <img> -->
+                </div>
+                <div class="item-name"></div>
+                <div class="item-amount"></div>
             </div>
-            <div class="item-name"></div>
-            <div class="item-amount"></div>
-            <div class="item-cost"></div>
-            <div class="item-priority"></div>
-            <button class="remove-card">Delete</button>
-        </div>
-    </template>
-
-    <template id="item-column-template">
-        <div class="item-column">
-            <div class="item-column-label"></div>
-            <div class="item-list"></div>
+            <div class="item-card-line">
+                <div class="item-cost"></div>
+            </div>
+            <div class="item-card-line">
+                <div class="item-priority"></div>
+                <button class="remove-card">Delete</button>
+            </div>
         </div>
     </template>
 
     <body>
         <header>
-            <div id="title">Choreographer</div>
-            -
-            <div id="current-view">Configuration</div>
+            <div id="title"><h1>Choreographer</h1></div>
+            <h1>-</h1>
+            <div id="current-view"><h1>Configuration</h1></div>
         </header>
         <main>
             <div id="config-view">
                 <div id="data-input">
-                    <div id="logihub-input">To be added later!</div>
+                    <div id="logihub-input">
+                        <div class="input-wrapper">
+                            <h2>Import from LogiHub</h2>
+                            <label for="logihub-import-paste"
+                                >Paste LogiHub export here:</label
+                            >
+                            <textarea
+                                id="logihub-import-paste"
+                                name="logihub-import-paste"
+                            ></textarea>
+                        </div>
+                        <button class="accent" id="submit-logihub-import">
+                            Submit
+                        </button>
+                    </div>
                     <div id="manual-input">
-                        <div id="name-input">
+                        <div class="input-wrapper">
+                            <h2>Manual Entry</h2>
                             <label for="item-name">Item name:</label>
                             <input
                                 id="item-name"
@@ -49,22 +64,14 @@
                             <datalist id="item-names-list">
                                 <!-- Populated by initialization code -->
                             </datalist>
-                        </div>
-                        <div id="priority-input">
                             <label for="priority">Priority:</label>
-                            <input
-                                id="priority"
-                                list="priorities-list"
-                                name="priority"
-                                value="-"
-                            />
-                            <datalist id="priorities-list">
-                                <option value="-"></option>
-                                <option value="Priority"></option>
-                                <option value="High Priority"></option>
-                            </datalist>
-                        </div>
-                        <div id="amount-input">
+                            <select id="priority" name="priority">
+                                <option value="-">No Priority</option>
+                                <option value="Priority">Priority</option>
+                                <option value="High Priority">
+                                    High Priority
+                                </option>
+                            </select>
                             <label for="amount">Amount:</label>
                             <input
                                 id="amount"
@@ -73,7 +80,9 @@
                                 min="0"
                             />
                         </div>
-                        <button id="submit-item-button">Submit</button>
+                        <button class="accent" id="submit-item-button">
+                            Submit
+                        </button>
                     </div>
                 </div>
                 <div id="data-view"></div>

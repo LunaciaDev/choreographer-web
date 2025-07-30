@@ -8,45 +8,57 @@ export function addItemCard(
     amount: number,
     priority: Priority
 ) {
-    const colRef = dataStore.columnReference[itemData[itemID].type].reference;
-    const colData = dataStore.columnReference[itemData[itemID].type].items;
     const item: Item = {
         id: itemID,
         amount: amount,
         priority: priority,
     };
+    const itemType = itemData[item.id].type;
+
+    if (dataStore.sortedItems[itemType] === undefined) {
+        throw new Error('Undefined itemType');
+    }
+
+    const itemsList = dataStore.sortedItems[itemType] as Item[];
 
     let t = 0;
 
-    for (t = 0; t < colData.length; t++) {
-        if ((colData[t] as Item).id === itemID) {
-            colData[t] = item;
+    for (t = 0; t < itemsList.length; t++) {
+        if (itemsList[t].id === itemID) {
+            itemsList[t] = item;
             t = -1;
             break;
         }
     }
 
     if (t !== -1) {
-        colData.push(item);
+        itemsList.push(item);
     }
 
-    colData
+    /** Need not to sort right now, saving this for later
+    itemsList
         .sort((a: Item, b: Item): number => {
             if (a.priority !== b.priority) return a.priority - b.priority;
 
             return a.amount - b.amount;
         })
         .reverse();
+    **/
 
-    colRef.innerHTML = '';
+    // rerender the datastore
+    dataStore.dataViewRef.innerHTML = '';
 
-    colData.forEach((item: Item) => {
-        const itemCard = createItemCard(item.id, item.amount, item.priority);
-        colRef.appendChild(itemCard.content);
+    dataStore.sortedItems.forEach((itemsList: Item[]) => {
+        itemsList.forEach((item: Item) => {
+            dataStore.dataViewRef.appendChild(
+                createItemCardTemplate(item.id, item.amount, item.priority)
+                    .content
+            );
+        });
     });
 }
 
-function createItemCard(
+function createItemCardTemplate(
     itemID: number,
     amount: number,
     priority: Priority
@@ -74,11 +86,11 @@ function createItemCard(
     itemCardElemRef['item-priority'].textContent =
         Priority_priorityToString(priority);
     itemCardElemRef['remove-card'].addEventListener('click', () => {
-        const colData = dataStore.columnReference[itemData[itemID].type].items;
+        const itemsList = dataStore.sortedItems[itemData[itemID].type];
 
-        for (let index = 0; index < colData.length; index++) {
-            if ((colData[index] as Item).id === itemID) {
-                colData.splice(index, 1);
+        for (let index = 0; index < itemsList.length; index++) {
+            if ((itemsList[index] as Item).id === itemID) {
+                itemsList.splice(index, 1);
             }
         }
 

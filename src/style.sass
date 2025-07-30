@@ -1,3 +1,22 @@
-@use 'css/reset'
 @use 'css/palette'
+@use 'css/reset'
 @use 'css/rule-class'
+@use 'css/config-view'
+
+body
+    background-color: var(--background)
+    color: var(--text)
+
+header
+    display: flex
+    margin-bottom: 1rem;
+
+    #title
+        margin-left: auto
+
+    #current-view
+        margin-right: auto
+
+    *
+        margin-left: 5px
+        margin-right: 5px

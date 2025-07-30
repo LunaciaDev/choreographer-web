@@ -2,7 +2,6 @@
     Josh's Custom CSS Reset
     https://www.joshwcomeau.com/css/custom-css-reset/
 
-
 *, *::before, *::after
     box-sizing: border-box
 
@@ -27,14 +26,68 @@ input, button, textarea, select
 p, h1, h2, h3, h4, h5, h6
     overflow-wrap: break-word
 
+p
+    text-wrap: pretty
+
+h1, h2, h3, h4, h5, h6
+    text-wrap: balance
+
 #root, #__next
     isolation: isolate
 
-a
-    text-decoration: none
-    border-bottom: 2px solid var(--accent-70)
-    color: inherit
-    font-size: inherit
+/**
+    Custom reset configuration
 
-a:hover
-    border-bottom: 3px solid var(--accent)
+button
+    background-color: var(--primary-20)
+    border: 0
+    padding: 0 4px 0 4px
+    border-radius: 4px
+    color: var(--text)
+
+button:hover
+    background-color: var(--primary-30)
+
+button:active
+    background-color: var(--primary-15)
+
+button.accent
+    background-color: var(--primary)
+    color: var(--background)
+
+button.accent:hover
+    background-color: var(--primary-80)
+
+button.accent:active
+    background-color: var(--primary-60)
+
+input, textarea
+    background-color: var(--background)
+    border: 2px solid var(--primary-30)
+    border-radius: 4px
+    color: var(--text)
+    padding: 2px 6px 2px 6px
+
+input:focus, textarea:focus
+    border: 2px solid var(--accent)
+    outline: none
+
+textarea
+    resize: none
+
+/** This is probably not a good idea
+input[type="number"] 
+    -webkit-appearance: textfield
+    -moz-appearance: textfield
+    appearance: textfield
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+    -webkit-appearance: none
+
+select
+    background-color: var(--background)
+    border: 2px solid var(--primary-30)
+    border-radius: 4px
+    color: var(--text)
+    padding: 2px 6px 2px 6px

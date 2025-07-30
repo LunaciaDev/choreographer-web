@@ -19,9 +19,7 @@ export enum Priority {
  * @argument priority String of the priority value
  * @return Corresponding priority value, or undefined
  */
-export function Priority_stringToPriority(
-    priority: string
-): Priority | undefined {
+export function Priority_stringToPriority(priority: string): Priority {
     switch (priority) {
         case '-':
             return Priority.NO_PRIORITY;
@@ -30,7 +28,7 @@ export function Priority_stringToPriority(
         case 'High Priority':
             return Priority.HIGH_PRIORITY;
         default:
-            return undefined;
+            throw new Error('Invalid priority string');
     }
 }
 

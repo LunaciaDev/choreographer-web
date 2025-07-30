@@ -71,3 +71,19 @@ export function generateCostString(itemID: number): string {
 
     return component.join(', ');
 }
+
+export function translateLogihubToInternal(name: string): number {
+    for (let i = 0; i < itemData.length; i++) {
+        if (itemData[i].logihubName !== undefined) {
+            if (itemData[i].logihubName == name) {
+                return i;
+            }
+        }
+
+        if (itemData[i].name === name) {
+            return i;
+        }
+    }
+
+    throw new Error(`Failed to translate ${name} to internal id`);
+}

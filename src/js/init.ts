@@ -1,9 +1,9 @@
 import { itemData } from './data/item-data';
-import { getTemplateChildOrThrow } from './helper';
+import type { Item } from './types/item';
 import type { ItemData } from './types/item-data';
-import { ItemType_getIterator, ItemType_getLabel } from './types/item-type';
+import { ItemType_getIterator } from './types/item-type';
 import { addItem } from './widgets/add-item-button';
-import { createItemColumn } from './widgets/item-column';
+import { importLogihub } from './widgets/import-logihub-button';
 
 /**
  * Populate the item-name-list <datalist> in the application.
@@ -26,34 +26,7 @@ function populateItemNameList() {
     });
 }
 
-/**
- * Populate the data view with all the item columns.
- */
-function populateDataView() {
-    const dataView = document.getElementById('data-view');
-
-    if (!dataView) {
-        throw new Error('Cannot find data-view element');
-    }
-
-    for (const type of ItemType_getIterator()) {
-        const column = createItemColumn(ItemType_getLabel(type));
-        const innerItemList = getTemplateChildOrThrow(
-            column,
-            'item-column-template',
-            ['item-list']
-        )['item-list'];
-
-        window.dataStore.columnReference.push({
-            reference: innerItemList,
-            items: [],
-        });
-
-        dataView.appendChild(column.content);
-    }
-}
-
-function getTemplateReference(id: string): HTMLElement {
+function getElementReference(id: string): HTMLElement {
     const node = document.getElementById(id);
 
     if (node === null) {
@@ -63,23 +36,32 @@ function getTemplateReference(id: string): HTMLElement {
     return node;
 }
 
-function constructDOMReference() {
+function constructDataStore() {
+    const sortedItems: Item[][] = [];
+
+    ItemType_getIterator().forEach(() => {
+        sortedItems.push([]);
+    });
+
     window.dataStore = {
-        columnReference: [],
+        sortedItems: sortedItems,
+        dataViewRef: getElementReference('data-view'),
         templateReference: {
-            itemCard: getTemplateReference('item-card-template'),
-            itemColumn: getTemplateReference('item-column-template'),
+            itemCard: getElementReference('item-card-template'),
         },
     };
 }
 
 export function initializeApp() {
-    constructDOMReference();
+    constructDataStore();
 
     document
         .getElementById('submit-item-button')
         ?.addEventListener('click', addItem);
 
+    document
+        .getElementById('submit-logihub-import')
+        ?.addEventListener('click', importLogihub);
+
     populateItemNameList();
-    populateDataView();
 }

@@ -1,16 +1,11 @@
 type DataStore = {
-    columnReference: ColumnRef[];
+    sortedItems: Item[][];
+    dataViewRef: HTMLElement;
     templateReference: TemplateRef;
 };
 
 type TemplateRef = {
     itemCard: HTMLElement;
-    itemColumn: HTMLElement;
-};
-
-type ColumnRef = {
-    reference: HTMLElement;
-    items: Item[];
 };
 
 declare global {

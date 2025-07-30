@@ -33,11 +33,5 @@ export function addItem() {
         itemID = -1;
     }
 
-    if (priority === undefined) {
-        // [TODO] Show error in UI
-        console.error('priority invalid');
-        return;
-    }
-
     addItemCard(itemID, amount, priority);
 }
