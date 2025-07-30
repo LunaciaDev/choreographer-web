@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "check": "eslint src/js/*",
+    "check": "eslint src/js/* && tsc --noEmit",
     "format": "prettier src/* --write",
     "prepare": "node .husky/install.mjs"
   },
