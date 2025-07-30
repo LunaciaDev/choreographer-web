@@ -4,16 +4,27 @@ import { ItemType } from '../types/item-type';
 /**
  * Hey, you. Yes, you.
  *
- * You probably editing this because something is missing/outdated?
+ * You are probably editing this because something is missing/outdated?
+ *
  * If there is a new queue type, add them in ItemType (follow the import above).
+ *
  * You can add item in any position you want, the order doesn't really matter.
+ *
  * The app do not persist any data inbetween sessions, so having internal ID
  * being changed is not a big deal.
- * Make sure that the cost is per crate though!
+ *
+ * Make sure that the cost is per crate, and the translation layer between LogiHub
+ * and this is also updated... Some in-game name are simply way too long or provide
+ * nothing of value.
+ */
+
+/**
+ * Store all item data
  */
 export const itemData: ItemData[] = [
     {
         name: 'Neville AT Rifle',
+        logihubName: '20 Neville Anti-Tank Rifle',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 150,
@@ -34,6 +45,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Varsi AT Grenade',
+        logihubName: 'B2 Varsi Anti-Tank Grenade',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 95,
@@ -44,6 +56,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Mounted Bonesaw',
+        logihubName: 'Mounted Bonesaw MK.3',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 100,
@@ -54,6 +67,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Bonesaw Mk3',
+        logihubName: 'Bonesaw MK.3',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 100,
@@ -74,6 +88,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: "Willow's Bane Flamethrower",
+        logihubName: 'Willow’s Bane Model 845',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 165,
@@ -84,6 +99,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Tremola Grenade',
+        logihubName: 'Tremola Grenade GPb-1',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 75,
@@ -94,6 +110,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Malone Ratcatcher',
+        logihubName: 'Malone Ratcatcher MK.1',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 100,
@@ -144,6 +161,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'HE Mortar Shell',
+        logihubName: 'Mortar Shell',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 60,
@@ -154,6 +172,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'White Ash Flask Grenade',
+        logihubName: 'BF5 White Ash Flask Grenade',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 100,
@@ -163,7 +182,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Mammon HE Grenade',
+        name: 'Mammon 91-b',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 100,
@@ -174,6 +193,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'AT Sticky',
+        logihubName: 'Anti-Tank Sticky Bomb',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 50,
@@ -183,7 +203,8 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Carnyx ATRL',
+        name: 'Carnyx AT Rocket Launcher',
+        logihubName: 'Carnyx Anti-Tank Rocket Launcher',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 125,
@@ -204,6 +225,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Cutler Launcher',
+        logihubName: 'Cutler Launcher 4',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 100,
@@ -213,7 +235,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'RPG Shell',
+        name: 'RPG',
         type: ItemType.HEAVY_ARM,
         cost: {
             bmat: 60,
@@ -243,7 +265,8 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: '250mm',
+        name: '250mm "Purity"',
+        logihubName: '250mm "Purity" Shell',
         type: ItemType.HEAVY_SHELL,
         cost: {
             bmat: 120,
@@ -274,6 +297,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Booker Storm Rifle',
+        logihubName: 'Booker Storm Rifle Model 838',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 0,
@@ -284,6 +308,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Aalto Storm Rifle',
+        logihubName: 'Aalto Storm Rifle 24',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 0,
@@ -304,6 +329,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Malone Mk2',
+        logihubName: 'Malone MK.2',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 0,
@@ -313,7 +339,8 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Harpa Grenade',
+        name: 'Harpa Frag Grenade',
+        logihubName: 'A3 Harpa Fragmentation Grenade',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 100,
@@ -324,6 +351,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Cascadier',
+        logihubName: 'Cascadier 873',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 60,
@@ -344,6 +372,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Cometa Revolver',
+        logihubName: 'Cometa T2-9',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 60,
@@ -353,7 +382,8 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Hangman',
+        name: 'The Hangman',
+        logihubName: 'The Hangman 757',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 125,
@@ -363,7 +393,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: '0.44',
+        name: '.44',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 40,
@@ -373,7 +403,8 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Sampo Autorifle',
+        name: 'Sampo Auto-Rifle',
+        logihubName: 'Sampo Auto-Rifle 77',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 125,
@@ -384,6 +415,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Blakerow Rifle',
+        logihubName: 'Blakerow 871',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 140,
@@ -394,6 +426,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Clancy Cinder',
+        logihubName: 'Clancy Cinder M3',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 130,
@@ -404,6 +437,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Hawthorne',
+        logihubName: 'No.2B Hawthorne',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 70,
@@ -414,6 +448,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Loughcaster',
+        logihubName: 'No.2 Loughcaster',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 100,
@@ -424,6 +459,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Clancy-Raca Sniper',
+        logihubName: 'Clancy-Raca M4',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 250,
@@ -434,16 +470,6 @@ export const itemData: ItemData[] = [
     },
     {
         name: '7.62mm',
-        type: ItemType.LIGHT_ARM,
-        cost: {
-            bmat: 80,
-            emat: 0,
-            rmat: 0,
-            hemat: 0,
-        },
-    },
-    {
-        name: 'Brasa Shotgun',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 80,
@@ -464,6 +490,8 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Liar SMG',
+        // ???? why the odd quote
+        logihubName: 'No.1 “The Liar” Submachinegun',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 120,
@@ -474,6 +502,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Fiddler SMG',
+        logihubName: 'Fiddler Submachine Gun Model 868',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 120,
@@ -494,6 +523,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Smoke Grenade',
+        logihubName: 'PT-815 Smoke Grenade',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 120,
@@ -524,6 +554,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Pillory Scattergun',
+        logihubName: 'No.4 The Pillory Scattergun',
         type: ItemType.LIGHT_ARM,
         cost: {
             bmat: 80,
@@ -584,6 +615,8 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Specialist (Heavy)',
+        // here too??
+        logihubName: 'Specialist’s Overcoat',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -594,6 +627,8 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Gunner (Knight)',
+        // mannnnn
+        logihubName: 'Gunner’s Breastplate',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -604,6 +639,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Sapper (Engineer)',
+        logihubName: 'Sapper Gear',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -614,6 +650,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Physician (Medic)',
+        logihubName: 'Physician’s Jacket',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -624,6 +661,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Officer (Larp)',
+        logihubName: 'Officer’s Regalia',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -634,6 +672,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Outrider (Scout)',
+        logihubName: 'Outrider’s Mantle',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -644,6 +683,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Parka',
+        logihubName: 'Caoivish Parka',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -654,6 +694,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Boiler Suit (Tanker)',
+        logihubName: 'Padded Boiler Suit',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -664,6 +705,7 @@ export const itemData: ItemData[] = [
     },
     {
         name: "Gentleman's Peacoat (Sailor)",
+        logihubName: 'Gentleman’s Peacoat',
         type: ItemType.UNIFORM,
         cost: {
             bmat: 100,
@@ -763,7 +805,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Havoc Detonator',
+        name: 'Havoc Charge Detonator',
         type: ItemType.UTILITIES,
         cost: {
             bmat: 75,
@@ -794,20 +836,11 @@ export const itemData: ItemData[] = [
     },
     {
         name: 'Sledgehammer',
+        logihubName: 'Sledge Hammer',
         type: ItemType.UTILITIES,
         cost: {
             bmat: 200,
             emat: 0,
-            rmat: 0,
-            hemat: 0,
-        },
-    },
-    {
-        name: 'AT Mine',
-        type: ItemType.UTILITIES,
-        cost: {
-            bmat: 100,
-            emat: 10,
             rmat: 0,
             hemat: 0,
         },
@@ -843,7 +876,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Bayonet',
+        name: 'Buckhorn CCQ-18',
         type: ItemType.UTILITIES,
         cost: {
             bmat: 40,
@@ -873,7 +906,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Gas Filter',
+        name: 'Gas Mask Filter',
         type: ItemType.UTILITIES,
         cost: {
             bmat: 100,
@@ -883,7 +916,7 @@ export const itemData: ItemData[] = [
         },
     },
     {
-        name: 'Ospreay GL',
+        name: 'The Ospreay',
         type: ItemType.UTILITIES,
         cost: {
             bmat: 85,
