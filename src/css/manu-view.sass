@@ -1,0 +1,65 @@
+#manu-view
+    display: flex
+    flex-direction: column
+    width: 50vw
+    margin-left: auto
+    margin-right: auto
+
+    #statistic-view
+        display: flex
+        margin-bottom: 2rem
+
+        .line
+            margin-left: auto
+            margin-right: auto
+
+            #crate-crafted, #time-spent
+                text-align: center
+
+    #requirement-view
+        display: flex
+        flex-direction: column
+        width: 60%
+        margin-left: auto
+        margin-right: auto
+        gap: 1rem
+
+        .label
+            text-align: center
+            margin: 0 auto 0.5rem auto
+
+        #item-to-craft
+            display: flex
+            flex-direction: column
+            gap: 1rem
+
+            .manu-item-line
+                display: flex
+                background-color: var(--primary-10)
+                border-radius: 6px
+                padding: 10px
+
+                .manu-item-name
+                    display: flex
+                    align-items: center
+                    margin-right: auto
+
+                .remove-line
+                    margin-left: auto
+                    margin-right: 10px
+
+        #cost-to-craft
+            width: fit-content
+            margin: 0 auto 0 auto
+            padding: 4px 8px
+            border-radius: 5px
+            background-color: var(--accent-20)
+
+    #manu-control
+        margin-top: 1rem
+
+        .line
+            display: flex
+            width: fit-content
+            gap: 10px
+            margin: 1rem auto 0 auto

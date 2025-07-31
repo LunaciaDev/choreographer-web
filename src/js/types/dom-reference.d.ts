@@ -1,6 +1,13 @@
 type DataStore = {
     sortedItems: Item[][];
     dataViewRef: HTMLElement;
+    manuViewRef: {
+        crateCrafted: HTMLElement;
+        timeSpent: HTMLElement;
+        itemToCraft: HTMLElement;
+        costToCraft: HTMLElement;
+        intervalRef: number;
+    };
     templateReference: TemplateRef;
 };
 

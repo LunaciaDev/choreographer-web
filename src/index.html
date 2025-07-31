@@ -27,9 +27,29 @@
         </div>
     </template>
 
+    <template id="result-item-card">
+        <div class="item-card">
+            <div class="item-card-line">
+                <div class="item-image">
+                    <!-- <img> -->
+                </div>
+                <div class="item-name"></div>
+                <div class="item-amount"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="manu-item-line-template">
+        <div class="manu-item-line">
+            <div class="manu-item-name"></div>
+            <button class="remove-line">X</button>
+            <button class="push-back-line">-</button>
+        </div>
+    </template>
+
     <body>
         <header>
-            <div id="title"><h1>Config</h1></div>
+            <div id="title">Config</div>
             <button id="start-manu-button" class="accent">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
         </header>
@@ -89,21 +109,57 @@
             </div>
             <div id="manu-view" class="hidden">
                 <div id="statistic-view">
-                    <div id="crate-crafted"></div>
-                    <div id="time-spent"></div>
+                    <div class="line">
+                        <div>Crate Crafted</div>
+                        <div id="crate-crafted"></div>
+                    </div>
+                    <div class="line">
+                        <div>Time Elapsed</div>
+                        <div id="time-spent"></div>
+                    </div>
                 </div>
                 <div id="requirement-view">
-                    <div id="item-to-craft"></div>
-                    <div id="cost-to-craft"></div>
+                    <div class="line">
+                        <div class="label">Queues to set</div>
+                        <div id="item-to-craft"></div>
+                    </div>
+                    <div class="line">
+                        <div class="label">Material Needed</div>
+                        <div id="cost-to-craft"></div>
+                    </div>
                 </div>
                 <div id="manu-control">
-                    <button id="rq-lightarm">LA</button>
-                    <button id="rq-heavyarm">HA</button>
-                    <button id="rq-heavyshell">HS</button>
-                    <button id="rq-utilities">UT</button>
-                    <button id="rq-medical">ME</button>
-                    <button id="rq-uniform">UN</button>
+                    <div class="line">
+                        Clicks empty queues, click Submit after setting queues
+                    </div>
+                    <div class="line">Always set a full 4 items queue!</div>
+                    <div class="line">
+                        <button id="rq-lightarm">LA</button>
+                        <button id="rq-heavyarm">HA</button>
+                        <button id="rq-heavyshell">HS</button>
+                        <button id="rq-utilities">UT</button>
+                        <button id="rq-medical">ME</button>
+                        <button id="rq-uniform">UN</button>
+                        <button id="rq-crafted">Submit</button>
+                    </div>
                 </div>
+            </div>
+            <div id="result-view" class="hidden">
+                <div class="statistic">
+                    <div class="group">
+                        <div class="label">Time spent Manufacturing</div>
+                        <div id="result-time"></div>
+                    </div>
+                    <div class="group">
+                        <div class="label">Total Crate Manufactured</div>
+                        <div id="result-crate"></div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="label">Queue Manufactured</div>
+                    <div id="result-item-crafted"></div>
+                </div>
+                <button class="accent" id="return-button">Return</button>
             </div>
         </main>
     </body>

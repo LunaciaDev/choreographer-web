@@ -12,6 +12,7 @@ export function addItemCard(
         id: itemID,
         amount: amount,
         priority: priority,
+        craftedAmount: 0,
     };
     const itemType = itemData[item.id].type;
 
@@ -35,16 +36,6 @@ export function addItemCard(
         itemsList.push(item);
     }
 
-    /** Need not to sort right now, saving this for later
-    itemsList
-        .sort((a: Item, b: Item): number => {
-            if (a.priority !== b.priority) return a.priority - b.priority;
-
-            return a.amount - b.amount;
-        })
-        .reverse();
-    **/
-
     // rerender the datastore
     dataStore.dataViewRef.innerHTML = '';
 
@@ -58,7 +49,7 @@ export function addItemCard(
     });
 }
 
-function createItemCardTemplate(
+export function createItemCardTemplate(
     itemID: number,
     amount: number,
     priority: Priority

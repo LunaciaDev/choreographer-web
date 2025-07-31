@@ -87,3 +87,13 @@ export function translateLogihubToInternal(name: string): number {
 
     throw new Error(`Failed to translate ${name} to internal id`);
 }
+
+export function getElementReference(id: string): HTMLElement {
+    const node = document.getElementById(id);
+
+    if (node === null) {
+        throw new Error(`Cannot find template ${id}`);
+    }
+
+    return node;
+}
