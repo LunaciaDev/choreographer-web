@@ -1,0 +1,50 @@
+#result-view
+    display: flex
+    flex-direction: column
+    align-items: center
+
+    .statistic
+        display: flex
+        width: 100vw
+
+        .group
+            margin: 0 auto 0 auto
+
+            #result-time, #result-crate
+                text-align: center
+
+    .line
+        margin-top: 1rem
+
+        .label
+            text-align: center
+
+    #result-item-crafted
+        display: grid
+        width: 95vw
+        gap: 1rem
+            /* dynamically create column, making sure element have at least 250px
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
+        margin: 1rem 1rem 0 1rem
+
+        .item-card
+            display: grid
+            grid-template-rows: 1fr
+            gap: 10px
+            background-color: var(--primary-10)
+            border-radius: 6px
+            padding: 10px
+
+            .item-name
+                margin-right: auto
+
+            .item-card-line
+                display: inline-flex
+                flex: 1 1 0px
+
+            .item-cost
+                text-align: center
+                width: 100%
+
+    button
+        margin-top: 2rem

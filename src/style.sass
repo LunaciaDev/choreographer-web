@@ -1,2 +1,27 @@
-@use 'css/reset'
 @use 'css/palette'
+@use 'css/reset'
+@use 'css/rule-class'
+@use 'css/config-view'
+@use 'css/manu-view'
+@use 'css/result-view'
+
+body
+    background-color: var(--background)
+    color: var(--text)
+
+header
+    display: flex
+    align-content: center
+    position: relative
+
+    #title
+        margin-left: auto
+        margin-right: auto
+
+    button
+        position: absolute
+        right: 1rem
+        top: calc( 50% - 0.9em )
+
+main
+    margin-top: 1rem

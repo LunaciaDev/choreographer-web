@@ -1,24 +1,26 @@
 {
-    "name": "choreographer-web",
-    "private": true,
-    "version": "0.0.0",
-    "type": "module",
-    "scripts": {
-        "dev": "vite",
-        "build": "tsc && vite build",
-        "preview": "vite preview",
-        "check": "eslint src/**/*",
-        "format": "prettier src/**/* --write"
-    },
-    "devDependencies": {
-        "typescript-eslint": "^8.38.0",
-        "eslint": "^9.32.0",
-        "eslint-config-prettier": "^10.1.8",
-        "prettier": "^3.6.2"
-    },
-    "dependencies": {
-        "sass": "^1.89.2",
-        "vite": "^7.0.4",
-        "typescript": "~5.8.3"
-    }
+  "name": "choreographer-web",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "check": "eslint src/js/* && tsc --noEmit",
+    "format": "prettier src/* --write",
+    "prepare": "node .husky/install.mjs"
+  },
+  "devDependencies": {
+    "eslint": "^9.32.0",
+    "eslint-config-prettier": "^10.1.8",
+    "husky": "^9.1.7",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.38.0"
+  },
+  "dependencies": {
+    "sass": "^1.89.2",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4"
+  }
 }

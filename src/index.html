@@ -3,10 +3,164 @@
     <head>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-        <script type="module" src="main.ts"></script>
+        <script src="https://cdn.jsdelivr.net/npm/fuse.js@7.1.0"></script>
+        <script type="module" src="js/main.ts"></script>
         <title>Choreographer</title>
     </head>
+
+    <template id="item-card-template">
+        <div class="item-card">
+            <div class="item-card-line">
+                <div class="item-image">
+                    <!-- <img> -->
+                </div>
+                <div class="item-name"></div>
+                <div class="item-amount"></div>
+            </div>
+            <div class="item-card-line">
+                <div class="item-cost"></div>
+            </div>
+            <div class="item-card-line">
+                <div class="item-priority"></div>
+                <button class="remove-card">Delete</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="result-item-card">
+        <div class="item-card">
+            <div class="item-card-line">
+                <div class="item-image">
+                    <!-- <img> -->
+                </div>
+                <div class="item-name"></div>
+                <div class="item-amount"></div>
+            </div>
+        </div>
+    </template>
+
+    <template id="manu-item-line-template">
+        <div class="manu-item-line">
+            <div class="manu-item-name"></div>
+            <button class="remove-line">X</button>
+            <button class="push-back-line">-</button>
+        </div>
+    </template>
+
     <body>
-        <div>Under construction!</div>
+        <header>
+            <div id="title">Config</div>
+            <button id="start-manu-button" class="accent">Start Manu</button>
+            <button id="stop-manu-button" class="hidden">Stop Manu</button>
+        </header>
+        <main>
+            <div id="config-view">
+                <div id="data-input">
+                    <div id="logihub-input">
+                        <div class="input-wrapper">
+                            <h2>Import from LogiHub</h2>
+                            <label for="logihub-import-paste"
+                                >Paste LogiHub export here:</label
+                            >
+                            <textarea
+                                id="logihub-import-paste"
+                                name="logihub-import-paste"
+                            ></textarea>
+                        </div>
+                        <button class="accent" id="submit-logihub-import">
+                            Submit
+                        </button>
+                    </div>
+                    <div id="manual-input">
+                        <div class="input-wrapper">
+                            <h2>Manual Entry</h2>
+                            <label for="item-name">Item name:</label>
+                            <input
+                                id="item-name"
+                                list="item-names-list"
+                                name="item-name"
+                                placeholder="Type here..."
+                            />
+                            <datalist id="item-names-list">
+                                <!-- Populated by initialization code -->
+                            </datalist>
+                            <label for="priority">Priority:</label>
+                            <select id="priority" name="priority">
+                                <option value="-">No Priority</option>
+                                <option value="Priority">Priority</option>
+                                <option value="High Priority">
+                                    High Priority
+                                </option>
+                            </select>
+                            <label for="amount">Amount:</label>
+                            <input
+                                id="amount"
+                                type="number"
+                                name="amount"
+                                min="0"
+                            />
+                        </div>
+                        <button class="accent" id="submit-item-button">
+                            Submit
+                        </button>
+                    </div>
+                </div>
+                <div id="data-view"></div>
+            </div>
+            <div id="manu-view" class="hidden">
+                <div id="statistic-view">
+                    <div class="line">
+                        <div>Crate Crafted</div>
+                        <div id="crate-crafted"></div>
+                    </div>
+                    <div class="line">
+                        <div>Time Elapsed</div>
+                        <div id="time-spent"></div>
+                    </div>
+                </div>
+                <div id="requirement-view">
+                    <div class="line">
+                        <div class="label">Queues to set</div>
+                        <div id="item-to-craft"></div>
+                    </div>
+                    <div class="line">
+                        <div class="label">Material Needed</div>
+                        <div id="cost-to-craft"></div>
+                    </div>
+                </div>
+                <div id="manu-control">
+                    <div class="line">
+                        Clicks empty queues, click Submit after setting queues
+                    </div>
+                    <div class="line">Always set a full 4 items queue!</div>
+                    <div class="line">
+                        <button id="rq-lightarm">LA</button>
+                        <button id="rq-heavyarm">HA</button>
+                        <button id="rq-heavyshell">HS</button>
+                        <button id="rq-utilities">UT</button>
+                        <button id="rq-medical">ME</button>
+                        <button id="rq-uniform">UN</button>
+                        <button id="rq-crafted">Submit</button>
+                    </div>
+                </div>
+            </div>
+            <div id="result-view" class="hidden">
+                <div class="statistic">
+                    <div class="group">
+                        <div class="label">Time spent Manufacturing</div>
+                        <div id="result-time"></div>
+                    </div>
+                    <div class="group">
+                        <div class="label">Total Crate Manufactured</div>
+                        <div id="result-crate"></div>
+                    </div>
+                </div>
+                <div class="line">
+                    <div class="label">Queue Manufactured</div>
+                    <div id="result-item-crafted"></div>
+                </div>
+                <button class="accent" id="return-button">Return</button>
+            </div>
+        </main>
     </body>
 </html>
