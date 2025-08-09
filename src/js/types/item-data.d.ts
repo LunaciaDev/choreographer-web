@@ -7,7 +7,7 @@ export type ItemData = {
     cost: {
         bmat: number;
         emat: number;
-        rmat: number;
         hemat: number;
+        rmat: number;
     };
 };
