@@ -1,5 +1,3 @@
-import { itemData } from './data/item-data';
-
 /**
  * When using template, we need to clone and get references
  * of various classes inside in order to write specific data
@@ -9,20 +7,21 @@ import { itemData } from './data/item-data';
  * This helper automatically do that, throw if any specified
  * classes cannot be found.
  *
+ * The helper use generic, because for some reason Intellisense
+ * generate hint for the class name when using generic.
+ *
  * @example
  * const itemCardElemsRef = getNodeOrThrow(itemCardRef, ['item-name', 'item-amount', 'item-cost']);
  * // get a reference
  * itemCardElemsRef['item-name']
  *
  * @param root The root element to search from
- * @param rootName The name of the root element, for debugging.
  * @param classNames A list of class names, not prefixed
  * @returns A Record holding reference to the first instance
  * of the class found.
  */
-export function getTemplateChildOrThrow<T extends string>(
+export function getTemplateChilds<T extends string>(
     root: HTMLTemplateElement,
-    rootName: string,
     classNames: T[]
 ): Record<T, HTMLElement> {
     const nodes = {} as Record<T, HTMLElement>;
@@ -31,69 +30,11 @@ export function getTemplateChildOrThrow<T extends string>(
         const node = root.content.querySelector(`.${className}`);
 
         if (!node) {
-            throw new Error(`In ${rootName}, cannot find class ${className}`);
+            throw new Error(`Cannot find class ${className}`);
         }
 
         nodes[className] = node as HTMLElement;
     }
 
     return nodes;
-}
-
-/**
- * Given an ItemID, generate a human-readable string of
- * the build cost for that item.
- *
- * Cost is calculated per crate.
- *
- * @param itemID
- * @returns A human-readable string representing the build cost
- */
-export function generateCostString(itemID: number): string {
-    const item = itemData[itemID];
-    const component: string[] = [];
-
-    if (item.cost.bmat !== 0) {
-        component.push(`${item.cost.bmat}b`);
-    }
-
-    if (item.cost.emat !== 0) {
-        component.push(`${item.cost.emat}e`);
-    }
-
-    if (item.cost.rmat !== 0) {
-        component.push(`${item.cost.rmat}r`);
-    }
-
-    if (item.cost.hemat !== 0) {
-        component.push(`${item.cost.hemat}he`);
-    }
-
-    return component.join(', ');
-}
-
-export function translateLogihubToInternal(name: string): number {
-    for (let i = 0; i < itemData.length; i++) {
-        if (itemData[i].logihubName !== undefined) {
-            if (itemData[i].logihubName == name) {
-                return i;
-            }
-        }
-
-        if (itemData[i].name === name) {
-            return i;
-        }
-    }
-
-    throw new Error(`Failed to translate ${name} to internal id`);
-}
-
-export function getElementReference(id: string): HTMLElement {
-    const node = document.getElementById(id);
-
-    if (node === null) {
-        throw new Error(`Cannot find template ${id}`);
-    }
-
-    return node;
 }
