@@ -10,6 +10,11 @@ import { ChoreoConfig_start } from './choreo-config';
 
 let resultRegistry: ResultView;
 
+/**
+ * Initialize the component.
+ *
+ * Must be called on DOM initialization, otherwise calls might fail.
+ */
 export function ShowResult_init() {
     resultRegistry = DomRegistry_getResultView();
 
@@ -19,6 +24,12 @@ export function ShowResult_init() {
     });
 }
 
+/**
+ * Switch to the result screen.
+ *
+ * @param queuedItem The to-manu list
+ * @param time Time spent manuing
+ */
 export function ShowResult_show(queuedItem: Item[][], time: string) {
     resultRegistry.itemCrafted.innerHTML = '';
     resultRegistry.timeSpent.innerText = time;

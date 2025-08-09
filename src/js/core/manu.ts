@@ -18,6 +18,11 @@ let timeRef: number;
 let startTime: number;
 let crateCrafted: number;
 
+/**
+ * Initialize the component.
+ *
+ * Must be called on DOM initialization, otherwise calls might fail.
+ */
 export function Manu_init() {
     manuRegistry = DomRegistry_getManuView();
     currentCost = new Cost();
@@ -53,12 +58,18 @@ export function Manu_init() {
     });
 }
 
+/**
+ * Switch the screen to manu screen.
+ *
+ * @param data The to-manu list
+ */
 export function Manu_start(data: Item[][]) {
     configuredItems = data;
     crateCrafted = 0;
 
     DomRegistry_getRegistry().titleRef.innerText = 'Manu';
 
+    // Round all crate count to multiple of four.
     for (const row of configuredItems) {
         for (const item of row) {
             item.amount = Math.ceil(item.amount / 4) * 4;
@@ -69,6 +80,7 @@ export function Manu_start(data: Item[][]) {
 
     startTime = Date.now();
     timeRef = setInterval(() => {
+        // create a timer that track how much time has passed since manu start
         const currentTime = Date.now();
         let relativeTime = Math.ceil((currentTime - startTime) / 1000); // second since startTime
         const data: [number, string][] = [
@@ -103,6 +115,14 @@ export function Manu_start(data: Item[][]) {
     manuRegistry.rootElement.className = '';
 }
 
+/**
+ * Given an itemType, add to the queue the current most-prioritized that has not been finished.
+ *
+ * If the truck is suspected to be full (material require more than 13 slots to carry), move
+ * the item to a different queue, automatically pushed to the main queue when it's submitted.
+ *
+ * @param itemType
+ */
 function addQueue(itemType: ItemType) {
     // [TODO]: Create feedback for clicks
     const itemRow = configuredItems[itemType];
@@ -110,12 +130,14 @@ function addQueue(itemType: ItemType) {
     if (itemRow.length === 0) return;
 
     for (const item of itemRow) {
+        // if we reached the manu goal, find next one.
         if (item.amount === item.craftedAmount) continue;
 
         const itemCost = itemData[item.id].cost;
 
         item.craftedAmount += 4;
 
+        // if the total cost require more than 13 slots, move to queue.
         if (currentCost.getTheoreticalSlotCost(itemCost) > 13) {
             queuedItems.push(item.id);
             break;
@@ -128,6 +150,12 @@ function addQueue(itemType: ItemType) {
     refreshButtons();
 }
 
+/**
+ * Clear the main queue, finalize changes and push items from the
+ * waiting queue to the main queue.
+ *
+ * Same rules apply as addQueue.
+ */
 function submitItems() {
     // [TODO]: Create clicks feedback
     manuRegistry.statisticLabels.itemToCraft.innerHTML = '';
@@ -152,6 +180,14 @@ function submitItems() {
     refreshButtons();
 }
 
+/**
+ * Add the item that has been moved to the main queue to the UI.
+ *
+ * User can remove it from the main queue (x button) or manually
+ * push the item back to the waiting queue (- button).
+ *
+ * @param itemId The internal ID of the item
+ */
 function addItemCard(itemId: number) {
     const template = manuRegistry.statisticLabels.itemCardTemplate.cloneNode(
         true
@@ -172,7 +208,6 @@ function addItemCard(itemId: number) {
         const itemRow = configuredItems[itemType];
 
         crateCrafted -= 4;
-
         currentCost.subtract(itemData[itemId].cost);
 
         for (const item of itemRow) {
@@ -202,6 +237,13 @@ function addItemCard(itemId: number) {
     crateCrafted += 4;
 }
 
+/**
+ * Refresh the state of the buttons.
+ *
+ * All button used to add queue become inactive if all item of that type reaches the manu goal.
+ *
+ * The submit button become inactive if there are nothing to submit. (main queue empty)
+ */
 function refreshButtons() {
     if (manuRegistry.statisticLabels.itemToCraft.innerHTML === '') {
         manuRegistry.controls.submitButton.setAttribute('disabled', 'disabled');

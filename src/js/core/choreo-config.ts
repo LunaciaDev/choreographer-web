@@ -25,6 +25,11 @@ let manualInputRegistry: {
     submitButton: HTMLButtonElement;
 };
 
+/**
+ * Initialize the component.
+ *
+ * Must be called on DOM initialization, otherwise calls might fail.
+ */
 export function ChoreoConfig_init() {
     choreoData = [];
 
@@ -40,6 +45,7 @@ export function ChoreoConfig_init() {
         sanitizeManualInput
     );
 
+    // Populate item name input with possible options
     for (const item of itemData) {
         const itemName = document.createElement('option');
         itemName.value = item.name;
@@ -53,6 +59,9 @@ export function ChoreoConfig_init() {
     });
 }
 
+/**
+ * Change the current screen to Config Screen.
+ */
 export function ChoreoConfig_start() {
     configRegistry.rootElement.className = '';
     configRegistry.startManu.className = 'accent';
@@ -61,6 +70,16 @@ export function ChoreoConfig_start() {
     refreshDataView();
 }
 
+/**
+ * As inputs are hinted, but not enforced, we need to double check
+ * to make sure that everything is a-OK!
+ *
+ * - Name has to be one of the item's name.
+ * - Priority has to be one of the possible value.
+ * - Amount must be integer > 0.
+ *
+ * [TODO]: Create responses based on the sanitization result
+ */
 function sanitizeManualInput() {
     const name = manualInputRegistry.itemName.value;
     const rawPriority = manualInputRegistry.itemPriority.value;
@@ -72,6 +91,12 @@ function sanitizeManualInput() {
     }
 
     const amount = parseInt(rawAmount);
+
+    if (amount <= 0) {
+        // [TODO]: show something in the UI
+        return;
+    }
+
     let itemID = 0;
     let validName = false;
 
@@ -96,6 +121,15 @@ function sanitizeManualInput() {
     ChoreoConfig_addItem(itemID, priority, amount);
 }
 
+/**
+ * Add an item to the to-manu list.
+ *
+ * If the item already exist in the list, overwrite it.
+ *
+ * @param id The item's internal ID
+ * @param priority The item's priority
+ * @param amount The amount to manu
+ */
 export function ChoreoConfig_addItem(
     id: number,
     priority: Priority,
@@ -123,6 +157,7 @@ export function ChoreoConfig_addItem(
         });
     }
 
+    // Sort the items by priority; then by amount in reverse
     dataRow
         .sort((a: Item, b: Item): number => {
             if (a.priority !== b.priority) return a.priority - b.priority;
@@ -134,6 +169,11 @@ export function ChoreoConfig_addItem(
     refreshDataView();
 }
 
+/**
+ * Rebuild the UI showing all the item to manufacture.
+ *
+ * We clear the entire thing and rebuild from scratch.
+ */
 function refreshDataView() {
     const dataRegistry = configRegistry.dataView;
     const templateRef = dataRegistry.itemCardTemplate;

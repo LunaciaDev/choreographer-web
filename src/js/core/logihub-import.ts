@@ -11,6 +11,12 @@ type LoghubItem = {
     priority: string;
 };
 
+/**
+ * Convert the Logihub export JSON to internal data.
+ *
+ * The export is already roughly what we wanted, except the name.
+ * So we need to translate the name to what we use.
+ */
 function importLogihub() {
     const rawData = logihubInput.value;
     if (rawData === null) return;
@@ -24,6 +30,8 @@ function importLogihub() {
 
             ChoreoConfig_addItem(id, priority, item.amount);
         }
+
+        logihubInput.value = '';
     } catch (e) {
         if (e instanceof SyntaxError) {
             // [TODO]: Show something in the UI.
@@ -32,11 +40,17 @@ function importLogihub() {
         } else {
             throw e;
         }
-    } finally {
-        logihubInput.value = '';
     }
 }
 
+/**
+ * Translate Logihub item name to internal name used in the app.
+ *
+ * Throws an Error if we cannot find an item with that name.
+ *
+ * @param name
+ * @returns The internal name of the item
+ */
 function translateLogihubToInternal(name: string): number {
     for (let i = 0; i < itemData.length; i++) {
         if (itemData[i].logihubName !== undefined) {
@@ -53,6 +67,11 @@ function translateLogihubToInternal(name: string): number {
     throw new Error(`Failed to translate ${name} to internal id`);
 }
 
+/**
+ * Initialize the component.
+ *
+ * Must be called on DOM initialization, otherwise calls might fail.
+ */
 export function LogihubImport_init() {
     const logihub = DomRegistry_getConfigView().logihubInput;
     logihubInput = logihub.input;

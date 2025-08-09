@@ -17,6 +17,16 @@ function getElementReference(id: string): HTMLElement {
     return node;
 }
 
+/**
+ * Initialize the DOM Registry.
+ *
+ * We hold all reference to all elements needed for the app to manipulate
+ * so it doesnt have to fetch from DOM API and check null every time.
+ *
+ * It is brittle though, as getter can manipulate the DOM Registry...
+ *
+ * [TODO]: freeze the registry post-init.
+ */
 export function initDomRegistry() {
     domRegistry = {
         titleRef: getElementReference('title'),
@@ -102,18 +112,38 @@ export function initDomRegistry() {
     };
 }
 
+/**
+ * Get the Config Screen portion of DOM Registry
+ *
+ * @returns Reference to the Config portion of DOM Registry
+ */
 export function DomRegistry_getConfigView(): ConfigView {
     return domRegistry.configView;
 }
 
+/**
+ * Get the Manu Screen portion of DOM Registry
+ *
+ * @returns Reference to the Manu portion of DOM Registry
+ */
 export function DomRegistry_getManuView(): ManuView {
     return domRegistry.manuView;
 }
 
+/**
+ * Get the Result Screen portion of DOM Registry
+ *
+ * @returns Reference to the Result portion of DOM Registry
+ */
 export function DomRegistry_getResultView(): ResultView {
     return domRegistry.resultView;
 }
 
+/**
+ * Get the entirety of the DOM Registry
+ *
+ * @returns Reference to the DOM Registry
+ */
 export function DomRegistry_getRegistry(): DomRegistry {
     return domRegistry;
 }

@@ -1,3 +1,9 @@
+/**
+ * The helper Cost class!
+ *
+ * It makes adding/subtracting Cost struct a lot more simpler, with built-in
+ * toString as well.
+ */
 export class Cost {
     bmat: number;
     emat: number;
@@ -37,6 +43,9 @@ export class Cost {
         this.rmat = 0;
     }
 
+    /**
+     * Get the amount of slots needed to carry the cost.
+     */
     getCurrentSlotCost(): number {
         return (
             Math.ceil(this.bmat / 100) +
@@ -46,6 +55,11 @@ export class Cost {
         );
     }
 
+    /**
+     * If we add this cost, how many slots is needed to carry?
+     *
+     * The cost is not modified.
+     */
     getTheoreticalSlotCost(cost: {
         bmat: number;
         emat: number;
@@ -60,6 +74,9 @@ export class Cost {
         );
     }
 
+    /**
+     * Convert the cost to the string representation.
+     */
     toString(): string {
         const component: string[] = [];
 
@@ -80,6 +97,9 @@ export class Cost {
         return component.join(', ');
     }
 
+    /**
+     * Convert ANY cost struct to it's string representation.
+     */
     static makeCostString(cost: {
         bmat: number;
         emat: number;
