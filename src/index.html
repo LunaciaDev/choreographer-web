@@ -48,6 +48,7 @@
 
     <body>
         <header>
+            <div id="app-name">Choreographer v0.1.0</div>
             <div id="title">Config</div>
             <button id="start-manu-button" class="accent">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
@@ -70,6 +71,7 @@
                             Submit
                         </button>
                     </div>
+                    <div class="vertical-separator"></div>
                     <div id="manual-input">
                         <div class="input-wrapper">
                             <h2>Manual Entry</h2>
@@ -108,23 +110,23 @@
             </div>
             <div id="manu-view" class="hidden">
                 <div id="statistic-view">
-                    <div class="line">
-                        <div>Crate Crafted</div>
+                    <div class="vertical-line">
+                        <div class="label">Crate Crafted</div>
                         <div id="crate-crafted"></div>
                     </div>
-                    <div class="line">
-                        <div>Time Elapsed</div>
+                    <div class="vertical-line">
+                        <div class="label">Time Elapsed</div>
                         <div id="time-spent"></div>
                     </div>
                 </div>
                 <div id="requirement-view">
                     <div class="line">
-                        <div class="label">Queues to set</div>
-                        <div id="item-to-craft"></div>
-                    </div>
-                    <div class="line">
                         <div class="label">Material Needed</div>
                         <div id="cost-to-craft"></div>
+                    </div>
+                    <div class="line">
+                        <div class="label">Queues to set</div>
+                        <div id="item-to-craft"></div>
                     </div>
                 </div>
                 <div id="manu-control">
@@ -139,7 +141,9 @@
                         <button id="rq-utilities">UT</button>
                         <button id="rq-medical">ME</button>
                         <button id="rq-uniform">UN</button>
-                        <button id="rq-crafted">Submit</button>
+                    </div>
+                    <div class="line">
+                        <button id="rq-crafted" class="accent">Submit</button>
                     </div>
                 </div>
             </div>
