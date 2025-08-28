@@ -12,7 +12,7 @@ import { ShowResult_show } from './show-result';
 
 let manuRegistry: ManuView;
 let configuredItems: Item[][];
-let queuedItems: number[];
+let queuedItems: string[];
 let currentCost: Cost;
 let timeRef: number;
 let startTime: number;
@@ -129,21 +129,22 @@ function addQueue(itemType: ItemType) {
 
     if (itemRow.length === 0) return;
 
-    for (const item of itemRow) {
+    for (const entry of itemRow) {
         // if we reached the manu goal, find next one.
-        if (item.amount === item.craftedAmount) continue;
+        if (entry.amount === entry.craftedAmount) continue;
 
-        const itemCost = itemData[item.id].cost;
+        const itemCost = itemData.get(entry.id)?.cost;
+        if (itemCost === undefined) continue;
 
-        item.craftedAmount += 4;
+        entry.craftedAmount += 4;
 
         // if the total cost require more than 13 slots, move to queue.
         if (currentCost.getTheoreticalSlotCost(itemCost) > 13) {
-            queuedItems.push(item.id);
+            queuedItems.push(entry.id);
             break;
         }
 
-        addItemCard(item.id);
+        addItemCard(entry.id);
         break;
     }
 
@@ -166,7 +167,8 @@ function submitItems() {
 
     for (let index = 0; index < queuedItems.length; index++) {
         const itemId = queuedItems[index];
-        const itemCost = itemData[itemId].cost;
+        const itemCost = itemData.get(itemId)?.cost;
+        if (itemCost === undefined) return;
 
         if (currentCost.getTheoreticalSlotCost(itemCost) <= 13) {
             addItemCard(itemId);
@@ -188,7 +190,7 @@ function submitItems() {
  *
  * @param itemId The internal ID of the item
  */
-function addItemCard(itemId: number) {
+function addItemCard(itemId: string) {
     const template = manuRegistry.statisticLabels.itemCardTemplate.cloneNode(
         true
     ) as HTMLTemplateElement;
@@ -198,22 +200,24 @@ function addItemCard(itemId: number) {
         'remove-line',
         'push-back-line',
     ]);
+    const item = itemData.get(itemId);
+    if (item === undefined) return;
 
-    currentCost.add(itemData[itemId].cost);
+    currentCost.add(item.cost);
 
-    templateElements['manu-item-name'].textContent = itemData[itemId].name;
+    templateElements['manu-item-name'].textContent = item.name;
     templateElements['remove-line'].addEventListener('click', () => {
         // [TODO]: Create feedback for clicks
-        const itemType = itemData[itemId].type;
+        const itemType = item.type;
         const itemRow = configuredItems[itemType];
 
         crateCrafted -= 4;
-        currentCost.subtract(itemData[itemId].cost);
+        currentCost.subtract(item.cost);
 
-        for (const item of itemRow) {
-            if (item.id !== itemId) continue;
+        for (const entry of itemRow) {
+            if (entry.id !== itemId) continue;
 
-            item.craftedAmount -= 4;
+            entry.craftedAmount -= 4;
         }
 
         templateElements['manu-item-line'].remove();
@@ -224,7 +228,7 @@ function addItemCard(itemId: number) {
     });
     templateElements['push-back-line'].addEventListener('click', () => {
         queuedItems.push(itemId);
-        currentCost.subtract(itemData[itemId].cost);
+        currentCost.subtract(item.cost);
 
         templateElements['manu-item-line'].remove();
         manuRegistry.statisticLabels.costToCraft.textContent =

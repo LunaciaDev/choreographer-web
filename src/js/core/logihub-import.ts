@@ -51,16 +51,14 @@ function importLogihub() {
  * @param name
  * @returns The internal name of the item
  */
-function translateLogihubToInternal(name: string): number {
-    for (let i = 0; i < itemData.length; i++) {
-        if (itemData[i].logihubName !== undefined) {
-            if (itemData[i].logihubName == name) {
-                return i;
-            }
+function translateLogihubToInternal(name: string): string {
+    for (const [key, item] of itemData) {
+        if (item.logihubName === name) {
+            return key;
         }
 
-        if (itemData[i].name === name) {
-            return i;
+        if (item.name === name) {
+            return key;
         }
     }
 
