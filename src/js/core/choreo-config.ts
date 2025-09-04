@@ -46,7 +46,7 @@ export function ChoreoConfig_init() {
     );
 
     // Populate item name input with possible options
-    for (const item of itemData) {
+    for (const item of itemData.values()) {
         const itemName = document.createElement('option');
         itemName.value = item.name;
         manualInputRegistry.itemNameDatalist.appendChild(itemName);
@@ -97,18 +97,16 @@ function sanitizeManualInput() {
         return;
     }
 
-    let itemID = 0;
-    let validName = false;
+    let itemID;
 
-    for (itemID; itemID < itemData.length; itemID++) {
-        const item = itemData[itemID];
+    for (const [id, item] of itemData) {
         if (item.name === name) {
-            validName = true;
+            itemID = id;
             break;
         }
     }
 
-    if (!validName) {
+    if (itemID === undefined) {
         // [TODO]: show something in the UI
         return;
     }
@@ -131,11 +129,13 @@ function sanitizeManualInput() {
  * @param amount The amount to manu
  */
 export function ChoreoConfig_addItem(
-    id: number,
+    id: string,
     priority: Priority,
     amount: number
 ) {
-    const itemType = itemData[id].type;
+    const itemType = itemData.get(id)?.type;
+    if (itemType === undefined) return;
+
     const dataRow = choreoData[itemType];
     let duplicated = false;
 
@@ -181,7 +181,7 @@ function refreshDataView() {
     dataRegistry.rootElement.innerHTML = '';
 
     for (const row of choreoData) {
-        for (const item of row) {
+        for (const entry of row) {
             const template = templateRef.cloneNode(true) as HTMLTemplateElement;
             const templateComponents = getTemplateChilds(template, [
                 'item-card',
@@ -192,15 +192,17 @@ function refreshDataView() {
                 'remove-card',
             ]);
 
-            templateComponents['item-name'].textContent =
-                itemData[item.id].name;
+            const item = itemData.get(entry.id);
+            if (item === undefined) continue;
+
+            templateComponents['item-name'].textContent = item.name;
             templateComponents['item-cost'].textContent = Cost.makeCostString(
-                itemData[item.id].cost
+                item.cost
             );
             templateComponents['item-amount'].textContent =
-                item.amount.toString();
+                entry.amount.toString();
             templateComponents['item-priority'].textContent =
-                Priority_priorityToString(item.priority);
+                Priority_priorityToString(entry.priority);
             templateComponents['remove-card'].addEventListener('click', () => {
                 templateComponents['item-card'].remove();
             });

@@ -60,8 +60,10 @@ export function ShowResult_show(queuedItem: Item[][], time: string) {
 
     resultRegistry.crateCrafted.innerText = amountCrafted.toString();
 
-    function addLine(itemId: number, amount: number) {
-        const item = itemData[itemId];
+    function addLine(itemId: string, amount: number) {
+        const item = itemData.get(itemId);
+        if (item === undefined) return;
+
         const template = resultRegistry.itemCardTemplate.cloneNode(
             true
         ) as HTMLTemplateElement;
