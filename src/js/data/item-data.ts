@@ -664,7 +664,7 @@ export const itemData = new Map<string, ItemData>([
             logihubName: 'PT-815 Smoke Grenade',
             type: ItemType.LIGHT_ARM,
             cost: {
-                bmat: 120,
+                bmat: 80,
                 emat: 0,
                 rmat: 0,
                 hemat: 0,
