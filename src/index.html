@@ -49,12 +49,26 @@
     <body>
         <header>
             <div id="app-name">Choreographer v0.2.1</div>
-            <div id="title">Config</div>
+            <div id="title">Home</div>
             <button id="theme-switch">Dark</button>
             <button id="start-manu-button" class="accent">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
         </header>
         <main>
+            <div id="home-view">
+                <div>
+                    <div class="line">Total Crate Manufactured: 1024</div>
+                    <div class="line">Time Spent Manufacturing: 3d 12h 16m</div>
+                    <div class="line">Avg. time to 100 crate: 19m 40s</div>
+                </div>
+                <div>
+                    <div class="line">Material Consumed</div>
+                    <div class="line">bmat: 120</div>
+                    <div class="line">emat: 60</div>
+                    <div class="line">hemat: 50</div>
+                    <div class="line">rmat: 10</div>
+                </div>
+            </div>
             <div id="config-view" class="hidden">
                 <div id="data-input">
                     <div id="logihub-input">
@@ -164,22 +178,6 @@
                     <div id="result-item-crafted"></div>
                 </div>
                 <button class="accent" id="return-button">Return</button>
-            </div>
-            <div id="profile-view">
-                <!-- require cookie access -->
-                <div class="side-stats">
-                    <div class="line">Total Crate Made: 1024</div>
-                    <div class="line">Time Spent: 3d 12h 16m</div>
-                    <div class="line">Avg. time to 100 crate: 19m 40s</div>
-                </div>
-                <div class="table">
-                    <div class="table-header">Material Consumed</div>
-                    <div class="line">Bmat: 1240</div>
-                    <div class="line">Emat: 600</div>
-                    <div class="line">Rmat: 200</div>
-                    <div class="line">Hemat: 50</div>
-                </div>
-                <!-- Maybe an SVG-based graph of 10 most crated -->
             </div>
         </main>
     </body>
