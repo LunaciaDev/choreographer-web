@@ -11,6 +11,8 @@ import { ItemType } from '../types/item-type';
  * Make sure that the cost is per crate, and the translation layer between LogiHub
  * and this is also updated... Some in-game name are simply way too long or provide
  * nothing of value.
+ *
+ * Also DO NOT modify the string ID of existing items!
  */
 
 /**

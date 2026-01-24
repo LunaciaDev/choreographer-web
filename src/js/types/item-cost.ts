@@ -24,6 +24,16 @@ export class Cost {
         this.rmat += cost.rmat * 4;
     }
 
+    multiply(
+        amount: number,
+        cost: { bmat: number; emat: number; hemat: number; rmat: number }
+    ) {
+        this.bmat += cost.bmat * amount;
+        this.emat += cost.emat * amount;
+        this.hemat += cost.hemat * amount;
+        this.rmat += cost.rmat * amount;
+    }
+
     subtract(cost: {
         bmat: number;
         emat: number;

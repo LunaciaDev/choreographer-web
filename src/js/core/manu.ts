@@ -9,6 +9,7 @@ import type { Item } from '../types/item';
 import { Cost } from '../types/item-cost';
 import { ItemType } from '../types/item-type';
 import { ShowResult_show } from './show-result';
+import { UserStats_saveUserData } from './user-stats';
 
 let manuRegistry: ManuView;
 let configuredItems: Item[][];
@@ -48,6 +49,7 @@ export function Manu_init() {
     manuRegistry.controls.submitButton.addEventListener('click', submitItems);
 
     manuRegistry.stopManu.addEventListener('click', () => {
+        UserStats_saveUserData(startTime, configuredItems);
         ShowResult_show(
             configuredItems,
             manuRegistry.statisticLabels.timeSpent.innerText
