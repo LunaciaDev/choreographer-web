@@ -47,12 +47,11 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
         @for $i from 1 to 20
             --#{$name}-#{$i * 5}: #{rgba($color, calc($i * 5 / 100))}
 
-:root
-    @include generate-transparencies($light-colors)
+:root[data-theme="dark"]
+    @include generate-transparencies($dark-colors)
 
-@media (prefers-color-scheme: dark)
-    :root
-        @include generate-transparencies($dark-colors)
+:root[data-theme="light"]
+    @include generate-transparencies($light-colors)
 
 /**
  Custom reset configuration
@@ -138,13 +137,11 @@ header
         margin-right: auto
 
     button
-        position: absolute
-        right: 1rem
+        margin-right: 1rem
         top: calc( 50% - 0.9em + 5px )
 
     #app-name
-        position: absolute
-        left: 1rem
+        margin-left: 1rem
         top: calc( 50% - 0.9em + 5px )
 
 main

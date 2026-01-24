@@ -50,11 +50,12 @@
         <header>
             <div id="app-name">Choreographer v0.2.1</div>
             <div id="title">Config</div>
+            <button id="theme-switch">Dark</button>
             <button id="start-manu-button" class="accent">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
         </header>
         <main>
-            <div id="config-view">
+            <div id="config-view" class="hidden">
                 <div id="data-input">
                     <div id="logihub-input">
                         <div class="input-wrapper">
@@ -164,9 +165,8 @@
                 </div>
                 <button class="accent" id="return-button">Return</button>
             </div>
-            <div id="profile-view" class="hidden">
+            <div id="profile-view">
                 <!-- require cookie access -->
-                <div class="header">Lunacia's stats</div>
                 <div class="side-stats">
                     <div class="line">Total Crate Made: 1024</div>
                     <div class="line">Time Spent: 3d 12h 16m</div>
@@ -174,13 +174,12 @@
                 </div>
                 <div class="table">
                     <div class="table-header">Material Consumed</div>
-                    <div class="line">Bmat: 1240 = 2480 scraps</div>
-                    <div class="line">Emat: 600 = 3000 scraps</div>
-                    <div class="line">Rmat: 200 = 4000 comps</div>
-                    <div class="line">Hemat: 50 = 500 sulphur</div>
+                    <div class="line">Bmat: 1240</div>
+                    <div class="line">Emat: 600</div>
+                    <div class="line">Rmat: 200</div>
+                    <div class="line">Hemat: 50</div>
                 </div>
                 <!-- Maybe an SVG-based graph of 10 most crated -->
-                <svg></svg>
             </div>
         </main>
     </body>

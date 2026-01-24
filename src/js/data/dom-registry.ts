@@ -30,6 +30,7 @@ function getElementReference(id: string): HTMLElement {
 export function initDomRegistry() {
     domRegistry = {
         titleRef: getElementReference('title'),
+        themeButton: getElementReference('theme-switch') as HTMLButtonElement,
         configView: {
             startManu: getElementReference(
                 'start-manu-button'

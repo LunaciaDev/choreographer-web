@@ -1,11 +1,14 @@
+import { DomRegistry_getRegistry } from '../data/dom-registry';
 import { itemData } from '../data/item-data';
 import type { Item } from '../types/item';
 import { Cost } from '../types/item-cost';
 import type { UserData } from '../types/user-data';
 
-let ENABLE_USER_STATS: boolean;
+let ENABLE_LOCAL_STORAGE: boolean;
 let USER_DATA: UserData;
-const DATA_KEY = 'choreographer_userdata';
+let PREFER_DARK_THEME: boolean;
+const DATA_KEY = 'userdata';
+const THEME_KEY = 'theme';
 
 function isLocalStorageAvailable(): boolean {
     let storageInstance;
@@ -28,6 +31,7 @@ function isLocalStorageAvailable(): boolean {
 function loadUserData() {
     const storageInstance = window.localStorage;
     const userData = storageInstance.getItem(DATA_KEY);
+    const themeData = storageInstance.getItem(THEME_KEY);
 
     if (userData !== null) {
         USER_DATA = JSON.parse(userData) as UserData;
@@ -39,19 +43,27 @@ function loadUserData() {
             timeSpent: 0,
         };
     }
+
+    if (themeData !== null) {
+        PREFER_DARK_THEME = themeData === 'true';
+    } else {
+        PREFER_DARK_THEME = window.matchMedia(
+            '(prefers-color-scheme: dark)'
+        ).matches;
+    }
 }
 
 /**
- * Update user data.
+ * Update manufacture part of user data
  *
  * @param startTime The manufacturing start time for updating time spent
  * @param craftedItems Which item has been manufactured
  */
-export function UserStats_saveUserData(
+export function UserStats_manufactureUpdate(
     startTime: number,
     craftedItems: Item[][]
 ) {
-    if (!ENABLE_USER_STATS) return;
+    if (!ENABLE_LOCAL_STORAGE) return;
 
     const endTime = Date.now();
 
@@ -87,9 +99,32 @@ export function UserStats_saveUserData(
 }
 
 export function UserStats_init() {
-    ENABLE_USER_STATS = isLocalStorageAvailable();
+    ENABLE_LOCAL_STORAGE = isLocalStorageAvailable();
 
-    if (ENABLE_USER_STATS) {
+    if (ENABLE_LOCAL_STORAGE) {
         loadUserData();
+    }
+
+    // Display mode hijacking here as it depends on UserData
+    const themeButton = DomRegistry_getRegistry().themeButton;
+    updateTheme(themeButton);
+
+    themeButton.addEventListener('click', () => {
+        PREFER_DARK_THEME = !PREFER_DARK_THEME;
+        updateTheme(themeButton);
+
+        if (ENABLE_LOCAL_STORAGE) {
+            window.localStorage.setItem(THEME_KEY, String(PREFER_DARK_THEME));
+        }
+    });
+}
+
+function updateTheme(themeButton: HTMLButtonElement) {
+    if (PREFER_DARK_THEME) {
+        themeButton.innerText = 'Light';
+        document.documentElement.setAttribute('data-theme', 'dark');
+    } else {
+        themeButton.innerText = 'Dark';
+        document.documentElement.setAttribute('data-theme', 'light');
     }
 }

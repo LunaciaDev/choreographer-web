@@ -3,6 +3,7 @@ export type DomRegistry = {
     manuView: ManuView;
     resultView: ResultView;
     titleRef: HTMLElement;
+    themeButton: HTMLButtonElement;
 };
 
 export type ConfigView = {
