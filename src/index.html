@@ -51,46 +51,50 @@
             <div id="app-name">Choreographer v0.2.1</div>
             <div id="title">Home</div>
             <button id="theme-switch">Dark</button>
+            <button id="show-stats">Stats</button>
             <button id="start-manu-button" class="accent">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
         </header>
         <main>
-            <div id="stat-view">
-                <div>
-                    <div class="line">
-                        Total Crate Manufactured
-                        <div id="stat-crate-count"></div>
+            <div id="stat-view" class="hidden">
+                <div id="stat-bg">
+                    <div class="line">Statistics</div>
+                    <div>
+                        <div class="line">
+                            Total Crate Manufactured
+                            <div id="stat-crate-count"></div>
+                        </div>
+                        <div class="line">
+                            Time Spent Manufacturing
+                            <div id="stat-time-spent"></div>
+                        </div>
+                        <div class="line">
+                            Avg. time to 100 crate
+                            <div id="stat-time-hundred-crate"></div>
+                        </div>
                     </div>
-                    <div class="line">
-                        Time Spent Manufacturing
-                        <div id="stat-time-spent"></div>
-                    </div>
-                    <div class="line">
-                        Avg. time to 100 crate
-                        <div id="stat-time-hundred-crate"></div>
-                    </div>
-                </div>
-                <div>
-                    <div class="line">Material Consumed</div>
-                    <div class="line">
-                        Basic Material
-                        <div id="stat-bmat-used"></div>
-                    </div>
-                    <div class="line">
-                        Explosive Material
-                        <div id="stat-emat-used"></div>
-                    </div>
-                    <div class="line">
-                        Heavy Explosive Material
-                        <div id="stat-hemat-used"></div>
-                    </div>
-                    <div class="line">
-                        Refined Material
-                        <div id="stat-rmat-used"></div>
+                    <div>
+                        <div class="line">Material Consumed</div>
+                        <div class="line">
+                            Basic Material
+                            <div id="stat-bmat-used"></div>
+                        </div>
+                        <div class="line">
+                            Explosive Material
+                            <div id="stat-emat-used"></div>
+                        </div>
+                        <div class="line">
+                            Heavy Explosive Material
+                            <div id="stat-hemat-used"></div>
+                        </div>
+                        <div class="line">
+                            Refined Material
+                            <div id="stat-rmat-used"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div id="config-view" class="hidden">
+            <div id="config-view" class="">
                 <div id="data-input">
                     <div id="logihub-input">
                         <div class="input-wrapper">

@@ -85,6 +85,7 @@ let result_registry: ResultRegistry;
 let stat_registry: StatRegistry;
 let title: HTMLElement;
 let theme_button: HTMLButtonElement;
+let stat_button: HTMLButtonElement;
 
 export namespace DomRegistry {
     export function init() {
@@ -191,6 +192,7 @@ export namespace DomRegistry {
             hemat_used: get_element_reference('stat-hemat-used'),
             rmat_used: get_element_reference('stat-rmat-used'),
         };
+        stat_button = get_element_reference('show-stats') as HTMLButtonElement;
     }
 
     export function get_title(): HTMLElement {
@@ -215,5 +217,9 @@ export namespace DomRegistry {
 
     export function get_stat_registry(): StatRegistry {
         return stat_registry;
+    }
+
+    export function get_stat_button(): HTMLButtonElement {
+        return stat_button;
     }
 }

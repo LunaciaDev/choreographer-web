@@ -65,6 +65,33 @@ function update_theme(theme_button: HTMLButtonElement) {
     }
 }
 
+function hide(): void {
+    DomRegistry.get_stat_registry().root_element.className = 'hidden';
+}
+
+function show(): void {
+    const screen_registry = DomRegistry.get_stat_registry();
+
+    screen_registry.crate_count.innerText = user_data.crate_crafted.toString();
+    screen_registry.time_spent.innerText = duration_to_string(
+        user_data.time_spent
+    );
+    screen_registry.time_to_hundred_crate.innerText = duration_to_string(
+        user_data.time_spent / (user_data.crate_crafted / 100)
+    );
+
+    screen_registry.bmat_used.innerText =
+        user_data.material_consumed.bmat.toString();
+    screen_registry.emat_used.innerText =
+        user_data.material_consumed.emat.toString();
+    screen_registry.hemat_used.innerText =
+        user_data.material_consumed.hemat.toString();
+    screen_registry.rmat_used.innerText =
+        user_data.material_consumed.rmat.toString();
+
+    screen_registry.root_element.className = 'overlay';
+}
+
 export namespace StatScreen {
     export function init(): void {
         enable_local_storage = is_local_storage_available();
@@ -88,30 +115,17 @@ export namespace StatScreen {
                 );
             }
         });
-    }
 
-    export function show(): void {
-        const screen_registry = DomRegistry.get_stat_registry();
-
-        screen_registry.crate_count.innerText =
-            user_data.crate_crafted.toString();
-        screen_registry.time_spent.innerText = duration_to_string(
-            user_data.time_spent
-        );
-        screen_registry.time_to_hundred_crate.innerText = duration_to_string(
-            user_data.time_spent / (user_data.crate_crafted / 100)
+        DomRegistry.get_stat_registry().root_element.addEventListener(
+            'click',
+            () => {
+                hide();
+            }
         );
 
-        screen_registry.bmat_used.innerText =
-            user_data.material_consumed.bmat.toString();
-        screen_registry.emat_used.innerText =
-            user_data.material_consumed.emat.toString();
-        screen_registry.hemat_used.innerText =
-            user_data.material_consumed.hemat.toString();
-        screen_registry.rmat_used.innerText =
-            user_data.material_consumed.rmat.toString();
-
-        screen_registry.root_element.className = '';
+        DomRegistry.get_stat_button().addEventListener('click', () => {
+            show();
+        });
     }
 
     /**

@@ -13,6 +13,4 @@ document.addEventListener('DOMContentLoaded', () => {
     ResultScreen.init();
     StatScreen.init();
     ManuScreen.init();
-
-    StatScreen.show();
 });
