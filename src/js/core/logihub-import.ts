@@ -1,47 +1,15 @@
-import { DomRegistry_getConfigView } from '../data/dom-registry';
-import { itemData } from '../data/item-data';
-import { Priority_stringToPriority } from '../types/priority';
-import { ChoreoConfig_addItem } from './choreo-config';
+import { item_data } from '../data/item-data';
+import { Priority } from '../types/priority';
+import { ConfigScreen } from './config-screen';
+import { DomRegistry } from './dom-registry';
 
-let logihubInput: HTMLTextAreaElement;
+let logihub_input: HTMLTextAreaElement;
 
 type LoghubItem = {
     name: string;
     amount: number;
     priority: string;
 };
-
-/**
- * Convert the Logihub export JSON to internal data.
- *
- * The export is already roughly what we wanted, except the name.
- * So we need to translate the name to what we use.
- */
-function importLogihub() {
-    const rawData = logihubInput.value;
-    if (rawData === null) return;
-
-    try {
-        const items = JSON.parse(rawData) as LoghubItem[];
-
-        for (const item of items) {
-            const id = translateLogihubToInternal(item.name);
-            const priority = Priority_stringToPriority(item.priority);
-
-            ChoreoConfig_addItem(id, priority, item.amount);
-        }
-
-        logihubInput.value = '';
-    } catch (e) {
-        if (e instanceof SyntaxError) {
-            // [TODO]: Show something in the UI.
-            // This exception is for failed JSON parsing.
-            return;
-        } else {
-            throw e;
-        }
-    }
-}
 
 /**
  * Translate Logihub item name to internal name used in the app.
@@ -51,9 +19,9 @@ function importLogihub() {
  * @param name
  * @returns The internal name of the item
  */
-function translateLogihubToInternal(name: string): string {
-    for (const [key, item] of itemData) {
-        if (item.logihubName === name) {
+function to_internal(name: string): string {
+    for (const [key, item] of item_data) {
+        if (item.logihub_name === name) {
             return key;
         }
 
@@ -65,13 +33,48 @@ function translateLogihubToInternal(name: string): string {
     throw new Error(`Failed to translate ${name} to internal id`);
 }
 
-/**
- * Initialize the component.
- *
- * Must be called on DOM initialization, otherwise calls might fail.
- */
-export function LogihubImport_init() {
-    const logihub = DomRegistry_getConfigView().logihubInput;
-    logihubInput = logihub.input;
-    logihub.submitButton.addEventListener('click', importLogihub);
+export namespace LogihubImporter {
+    /**
+     * Initialize the component.
+     *
+     * Must be called on DOM initialization, otherwise calls might fail.
+     */
+    export function init() {
+        const logihub_registry =
+            DomRegistry.get_config_registry().logihub_input;
+        logihub_input = logihub_registry.input;
+        logihub_registry.submit_button.addEventListener('click', import_items);
+    }
+
+    /**
+     * Convert the Logihub export JSON to internal data.
+     *
+     * The export is already roughly what we wanted, except the name.
+     * So we need to translate the name to what we use.
+     */
+    export function import_items() {
+        const raw_data = logihub_input.value;
+        if (raw_data === null) return;
+
+        try {
+            const items = JSON.parse(raw_data) as LoghubItem[];
+
+            for (const item of items) {
+                const id = to_internal(item.name);
+                const priority = Priority.to_priority(item.priority);
+
+                ConfigScreen.add_item(id, priority, item.amount);
+            }
+
+            logihub_input.value = '';
+        } catch (e) {
+            if (e instanceof SyntaxError) {
+                // [TODO]: Show something in the UI.
+                // This exception is for failed JSON parsing.
+                return;
+            } else {
+                throw e;
+            }
+        }
+    }
 }

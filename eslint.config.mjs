@@ -13,5 +13,11 @@ export default tseslint.config(
             },
         },
     },
-    eslintConfigPrettierFlat
+    eslintConfigPrettierFlat,
+    {
+        rules: {
+            // Not a library; just code for a webpage
+            "@typescript-eslint/no-namespace": "off"
+        }
+    }
 );

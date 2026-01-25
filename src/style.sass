@@ -47,12 +47,11 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
         @for $i from 1 to 20
             --#{$name}-#{$i * 5}: #{rgba($color, calc($i * 5 / 100))}
 
-:root
-    @include generate-transparencies($light-colors)
+:root[data-theme="dark"]
+    @include generate-transparencies($dark-colors)
 
-@media (prefers-color-scheme: dark)
-    :root
-        @include generate-transparencies($dark-colors)
+:root[data-theme="light"]
+    @include generate-transparencies($light-colors)
 
 /**
  Custom reset configuration
@@ -131,20 +130,23 @@ header
     display: flex
     align-content: center
     position: relative
-    margin: 5px 0
+    margin: 10px 0
 
     #title
-        margin-left: auto
-        margin-right: auto
+        /** https://stackoverflow.com/a/1777282 ; wow.
+        position: absolute
+        left: 0
+        right: 0
+        margin-inline: auto
+        width: fit-content
 
     button
-        position: absolute
-        right: 1rem
+        margin-right: 1rem
         top: calc( 50% - 0.9em + 5px )
 
     #app-name
-        position: absolute
-        left: 1rem
+        margin-left: 1rem
+        margin-right: auto
         top: calc( 50% - 0.9em + 5px )
 
 main
@@ -257,6 +259,14 @@ main
     .item-card
         grid-template-rows: 1fr
 
+/** Stat
+#stat-bg
+    background-color: var(--secondary)
+    margin: 0 auto
+    padding: 10px
+    width: fit-content
+    min-width: 20vw
+
 /** Item Card
 
 .item-card
@@ -298,3 +308,9 @@ main
 
 .label
     margin-bottom: 5px
+
+.overlay
+    position: absolute
+    width: 100vw
+    height: 100vh
+    background-color: var(--background-60)
