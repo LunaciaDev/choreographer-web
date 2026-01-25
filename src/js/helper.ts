@@ -16,24 +16,24 @@
  * itemCardElemsRef['item-name']
  *
  * @param root The root element to search from
- * @param classNames A list of class names, not prefixed
+ * @param class_names A list of class names, not prefixed
  * @returns A Record holding reference to the first instance
  * of the class found.
  */
-export function getTemplateChilds<T extends string>(
+export function get_template_elements<T extends string>(
     root: HTMLTemplateElement,
-    classNames: T[]
+    class_names: T[]
 ): Record<T, HTMLElement> {
     const nodes = {} as Record<T, HTMLElement>;
 
-    for (const className of classNames) {
-        const node = root.content.querySelector(`.${className}`);
+    for (const class_name of class_names) {
+        const node = root.content.querySelector(`.${class_name}`);
 
         if (!node) {
-            throw new Error(`Cannot find class ${className}`);
+            throw new Error(`Cannot find class ${class_name}`);
         }
 
-        nodes[className] = node as HTMLElement;
+        nodes[class_name] = node as HTMLElement;
     }
 
     return nodes;

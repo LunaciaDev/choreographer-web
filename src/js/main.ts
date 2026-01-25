@@ -1,16 +1,16 @@
-import { ChoreoConfig_init } from './core/choreo-config';
-import { Manu_init } from './core/manu';
-import { initDomRegistry } from './data/dom-registry';
+import { ConfigScreen } from './core/config-screen';
 import '../style.sass';
-import { LogihubImport_init } from './core/logihub-import';
-import { ShowResult_init } from './core/show-result';
-import { UserStats_init } from './core/user-stats';
+import { LogihubImporter } from './core/logihub-import';
+import { ResultScreen } from './core/result-screen';
+import { StatScreen } from './core/stat-screen';
+import { DomRegistry } from './core/dom-registry';
+import { ManuScreen } from './core/manu-screen';
 
 document.addEventListener('DOMContentLoaded', () => {
-    initDomRegistry();
-    ChoreoConfig_init();
-    LogihubImport_init();
-    ShowResult_init();
-    UserStats_init();
-    Manu_init();
+    DomRegistry.init();
+    ConfigScreen.init();
+    LogihubImporter.init();
+    ResultScreen.init();
+    StatScreen.init();
+    ManuScreen.init();
 });

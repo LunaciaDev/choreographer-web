@@ -1,10 +1,10 @@
 import type { Cost } from './item-cost';
 
 export type UserData = {
-    crateCreated: number;
-    materialConsumed: Cost;
-    itemCrafted: ItemCraftedEntry[];
-    timeSpent: number;
+    crate_crafted: number;
+    material_consumed: Cost;
+    item_crafted: ItemCraftedEntry[];
+    time_spent: number;
 };
 
 export type ItemCraftedEntry = {

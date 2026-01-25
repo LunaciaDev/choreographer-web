@@ -18,12 +18,12 @@ import { ItemType } from '../types/item-type';
 /**
  * Store all item data
  */
-export const itemData = new Map<string, ItemData>([
+export const item_data = new Map<string, ItemData>([
     [
         '0001',
         {
             name: 'Neville AT Rifle',
-            logihubName: '20 Neville Anti-Tank Rifle',
+            logihub_name: '20 Neville Anti-Tank Rifle',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 150,
@@ -50,7 +50,7 @@ export const itemData = new Map<string, ItemData>([
         '0003',
         {
             name: 'Varsi AT Grenade',
-            logihubName: 'B2 Varsi Anti-Tank Grenade',
+            logihub_name: 'B2 Varsi Anti-Tank Grenade',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 95,
@@ -64,7 +64,7 @@ export const itemData = new Map<string, ItemData>([
         '0004',
         {
             name: 'Mounted Bonesaw',
-            logihubName: 'Mounted Bonesaw MK.3',
+            logihub_name: 'Mounted Bonesaw MK.3',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 100,
@@ -78,7 +78,7 @@ export const itemData = new Map<string, ItemData>([
         '0005',
         {
             name: 'Bonesaw Mk3',
-            logihubName: 'Bonesaw MK.3',
+            logihub_name: 'Bonesaw MK.3',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 100,
@@ -105,7 +105,7 @@ export const itemData = new Map<string, ItemData>([
         '0007',
         {
             name: "Willow's Bane Flamethrower",
-            logihubName: 'Willow’s Bane Model 845',
+            logihub_name: 'Willow’s Bane Model 845',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 165,
@@ -119,7 +119,7 @@ export const itemData = new Map<string, ItemData>([
         '0008',
         {
             name: 'Tremola Grenade',
-            logihubName: 'Tremola Grenade GPb-1',
+            logihub_name: 'Tremola Grenade GPb-1',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 75,
@@ -133,7 +133,7 @@ export const itemData = new Map<string, ItemData>([
         '0009',
         {
             name: 'Malone Ratcatcher',
-            logihubName: 'Malone Ratcatcher MK.1',
+            logihub_name: 'Malone Ratcatcher MK.1',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 100,
@@ -199,7 +199,7 @@ export const itemData = new Map<string, ItemData>([
         '0014',
         {
             name: 'HE Mortar Shell',
-            logihubName: 'Mortar Shell',
+            logihub_name: 'Mortar Shell',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 60,
@@ -213,7 +213,7 @@ export const itemData = new Map<string, ItemData>([
         '0015',
         {
             name: 'White Ash Flask Grenade',
-            logihubName: 'BF5 White Ash Flask Grenade',
+            logihub_name: 'BF5 White Ash Flask Grenade',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 100,
@@ -240,7 +240,7 @@ export const itemData = new Map<string, ItemData>([
         '0017',
         {
             name: 'AT Sticky',
-            logihubName: 'Anti-Tank Sticky Bomb',
+            logihub_name: 'Anti-Tank Sticky Bomb',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 50,
@@ -254,7 +254,7 @@ export const itemData = new Map<string, ItemData>([
         '0018',
         {
             name: 'Carnyx AT Rocket Launcher',
-            logihubName: 'Carnyx Anti-Tank Rocket Launcher',
+            logihub_name: 'Carnyx Anti-Tank Rocket Launcher',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 125,
@@ -281,7 +281,7 @@ export const itemData = new Map<string, ItemData>([
         '0020',
         {
             name: 'Cutler Launcher',
-            logihubName: 'Cutler Launcher 4',
+            logihub_name: 'Cutler Launcher 4',
             type: ItemType.HEAVY_ARM,
             cost: {
                 bmat: 100,
@@ -334,7 +334,7 @@ export const itemData = new Map<string, ItemData>([
         '0024',
         {
             name: '250mm "Purity"',
-            logihubName: '250mm "Purity" Shell',
+            logihub_name: '250mm "Purity" Shell',
             type: ItemType.HEAVY_SHELL,
             cost: {
                 bmat: 120,
@@ -374,7 +374,7 @@ export const itemData = new Map<string, ItemData>([
         '0027',
         {
             name: 'Booker Storm Rifle',
-            logihubName: 'Booker Storm Rifle Model 838',
+            logihub_name: 'Booker Storm Rifle Model 838',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 0,
@@ -388,7 +388,7 @@ export const itemData = new Map<string, ItemData>([
         '0028',
         {
             name: 'Aalto Storm Rifle',
-            logihubName: 'Aalto Storm Rifle 24',
+            logihub_name: 'Aalto Storm Rifle 24',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 0,
@@ -415,7 +415,7 @@ export const itemData = new Map<string, ItemData>([
         '0030',
         {
             name: 'Malone Mk2',
-            logihubName: 'Malone MK.2',
+            logihub_name: 'Malone MK.2',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 0,
@@ -429,7 +429,7 @@ export const itemData = new Map<string, ItemData>([
         '0031',
         {
             name: 'Harpa Frag Grenade',
-            logihubName: 'A3 Harpa Fragmentation Grenade',
+            logihub_name: 'A3 Harpa Fragmentation Grenade',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 100,
@@ -443,7 +443,7 @@ export const itemData = new Map<string, ItemData>([
         '0032',
         {
             name: 'Cascadier',
-            logihubName: 'Cascadier 873',
+            logihub_name: 'Cascadier 873',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 60,
@@ -470,7 +470,7 @@ export const itemData = new Map<string, ItemData>([
         '0034',
         {
             name: 'Cometa Revolver',
-            logihubName: 'Cometa T2-9',
+            logihub_name: 'Cometa T2-9',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 60,
@@ -484,7 +484,7 @@ export const itemData = new Map<string, ItemData>([
         '0035',
         {
             name: 'The Hangman',
-            logihubName: 'The Hangman 757',
+            logihub_name: 'The Hangman 757',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 125,
@@ -511,7 +511,7 @@ export const itemData = new Map<string, ItemData>([
         '0037',
         {
             name: 'Sampo Auto-Rifle',
-            logihubName: 'Sampo Auto-Rifle 77',
+            logihub_name: 'Sampo Auto-Rifle 77',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 125,
@@ -525,7 +525,7 @@ export const itemData = new Map<string, ItemData>([
         '0038',
         {
             name: 'Blakerow Rifle',
-            logihubName: 'Blakerow 871',
+            logihub_name: 'Blakerow 871',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 140,
@@ -539,7 +539,7 @@ export const itemData = new Map<string, ItemData>([
         '0039',
         {
             name: 'Clancy Cinder',
-            logihubName: 'Clancy Cinder M3',
+            logihub_name: 'Clancy Cinder M3',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 130,
@@ -553,7 +553,7 @@ export const itemData = new Map<string, ItemData>([
         '0040',
         {
             name: 'Hawthorne',
-            logihubName: 'No.2B Hawthorne',
+            logihub_name: 'No.2B Hawthorne',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 70,
@@ -567,7 +567,7 @@ export const itemData = new Map<string, ItemData>([
         '0041',
         {
             name: 'Loughcaster',
-            logihubName: 'No.2 Loughcaster',
+            logihub_name: 'No.2 Loughcaster',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 100,
@@ -581,7 +581,7 @@ export const itemData = new Map<string, ItemData>([
         '0042',
         {
             name: 'Clancy-Raca Sniper',
-            logihubName: 'Clancy-Raca M4',
+            logihub_name: 'Clancy-Raca M4',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 250,
@@ -622,7 +622,7 @@ export const itemData = new Map<string, ItemData>([
         {
             name: 'Liar SMG',
             // ???? why the odd quote
-            logihubName: 'No.1 “The Liar” Submachinegun',
+            logihub_name: 'No.1 “The Liar” Submachinegun',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 120,
@@ -636,7 +636,7 @@ export const itemData = new Map<string, ItemData>([
         '0046',
         {
             name: 'Fiddler SMG',
-            logihubName: 'Fiddler Submachine Gun Model 868',
+            logihub_name: 'Fiddler Submachine Gun Model 868',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 120,
@@ -663,7 +663,7 @@ export const itemData = new Map<string, ItemData>([
         '0048',
         {
             name: 'Smoke Grenade',
-            logihubName: 'PT-815 Smoke Grenade',
+            logihub_name: 'PT-815 Smoke Grenade',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 80,
@@ -703,7 +703,7 @@ export const itemData = new Map<string, ItemData>([
         '0051',
         {
             name: 'Pillory Scattergun',
-            logihubName: 'No.4 The Pillory Scattergun',
+            logihub_name: 'No.4 The Pillory Scattergun',
             type: ItemType.LIGHT_ARM,
             cost: {
                 bmat: 80,
@@ -783,7 +783,7 @@ export const itemData = new Map<string, ItemData>([
         {
             name: 'Specialist (Heavy)',
             // here too??
-            logihubName: 'Specialist’s Overcoat',
+            logihub_name: 'Specialist’s Overcoat',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -798,7 +798,7 @@ export const itemData = new Map<string, ItemData>([
         {
             name: 'Gunner (Knight)',
             // mannnnn
-            logihubName: 'Gunner’s Breastplate',
+            logihub_name: 'Gunner’s Breastplate',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -812,7 +812,7 @@ export const itemData = new Map<string, ItemData>([
         '0059',
         {
             name: 'Sapper (Engineer)',
-            logihubName: 'Sapper Gear',
+            logihub_name: 'Sapper Gear',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -826,7 +826,7 @@ export const itemData = new Map<string, ItemData>([
         '0060',
         {
             name: 'Physician (Medic)',
-            logihubName: 'Physician’s Jacket',
+            logihub_name: 'Physician’s Jacket',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -840,7 +840,7 @@ export const itemData = new Map<string, ItemData>([
         '0061',
         {
             name: 'Officer (Larp)',
-            logihubName: 'Officer’s Regalia',
+            logihub_name: 'Officer’s Regalia',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -854,7 +854,7 @@ export const itemData = new Map<string, ItemData>([
         '0062',
         {
             name: 'Outrider (Scout)',
-            logihubName: 'Outrider’s Mantle',
+            logihub_name: 'Outrider’s Mantle',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -868,7 +868,7 @@ export const itemData = new Map<string, ItemData>([
         '0063',
         {
             name: 'Parka',
-            logihubName: 'Caoivish Parka',
+            logihub_name: 'Caoivish Parka',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -882,7 +882,7 @@ export const itemData = new Map<string, ItemData>([
         '0064',
         {
             name: 'Boiler Suit (Tanker)',
-            logihubName: 'Padded Boiler Suit',
+            logihub_name: 'Padded Boiler Suit',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -896,7 +896,7 @@ export const itemData = new Map<string, ItemData>([
         '0065',
         {
             name: "Gentleman's Peacoat (Sailor)",
-            logihubName: 'Gentleman’s Peacoat',
+            logihub_name: 'Gentleman’s Peacoat',
             type: ItemType.UNIFORM,
             cost: {
                 bmat: 100,
@@ -1066,7 +1066,7 @@ export const itemData = new Map<string, ItemData>([
         '0078',
         {
             name: 'Sledgehammer',
-            logihubName: 'Sledge Hammer',
+            logihub_name: 'Sledge Hammer',
             type: ItemType.UTILITIES,
             cost: {
                 bmat: 200,
