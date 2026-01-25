@@ -1,5 +1,5 @@
 import { item_data } from '../data/item-data';
-import { get_template_elements } from '../helper';
+import { duration_to_string, get_template_elements } from '../helper';
 import type { Item } from '../types/item';
 import { Cost } from '../types/item-cost';
 import { ItemType } from '../types/item-type';
@@ -277,26 +277,9 @@ export namespace ManuScreen {
         time_ref = setInterval(() => {
             // create a timer that track how much time has passed since manu start
             const current_time = Date.now();
-            let relative_time = Math.ceil((current_time - start_time) / 1000);
-            const data: [number, string][] = [
-                [60, 's'],
-                [60, 'm'],
-                [24, 'h'],
-                [30, 'd'],
-                [12, 'm'],
-                [1, 'y'],
-            ];
-            const result = [];
-
-            for (const row of data) {
-                result.push(`${relative_time % row[0]}${row[1]}`);
-                relative_time = Math.floor(relative_time / row[0]);
-                if (relative_time === 0) break;
-            }
-
-            manu_registry.stat_label.time_spent.innerText = result
-                .reverse()
-                .join(' ');
+            manu_registry.stat_label.time_spent.innerText = duration_to_string(
+                current_time - start_time
+            );
         }, 1000);
 
         current_cost.reset();

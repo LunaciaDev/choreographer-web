@@ -38,3 +38,36 @@ export function get_template_elements<T extends string>(
 
     return nodes;
 }
+
+const data: [number, string][] = [
+    [60, 's'],
+    [60, 'm'],
+    [24, 'h'],
+    [30, 'd'],
+    [12, 'm'],
+    [1, 'y'],
+];
+
+/**
+ * Convert a duration in millisecond to a human-readable string.
+ *
+ * @param duration The duration in millisecond
+ * @return A human-readable string representation of the duration
+ */
+export function duration_to_string(duration: number): string {
+    if (isNaN(duration)) {
+        return '0s';
+    }
+
+    duration = Math.ceil(duration / 1000);
+
+    const result = [];
+
+    for (const row of data) {
+        result.push(`${duration % row[0]}${row[1]}`);
+        duration = Math.floor(duration / row[0]);
+        if (duration === 0) break;
+    }
+
+    return result.reverse().join(' ');
+}

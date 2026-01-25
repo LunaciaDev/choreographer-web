@@ -58,6 +58,17 @@ export type ResultRegistry = {
     item_card_template: HTMLTemplateElement;
 };
 
+export type StatRegistry = {
+    root_element: HTMLElement;
+    crate_count: HTMLElement;
+    time_spent: HTMLElement;
+    time_to_hundred_crate: HTMLElement;
+    bmat_used: HTMLElement;
+    emat_used: HTMLElement;
+    hemat_used: HTMLElement;
+    rmat_used: HTMLElement;
+};
+
 function get_element_reference(id: string): HTMLElement {
     const node = document.getElementById(id);
 
@@ -71,6 +82,7 @@ function get_element_reference(id: string): HTMLElement {
 let config_registry: ConfigRegistry;
 let manu_registry: ManuRegistry;
 let result_registry: ResultRegistry;
+let stat_registry: StatRegistry;
 let title: HTMLElement;
 let theme_button: HTMLButtonElement;
 
@@ -167,6 +179,18 @@ export namespace DomRegistry {
                 'result-item-card'
             ) as HTMLTemplateElement,
         };
+        stat_registry = {
+            root_element: get_element_reference('stat-view'),
+            crate_count: get_element_reference('stat-crate-count'),
+            time_spent: get_element_reference('stat-time-spent'),
+            time_to_hundred_crate: get_element_reference(
+                'stat-time-hundred-crate'
+            ),
+            bmat_used: get_element_reference('stat-bmat-used'),
+            emat_used: get_element_reference('stat-emat-used'),
+            hemat_used: get_element_reference('stat-hemat-used'),
+            rmat_used: get_element_reference('stat-rmat-used'),
+        };
     }
 
     export function get_title(): HTMLElement {
@@ -187,5 +211,9 @@ export namespace DomRegistry {
 
     export function get_result_registry(): ResultRegistry {
         return result_registry;
+    }
+
+    export function get_stat_registry(): StatRegistry {
+        return stat_registry;
     }
 }

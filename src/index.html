@@ -55,18 +55,39 @@
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
         </header>
         <main>
-            <div id="home-view">
+            <div id="stat-view">
                 <div>
-                    <div class="line">Total Crate Manufactured: 1024</div>
-                    <div class="line">Time Spent Manufacturing: 3d 12h 16m</div>
-                    <div class="line">Avg. time to 100 crate: 19m 40s</div>
+                    <div class="line">
+                        Total Crate Manufactured
+                        <div id="stat-crate-count"></div>
+                    </div>
+                    <div class="line">
+                        Time Spent Manufacturing
+                        <div id="stat-time-spent"></div>
+                    </div>
+                    <div class="line">
+                        Avg. time to 100 crate
+                        <div id="stat-time-hundred-crate"></div>
+                    </div>
                 </div>
                 <div>
                     <div class="line">Material Consumed</div>
-                    <div class="line">bmat: 120</div>
-                    <div class="line">emat: 60</div>
-                    <div class="line">hemat: 50</div>
-                    <div class="line">rmat: 10</div>
+                    <div class="line">
+                        Basic Material
+                        <div id="stat-bmat-used"></div>
+                    </div>
+                    <div class="line">
+                        Explosive Material
+                        <div id="stat-emat-used"></div>
+                    </div>
+                    <div class="line">
+                        Heavy Explosive Material
+                        <div id="stat-hemat-used"></div>
+                    </div>
+                    <div class="line">
+                        Refined Material
+                        <div id="stat-rmat-used"></div>
+                    </div>
                 </div>
             </div>
             <div id="config-view" class="hidden">

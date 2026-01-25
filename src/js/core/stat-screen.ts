@@ -1,4 +1,5 @@
 import { item_data } from '../data/item-data';
+import { duration_to_string } from '../helper';
 import type { Item } from '../types/item';
 import { Cost } from '../types/item-cost';
 import type { UserData } from '../types/user-data';
@@ -65,6 +66,54 @@ function update_theme(theme_button: HTMLButtonElement) {
 }
 
 export namespace StatScreen {
+    export function init(): void {
+        enable_local_storage = is_local_storage_available();
+
+        if (enable_local_storage) {
+            load_user_data();
+        }
+
+        // Display mode hijacking here as it depends on UserData
+        const theme_button = DomRegistry.get_theme_button();
+        update_theme(theme_button);
+
+        theme_button.addEventListener('click', () => {
+            prefer_dark_theme = !prefer_dark_theme;
+            update_theme(theme_button);
+
+            if (enable_local_storage) {
+                window.localStorage.setItem(
+                    THEME_KEY,
+                    String(prefer_dark_theme)
+                );
+            }
+        });
+    }
+
+    export function show(): void {
+        const screen_registry = DomRegistry.get_stat_registry();
+
+        screen_registry.crate_count.innerText =
+            user_data.crate_crafted.toString();
+        screen_registry.time_spent.innerText = duration_to_string(
+            user_data.time_spent
+        );
+        screen_registry.time_to_hundred_crate.innerText = duration_to_string(
+            user_data.time_spent / (user_data.crate_crafted / 100)
+        );
+
+        screen_registry.bmat_used.innerText =
+            user_data.material_consumed.bmat.toString();
+        screen_registry.emat_used.innerText =
+            user_data.material_consumed.emat.toString();
+        screen_registry.hemat_used.innerText =
+            user_data.material_consumed.hemat.toString();
+        screen_registry.rmat_used.innerText =
+            user_data.material_consumed.rmat.toString();
+
+        screen_registry.root_element.className = '';
+    }
+
     /**
      * Update manufacture part of user data
      *
@@ -74,9 +123,7 @@ export namespace StatScreen {
     export function update_manu_stat(
         start_time: number,
         crafted_items: Item[][]
-    ) {
-        if (!enable_local_storage) return;
-
+    ): void {
         const end_time = Date.now();
 
         for (const row of crafted_items) {
@@ -107,30 +154,8 @@ export namespace StatScreen {
 
         user_data.time_spent += end_time - start_time;
 
-        window.localStorage.setItem(DATA_KEY, JSON.stringify(user_data));
-    }
-
-    export function init() {
-        enable_local_storage = is_local_storage_available();
-
         if (enable_local_storage) {
-            load_user_data();
+            window.localStorage.setItem(DATA_KEY, JSON.stringify(user_data));
         }
-
-        // Display mode hijacking here as it depends on UserData
-        const theme_button = DomRegistry.get_theme_button();
-        update_theme(theme_button);
-
-        theme_button.addEventListener('click', () => {
-            prefer_dark_theme = !prefer_dark_theme;
-            update_theme(theme_button);
-
-            if (enable_local_storage) {
-                window.localStorage.setItem(
-                    THEME_KEY,
-                    String(prefer_dark_theme)
-                );
-            }
-        });
     }
 }
