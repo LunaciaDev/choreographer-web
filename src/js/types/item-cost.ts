@@ -24,6 +24,16 @@ export class Cost {
         this.rmat += cost.rmat * 4;
     }
 
+    multiply(
+        amount: number,
+        cost: { bmat: number; emat: number; hemat: number; rmat: number }
+    ) {
+        this.bmat += cost.bmat * amount;
+        this.emat += cost.emat * amount;
+        this.hemat += cost.hemat * amount;
+        this.rmat += cost.rmat * amount;
+    }
+
     subtract(cost: {
         bmat: number;
         emat: number;
@@ -46,7 +56,7 @@ export class Cost {
     /**
      * Get the amount of slots needed to carry the cost.
      */
-    getCurrentSlotCost(): number {
+    get_cost_in_slots(): number {
         return (
             Math.ceil(this.bmat / 100) +
             Math.ceil(this.emat / 100) +
@@ -60,7 +70,7 @@ export class Cost {
      *
      * The cost is not modified.
      */
-    getTheoreticalSlotCost(cost: {
+    get_theoretical_cost_in_slots(cost: {
         bmat: number;
         emat: number;
         hemat: number;
@@ -77,7 +87,7 @@ export class Cost {
     /**
      * Convert the cost to the string representation.
      */
-    toString(): string {
+    to_string(): string {
         const component: string[] = [];
 
         component.push(`${this.bmat}b`);
@@ -100,7 +110,7 @@ export class Cost {
     /**
      * Convert ANY cost struct to it's string representation.
      */
-    static makeCostString(cost: {
+    static make_cost_string(cost: {
         bmat: number;
         emat: number;
         hemat: number;
