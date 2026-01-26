@@ -8,6 +8,6 @@ export type UserData = {
 };
 
 export type ItemCraftedEntry = {
-    id: string;
+    id: number;
     amount: number;
 };

@@ -19,16 +19,18 @@ type LoghubItem = {
  * Throws an Error if we cannot find an item with that name.
  *
  * @param name
- * @returns The internal name of the item
+ * @returns The internal id of the item
  */
-function to_internal(name: string): string {
-    for (const [key, item] of item_data) {
+function to_internal(name: string): number {
+    for (let id = 0; id < item_data.length; id++) {
+        const item = item_data[id];
+
         if (item.logihub_name === name) {
-            return key;
+            return id;
         }
 
         if (item.name === name) {
-            return key;
+            return id;
         }
     }
 

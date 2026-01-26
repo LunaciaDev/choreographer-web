@@ -144,7 +144,7 @@ export namespace StatScreen {
             for (const item of row) {
                 if (item.crafted_amount === 0) continue;
 
-                const item_info = item_data.get(item.id);
+                const item_info = item_data[item.id];
 
                 if (item_info === undefined) {
                     // [TODO]: Maybe throw some error here

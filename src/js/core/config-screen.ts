@@ -46,7 +46,9 @@ function sanitize_input() {
 
     let itemID;
 
-    for (const [id, item] of item_data) {
+    for (let id = 0; id < item_data.length; id++) {
+        const item = item_data[id];
+
         if (item.name === name) {
             itemID = id;
             break;
@@ -91,7 +93,7 @@ function refresh_view() {
                 'remove-card',
             ]);
 
-            const item = item_data.get(entry.id);
+            const item = item_data[entry.id];
             if (item === undefined) continue;
 
             template_elements['item-name'].textContent = item.name;
@@ -170,13 +172,13 @@ export namespace ConfigScreen {
      * @param fill_amount How much of the item is filled right now; Value is undefined for CUSTOM level
      */
     export function add_item(
-        id: string,
+        id: number,
         priority: Priority,
         amount: number,
         fill_level: FillLevel,
         fill_amount: number
     ) {
-        const item_type = item_data.get(id)?.type;
+        const item_type = item_data[id].type;
         if (item_type === undefined) return;
 
         const dataRow = choreo_data[item_type];

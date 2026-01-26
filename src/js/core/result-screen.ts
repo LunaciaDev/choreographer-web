@@ -57,8 +57,8 @@ export namespace ResultScreen {
 
         result_registry.crate_crafted.innerText = amount_crafted.toString();
 
-        function add_line(item_id: string, amount: number) {
-            const item = item_data.get(item_id);
+        function add_line(item_id: number, amount: number) {
+            const item = item_data[item_id];
             if (item === undefined) return;
 
             const template = result_registry.item_card_template.cloneNode(

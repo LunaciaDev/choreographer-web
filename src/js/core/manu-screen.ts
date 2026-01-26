@@ -9,7 +9,7 @@ import { StatScreen } from './stat-screen';
 
 let manu_registry: ManuRegistry;
 let configured_items: Item[][];
-let queued_items: string[];
+let queued_items: number[];
 let current_cost: Cost;
 let time_ref: number;
 let start_time: number;
@@ -33,7 +33,7 @@ function add_queue(item_type: ItemType) {
         // if we reached the manu goal, find next one.
         if (entry.amount === entry.crafted_amount) continue;
 
-        const cost = item_data.get(entry.id)?.cost;
+        const cost = item_data[entry.id].cost;
         if (cost === undefined) continue;
 
         entry.crafted_amount += 4;
@@ -66,7 +66,7 @@ function submitItems() {
 
     for (let index = 0; index < queued_items.length; index++) {
         const item_id = queued_items[index];
-        const item_cost = item_data.get(item_id)?.cost;
+        const item_cost = item_data[item_id].cost;
         if (item_cost === undefined) return;
 
         if (current_cost.get_theoretical_cost_in_slots(item_cost) <= 13) {
@@ -87,9 +87,9 @@ function submitItems() {
  * User can remove it from the main queue (x button) or manually
  * push the item back to the waiting queue (- button).
  *
- * @param itemId The internal ID of the item
+ * @param item_id The internal ID of the item
  */
-function add_item_card(itemId: string) {
+function add_item_card(item_id: number) {
     const template = manu_registry.stat_label.item_card_template.cloneNode(
         true
     ) as HTMLTemplateElement;
@@ -99,8 +99,7 @@ function add_item_card(itemId: string) {
         'remove-line',
         'push-back-line',
     ]);
-    const item = item_data.get(itemId);
-    if (item === undefined) return;
+    const item = item_data[item_id];
 
     current_cost.add(item.cost);
 
@@ -114,7 +113,7 @@ function add_item_card(itemId: string) {
         current_cost.subtract(item.cost);
 
         for (const entry of row) {
-            if (entry.id !== itemId) continue;
+            if (entry.id !== item_id) continue;
 
             entry.crafted_amount -= 4;
         }
@@ -126,7 +125,7 @@ function add_item_card(itemId: string) {
         refresh_buttons();
     });
     template_elements['push-back-line'].addEventListener('click', () => {
-        queued_items.push(itemId);
+        queued_items.push(item_id);
         current_cost.subtract(item.cost);
 
         template_elements['manu-item-line'].remove();
