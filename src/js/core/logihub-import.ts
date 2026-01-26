@@ -1,4 +1,5 @@
 import { item_data } from '../data/item-data';
+import { FillLevel } from '../types/fill-level';
 import { Priority } from '../types/priority';
 import { ConfigScreen } from './config-screen';
 import { DomRegistry } from './dom-registry';
@@ -9,6 +10,7 @@ type LoghubItem = {
     name: string;
     amount: number;
     priority: string;
+    percentage: number;
 };
 
 /**
@@ -62,8 +64,23 @@ export namespace LogihubImporter {
             for (const item of items) {
                 const id = to_internal(item.name);
                 const priority = Priority.to_priority(item.priority);
+                let fill_level: FillLevel;
 
-                ConfigScreen.add_item(id, priority, item.amount);
+                if (item.percentage <= 0.25) {
+                    fill_level = FillLevel.CRITICAL;
+                } else if (item.percentage <= 0.75) {
+                    fill_level = FillLevel.LOW;
+                } else {
+                    fill_level = FillLevel.OK;
+                }
+
+                ConfigScreen.add_item(
+                    id,
+                    priority,
+                    item.amount,
+                    fill_level,
+                    item.percentage
+                );
             }
 
             logihub_input.value = '';

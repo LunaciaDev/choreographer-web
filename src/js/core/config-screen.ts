@@ -1,5 +1,6 @@
 import { item_data } from '../data/item-data';
 import { get_template_elements } from '../helper';
+import { FillLevel } from '../types/fill-level';
 import type { Item } from '../types/item';
 import { Cost } from '../types/item-cost';
 import { ItemType } from '../types/item-type';
@@ -62,7 +63,7 @@ function sanitize_input() {
     manual_input_registry.item_name.value = '';
     manual_input_registry.item_amount.value = '';
 
-    ConfigScreen.add_item(itemID, priority, amount);
+    ConfigScreen.add_item(itemID, priority, amount, FillLevel.CUSTOM, -1);
 }
 
 /**
@@ -165,8 +166,16 @@ export namespace ConfigScreen {
      * @param id The item's internal ID
      * @param priority The item's priority
      * @param amount The amount to manu
+     * @param fill_level The fill level reported by LogiHub; User-submission always has fill level CUSTOM.
+     * @param fill_amount How much of the item is filled right now; Value is undefined for CUSTOM level
      */
-    export function add_item(id: string, priority: Priority, amount: number) {
+    export function add_item(
+        id: string,
+        priority: Priority,
+        amount: number,
+        fill_level: FillLevel,
+        fill_amount: number
+    ) {
         const item_type = item_data.get(id)?.type;
         if (item_type === undefined) return;
 
@@ -188,6 +197,8 @@ export namespace ConfigScreen {
                 priority: priority,
                 amount: amount,
                 crafted_amount: 0,
+                fill_level: fill_level,
+                fill_amount: fill_amount,
             });
         }
 
