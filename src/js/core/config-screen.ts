@@ -89,7 +89,7 @@ function refresh_view() {
         ) as HTMLTemplateElement;
         const section_template_elements = get_template_elements(
             section_template,
-            ['item-section', 'item-section-title']
+            ['item-section', 'item-section-title', 'item-section-cards']
         );
 
         section_template_elements['item-section-title'].textContent =
@@ -126,7 +126,7 @@ function refresh_view() {
                     card_template_elements['item-card'].remove();
                 }
             );
-            section_template_elements['item-section'].appendChild(
+            section_template_elements['item-section-cards'].appendChild(
                 card_template.content
             );
         });
