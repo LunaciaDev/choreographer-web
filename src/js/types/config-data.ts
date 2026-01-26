@@ -100,6 +100,14 @@ export class ConfigData {
             })
             .filter((value): boolean => {
                 return value.amount != -1;
+            })
+            .sort((a, b) => {
+                // First sort by priority, then by amount.
+                if (a.priority == b.priority) {
+                    return b.amount - a.amount;
+                }
+
+                return b.priority - a.priority;
             });
     }
 
@@ -113,7 +121,7 @@ export class ConfigData {
             });
         });
 
-        manu_data.get_data().forEach((value, index) => {
+        manu_data.data.forEach((value, index) => {
             value.forEach((item) => {
                 this.data[item.fill_level][item.id].amount =
                     item.amount - item.crafted_amount;

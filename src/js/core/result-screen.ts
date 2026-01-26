@@ -1,6 +1,6 @@
 import { item_data } from '../data/item-data';
 import { get_template_elements } from '../helper';
-import type { Item } from '../types/item';
+import type { ManuData } from '../types/manu-data';
 import { ConfigScreen } from './config-screen';
 import { DomRegistry, type ResultRegistry } from './dom-registry';
 
@@ -27,33 +27,19 @@ export namespace ResultScreen {
      * @param queued_item The to-manu list
      * @param time Time spent manuing
      */
-    export function show(queued_item: Item[][], time: string) {
+    export function show(manu_data: ManuData, time: string) {
         result_registry.item_crafted.innerHTML = '';
         result_registry.time_spent.innerText = time;
         result_registry.root_element.className = '';
         DomRegistry.get_title().innerText = 'Result';
 
-        let amount_crafted = 0;
+        const amount_crafted = manu_data.crate_crafted;
 
-        for (let row_index = 0; row_index < queued_item.length; row_index++) {
-            const row = queued_item[row_index];
-
-            for (let index = 0; index < row.length; index++) {
-                const item = row[index];
-
-                if (item.crafted_amount === 0) continue;
-
-                amount_crafted += item.crafted_amount;
-                add_line(item.id, item.crafted_amount);
-
-                if (item.amount === item.crafted_amount) {
-                    row.splice(index, 1);
-                }
-
-                item.amount -= item.crafted_amount;
-                item.crafted_amount = 0;
-            }
-        }
+        manu_data.data.forEach((row) => {
+            row.filter((item) => item.crafted_amount !== 0).forEach((item) =>
+                add_line(item.id, item.crafted_amount)
+            );
+        });
 
         result_registry.crate_crafted.innerText = amount_crafted.toString();
 
