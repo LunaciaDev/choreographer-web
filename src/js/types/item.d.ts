@@ -7,5 +7,4 @@ export type Item = {
     crafted_amount: number;
     priority: Priority;
     fill_level: FillLevel;
-    fill_amount: number;
 };

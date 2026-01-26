@@ -13,7 +13,7 @@ import {
 } from './dom-registry';
 import { ManuScreen } from './manu-screen';
 
-let choreo_data: Item[][];
+let config_data: Item[][];
 let config_registry: ConfigRegistry;
 let manual_input_registry: ConfigManualInput;
 
@@ -79,7 +79,7 @@ function refresh_view() {
 
     data_registry.root_element.innerHTML = '';
 
-    for (const row of choreo_data) {
+    for (const row of config_data) {
         for (const entry of row) {
             const template = template_ref.cloneNode(
                 true
@@ -106,6 +106,7 @@ function refresh_view() {
                 entry.priority
             );
             template_elements['remove-card'].addEventListener('click', () => {
+                // [FIXME] Update internal data structure to remove this element...
                 template_elements['item-card'].remove();
             });
 
@@ -121,10 +122,10 @@ export namespace ConfigScreen {
      * Must be called on DOM initialization, otherwise calls might fail.
      */
     export function init() {
-        choreo_data = [];
+        config_data = [];
 
         ItemType.get_iterator().forEach(() => {
-            choreo_data.push([]);
+            config_data.push([]);
         });
 
         config_registry = DomRegistry.get_config_registry();
@@ -145,7 +146,7 @@ export namespace ConfigScreen {
         config_registry.start_manu.addEventListener('click', () => {
             config_registry.start_manu.className = 'hidden';
             config_registry.root_element.className = 'hidden';
-            ManuScreen.start(choreo_data);
+            ManuScreen.start(config_data);
         });
     }
 
@@ -176,12 +177,12 @@ export namespace ConfigScreen {
         priority: Priority,
         amount: number,
         fill_level: FillLevel,
-        fill_amount: number
+        _fill_amount: number
     ) {
         const item_type = item_data[id].type;
         if (item_type === undefined) return;
 
-        const dataRow = choreo_data[item_type];
+        const dataRow = config_data[item_type];
         let duplicated = false;
 
         for (const item of dataRow) {
@@ -200,7 +201,6 @@ export namespace ConfigScreen {
                 amount: amount,
                 crafted_amount: 0,
                 fill_level: fill_level,
-                fill_amount: fill_amount,
             });
         }
 
