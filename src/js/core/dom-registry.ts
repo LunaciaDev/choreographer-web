@@ -14,6 +14,7 @@ export type ConfigLogihubInput = {
 export type ConfigDataView = {
     root_element: HTMLElement;
     item_card_template: HTMLTemplateElement;
+    item_section_template: HTMLTemplateElement;
 };
 
 export type ConfigRegistry = {
@@ -127,6 +128,9 @@ export namespace DomRegistry {
                 root_element: get_element_reference('data-view'),
                 item_card_template: get_element_reference(
                     'item-card-template'
+                ) as HTMLTemplateElement,
+                item_section_template: get_element_reference(
+                    'item-section-template'
                 ) as HTMLTemplateElement,
             },
         };

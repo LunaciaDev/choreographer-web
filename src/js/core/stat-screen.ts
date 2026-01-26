@@ -1,7 +1,7 @@
 import { item_data } from '../data/item-data';
 import { duration_to_string } from '../helper';
-import type { Item } from '../types/item';
 import { Cost } from '../types/item-cost';
+import type { ManuData } from '../types/manu-data';
 import type { UserData } from '../types/user-data';
 import { DomRegistry } from './dom-registry';
 
@@ -37,6 +37,14 @@ function load_user_data() {
 
     if (raw_user_data !== null) {
         user_data = JSON.parse(raw_user_data) as UserData;
+
+        // casting Object to Cost
+        const cost = new Cost();
+        cost.bmat = user_data.material_consumed.bmat;
+        cost.emat = user_data.material_consumed.emat;
+        cost.rmat = user_data.material_consumed.rmat;
+        cost.hemat = user_data.material_consumed.hemat;
+        user_data.material_consumed = cost;
     } else {
         user_data = {
             crate_crafted: 0,
@@ -136,35 +144,34 @@ export namespace StatScreen {
      */
     export function update_manu_stat(
         start_time: number,
-        crafted_items: Item[][]
+        manu_data: ManuData
     ): void {
         const end_time = Date.now();
 
-        for (const row of crafted_items) {
-            for (const item of row) {
-                if (item.crafted_amount === 0) continue;
+        user_data.crate_crafted += manu_data.crate_crafted;
 
-                const item_info = item_data.get(item.id);
-
-                if (item_info === undefined) {
-                    // [TODO]: Maybe throw some error here
-                    continue;
-                }
-
-                user_data.crate_crafted += item.crafted_amount;
+        manu_data.data.forEach((row) => {
+            row.filter((item) => item.crafted_amount !== 0).forEach((item) => {
                 user_data.material_consumed.multiply(
                     item.crafted_amount,
-                    item_info.cost
+                    item_data[item.id].cost
                 );
 
-                for (const entry of user_data.item_crafted) {
-                    if (entry.id === item.id) {
-                        entry.amount += item.crafted_amount;
-                        break;
-                    }
+                const entry_index = user_data.item_crafted.findIndex(
+                    (crafted_item) => crafted_item.id == item.id
+                );
+
+                if (entry_index == -1) {
+                    user_data.item_crafted.push({
+                        id: item.id,
+                        amount: item.crafted_amount,
+                    });
+                } else {
+                    user_data.item_crafted[entry_index].amount +=
+                        item.crafted_amount;
                 }
-            }
-        }
+            });
+        });
 
         user_data.time_spent += end_time - start_time;
 

@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@700&display=swap')
 
 /*
  Josh's Custom CSS Reset
@@ -194,12 +194,19 @@ main
     textarea
         flex-grow: 1
 
-#data-view, #result-item-crafted
+#data-view .item-section-cards, #result-item-crafted
     display: grid
     gap: 1rem
     /* dynamically create column, making sure element have at least 250px
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
-    margin: 2rem 1rem 0 1rem
+    margin: 0 1rem
+
+#result-item-crafted
+    margin-top: 1rem
+
+#data-view .item-section-title
+    margin: 1rem auto
+    width: fit-content
 
 /** Manu View
 

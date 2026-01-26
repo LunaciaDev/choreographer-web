@@ -17,7 +17,12 @@ export default tseslint.config(
     {
         rules: {
             // Not a library; just code for a webpage
-            "@typescript-eslint/no-namespace": "off"
+            "@typescript-eslint/no-namespace": "off",
+            // Allow unused variable prefixed with _
+            "@typescript-eslint/no-unused-vars": ["error", {
+                    "varsIgnorePattern": "^_",
+                    "argsIgnorePattern": "^_"
+            }]
         }
     }
 );

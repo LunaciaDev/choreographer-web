@@ -1,8 +1,8 @@
 import { item_data } from '../data/item-data';
 import { get_template_elements } from '../helper';
-import type { Item } from '../types/item';
+import { ConfigData } from '../types/config-data';
+import { FillLevel } from '../types/fill-level';
 import { Cost } from '../types/item-cost';
-import { ItemType } from '../types/item-type';
 import { Priority } from '../types/priority';
 
 import {
@@ -12,7 +12,7 @@ import {
 } from './dom-registry';
 import { ManuScreen } from './manu-screen';
 
-let choreo_data: Item[][];
+let config_data: ConfigData;
 let config_registry: ConfigRegistry;
 let manual_input_registry: ConfigManualInput;
 
@@ -45,7 +45,9 @@ function sanitize_input() {
 
     let itemID;
 
-    for (const [id, item] of item_data) {
+    for (let id = 0; id < item_data.length; id++) {
+        const item = item_data[id];
+
         if (item.name === name) {
             itemID = id;
             break;
@@ -62,7 +64,7 @@ function sanitize_input() {
     manual_input_registry.item_name.value = '';
     manual_input_registry.item_amount.value = '';
 
-    ConfigScreen.add_item(itemID, priority, amount);
+    ConfigScreen.add_item(itemID, priority, amount, FillLevel.CUSTOM, -1);
 }
 
 /**
@@ -72,43 +74,65 @@ function sanitize_input() {
  */
 function refresh_view() {
     const data_registry = config_registry.data_view;
-    const template_ref = data_registry.item_card_template;
+    const card_template_ref = data_registry.item_card_template;
+    const section_template_ref = data_registry.item_section_template;
 
     data_registry.root_element.innerHTML = '';
 
-    for (const row of choreo_data) {
-        for (const entry of row) {
-            const template = template_ref.cloneNode(
+    FillLevel.get_iterator().forEach((fill_level) => {
+        const data = config_data.get_data(fill_level);
+
+        if (data.length == 0) return;
+
+        const section_template = section_template_ref.cloneNode(
+            true
+        ) as HTMLTemplateElement;
+        const section_template_elements = get_template_elements(
+            section_template,
+            ['item-section', 'item-section-title', 'item-section-cards']
+        );
+
+        section_template_elements['item-section-title'].textContent =
+            FillLevel.to_string(fill_level);
+
+        data.forEach((item_ref) => {
+            const card_template = card_template_ref.cloneNode(
                 true
             ) as HTMLTemplateElement;
-            const template_elements = get_template_elements(template, [
-                'item-card',
-                'item-name',
-                'item-amount',
-                'item-cost',
-                'item-priority',
-                'remove-card',
-            ]);
-
-            const item = item_data.get(entry.id);
-            if (item === undefined) continue;
-
-            template_elements['item-name'].textContent = item.name;
-            template_elements['item-cost'].textContent = Cost.make_cost_string(
-                item.cost
+            const card_template_elements = get_template_elements(
+                card_template,
+                [
+                    'item-card',
+                    'item-name',
+                    'item-amount',
+                    'item-cost',
+                    'item-priority',
+                    'remove-card',
+                ]
             );
-            template_elements['item-amount'].textContent =
-                entry.amount.toString();
-            template_elements['item-priority'].textContent = Priority.to_string(
-                entry.priority
-            );
-            template_elements['remove-card'].addEventListener('click', () => {
-                template_elements['item-card'].remove();
-            });
+            const item = item_data[item_ref.id];
 
-            data_registry.root_element.appendChild(template.content);
-        }
-    }
+            card_template_elements['item-name'].textContent = item.name;
+            card_template_elements['item-amount'].textContent =
+                item_ref.amount.toString();
+            card_template_elements['item-cost'].textContent =
+                Cost.make_cost_string(item.cost);
+            card_template_elements['item-priority'].textContent =
+                Priority.to_string(item_ref.priority);
+            card_template_elements['remove-card'].addEventListener(
+                'click',
+                () => {
+                    config_data.remove_item(item_ref.id, item_ref.fill_level);
+                    card_template_elements['item-card'].remove();
+                }
+            );
+            section_template_elements['item-section-cards'].appendChild(
+                card_template.content
+            );
+        });
+
+        data_registry.root_element.appendChild(section_template.content);
+    });
 }
 
 export namespace ConfigScreen {
@@ -118,11 +142,7 @@ export namespace ConfigScreen {
      * Must be called on DOM initialization, otherwise calls might fail.
      */
     export function init() {
-        choreo_data = [];
-
-        ItemType.get_iterator().forEach(() => {
-            choreo_data.push([]);
-        });
+        config_data = new ConfigData();
 
         config_registry = DomRegistry.get_config_registry();
 
@@ -142,7 +162,7 @@ export namespace ConfigScreen {
         config_registry.start_manu.addEventListener('click', () => {
             config_registry.start_manu.className = 'hidden';
             config_registry.root_element.className = 'hidden';
-            ManuScreen.start(choreo_data);
+            ManuScreen.start(config_data);
         });
     }
 
@@ -165,41 +185,20 @@ export namespace ConfigScreen {
      * @param id The item's internal ID
      * @param priority The item's priority
      * @param amount The amount to manu
+     * @param fill_level The fill level reported by LogiHub; User-submission always has fill level CUSTOM.
+     * @param fill_amount How much of the item is filled right now; Value is undefined for CUSTOM level
      */
-    export function add_item(id: string, priority: Priority, amount: number) {
-        const item_type = item_data.get(id)?.type;
+    export function add_item(
+        id: number,
+        priority: Priority,
+        amount: number,
+        fill_level: FillLevel,
+        fill_amount: number
+    ) {
+        const item_type = item_data[id].type;
         if (item_type === undefined) return;
 
-        const dataRow = choreo_data[item_type];
-        let duplicated = false;
-
-        for (const item of dataRow) {
-            if (item.id === id) {
-                item.priority = priority;
-                item.amount = amount;
-                duplicated = true;
-                break;
-            }
-        }
-
-        if (!duplicated) {
-            dataRow.push({
-                id: id,
-                priority: priority,
-                amount: amount,
-                crafted_amount: 0,
-            });
-        }
-
-        // Sort the items by priority; then by amount in reverse
-        dataRow
-            .sort((a: Item, b: Item): number => {
-                if (a.priority !== b.priority) return a.priority - b.priority;
-
-                return a.amount - b.amount;
-            })
-            .reverse();
-
+        config_data.add_item(id, amount, priority, fill_level, fill_amount);
         refresh_view();
     }
 }
