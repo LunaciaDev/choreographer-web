@@ -60,6 +60,8 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
 :root
     @include generate-transparencies($dark-colors)
 
+    --header: #1f2428
+
 /**
  Custom reset configuration
 
@@ -137,8 +139,9 @@ header
     display: flex
     align-content: center
     align-items: center
+    background-color: var(--header)
     position: relative
-    margin: 5px 0
+    padding: 10px 0
 
     #title
         /** https://stackoverflow.com/a/1777282 ; wow.
@@ -146,6 +149,7 @@ header
         left: 0
         right: 0
         margin-inline: auto
+        font-size: 1.3rem
         width: fit-content
 
     button
