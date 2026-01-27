@@ -1,5 +1,9 @@
 import { item_data } from '../data/item-data';
-import { get_template_elements } from '../helper';
+import {
+    get_color_class,
+    get_image_path,
+    get_template_elements,
+} from '../helper';
 import type { ManuData } from '../types/manu-data';
 import { ConfigScreen } from './config-screen';
 import { DomRegistry, type ResultRegistry } from './dom-registry';
@@ -50,13 +54,19 @@ export namespace ResultScreen {
             const template = result_registry.item_card_template.cloneNode(
                 true
             ) as HTMLTemplateElement;
-            const templateElements = get_template_elements(template, [
+            const template_elements = get_template_elements(template, [
+                'item-card',
                 'item-name',
+                'item-image',
                 'item-amount',
             ]);
 
-            templateElements['item-name'].innerText = item.name;
-            templateElements['item-amount'].innerHTML = amount.toString();
+            template_elements['item-name'].innerText = item.name;
+            (template_elements['item-image'] as HTMLImageElement).src =
+                get_image_path(item.type);
+            template_elements['item-amount'].innerHTML = amount.toString();
+            template_elements['item-card'].className +=
+                ' ' + get_color_class(item.type);
 
             result_registry.item_crafted.appendChild(template.content);
         }

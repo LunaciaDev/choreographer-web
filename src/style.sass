@@ -41,8 +41,6 @@ h1, h2, h3, h4, h5, h6
 
 /* Palette generation
 
-$light-colors: "text" #031017, "background" #f1f3f4, "primary" #1b3a46, "secondary" #9cb5c4, "accent" #16537e
-
 $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondary" #3b5463, "accent" #81bee9
 
 @mixin generate-transparencies($color-map)
@@ -51,11 +49,18 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
         @for $i from 1 to 20
             --#{$name}-#{$i * 5}: #{rgba($color, calc($i * 5 / 100))}
 
-:root[data-theme="dark"]
+:root
+    --lightarm: #6f6f26
+    --heavyarm: #754d1d
+    --heavyshell: #902c2a
+    --utilities: #30467e
+    --medical: #436c2c
+    --uniform: #733883
+
+:root
     @include generate-transparencies($dark-colors)
 
-:root[data-theme="light"]
-    @include generate-transparencies($light-colors)
+    --header: #1f2428
 
 /**
  Custom reset configuration
@@ -134,8 +139,9 @@ header
     display: flex
     align-content: center
     align-items: center
+    background-color: var(--header)
     position: relative
-    margin: 5px 0
+    padding: 10px 0
 
     #title
         /** https://stackoverflow.com/a/1777282 ; wow.
@@ -143,6 +149,7 @@ header
         left: 0
         right: 0
         margin-inline: auto
+        font-size: 1.3rem
         width: fit-content
 
     button
@@ -287,7 +294,6 @@ main
     display: grid
     grid-template-rows: 1fr 1fr 1fr
     gap: 10px
-    background-color: var(--primary-10)
     border-radius: 6px
     padding: 10px
 
@@ -301,6 +307,28 @@ main
     .item-cost
         text-align: center
         width: 100%
+
+.item-image
+    height: 1.5rem
+    margin-right: 5px
+
+.lightarm
+    background: linear-gradient(135deg, var(--lightarm), 5%, var(--primary-10) 50%)
+
+.heavyarm
+    background: linear-gradient(135deg, var(--heavyarm), 5%, var(--primary-10) 50%)
+
+.heavyshell
+    background: linear-gradient(135deg, var(--heavyshell), 5%, var(--primary-10) 50%)
+
+.utilities
+    background: linear-gradient(135deg, var(--utilities), 5%, var(--primary-10) 50%)
+
+.medical
+    background: linear-gradient(135deg, var(--medical), 5%, var(--primary-10) 50%)
+
+.uniform
+    background: linear-gradient(135deg, var(--uniform), 5%, var(--primary-10) 50%)
 
 /** Others
 

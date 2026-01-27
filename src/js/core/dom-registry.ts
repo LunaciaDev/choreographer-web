@@ -85,15 +85,11 @@ let manu_registry: ManuRegistry;
 let result_registry: ResultRegistry;
 let stat_registry: StatRegistry;
 let title: HTMLElement;
-let theme_button: HTMLButtonElement;
 let stat_button: HTMLButtonElement;
 
 export namespace DomRegistry {
     export function init() {
         title = get_element_reference('title');
-        theme_button = get_element_reference(
-            'theme-switch'
-        ) as HTMLButtonElement;
         config_registry = {
             start_manu: get_element_reference(
                 'start-manu-button'
@@ -201,10 +197,6 @@ export namespace DomRegistry {
 
     export function get_title(): HTMLElement {
         return title;
-    }
-
-    export function get_theme_button(): HTMLButtonElement {
-        return theme_button;
     }
 
     export function get_config_registry(): ConfigRegistry {

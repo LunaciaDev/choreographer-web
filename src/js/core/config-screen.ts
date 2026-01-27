@@ -1,5 +1,9 @@
 import { item_data } from '../data/item-data';
-import { get_template_elements } from '../helper';
+import {
+    get_color_class,
+    get_image_path,
+    get_template_elements,
+} from '../helper';
 import { ConfigData } from '../types/config-data';
 import { FillLevel } from '../types/fill-level';
 import { Cost } from '../types/item-cost';
@@ -104,6 +108,7 @@ function refresh_view() {
                 [
                     'item-card',
                     'item-name',
+                    'item-image',
                     'item-amount',
                     'item-cost',
                     'item-priority',
@@ -113,6 +118,9 @@ function refresh_view() {
             const item = item_data[item_ref.id];
 
             card_template_elements['item-name'].textContent = item.name;
+            (card_template_elements['item-image'] as HTMLImageElement).src =
+                get_image_path(item.type);
+
             card_template_elements['item-amount'].textContent =
                 item_ref.amount.toString();
             card_template_elements['item-cost'].textContent =
@@ -126,6 +134,8 @@ function refresh_view() {
                     card_template_elements['item-card'].remove();
                 }
             );
+            card_template_elements['item-card'].className +=
+                ' ' + get_color_class(item.type);
             section_template_elements['item-section-cards'].appendChild(
                 card_template.content
             );
