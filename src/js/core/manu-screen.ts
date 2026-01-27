@@ -1,5 +1,10 @@
 import { item_data } from '../data/item-data';
-import { duration_to_string, get_template_elements } from '../helper';
+import {
+    duration_to_string,
+    get_color_class,
+    get_image_path,
+    get_template_elements,
+} from '../helper';
 import type { ConfigData } from '../types/config-data';
 import { ItemType } from '../types/item-type';
 import { ManuData } from '../types/manu-data';
@@ -68,12 +73,16 @@ function add_item_card(item_id: number) {
     const template_elements = get_template_elements(template, [
         'manu-item-name',
         'manu-item-line',
+        'item-image',
         'remove-line',
         'push-back-line',
     ]);
     const item = item_data[item_id];
 
     template_elements['manu-item-name'].textContent = item.name;
+    (template_elements['item-image'] as HTMLImageElement).src = get_image_path(
+        item.type
+    );
     template_elements['remove-line'].addEventListener('click', () => {
         manu_data.put_back_item(item_id);
 
@@ -84,6 +93,8 @@ function add_item_card(item_id: number) {
         refresh_buttons();
     });
     // [TODO]: Remove reference to push-back-line
+    template_elements['manu-item-line'].className +=
+        ' ' + get_color_class(item.type);
 
     manu_registry.stat_label.item_to_craft.appendChild(template.content);
     manu_registry.stat_label.cost_to_craft.textContent =

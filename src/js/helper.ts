@@ -1,3 +1,12 @@
+import { ItemType } from './types/item-type';
+
+import lightarm_img from '../images/smallarm.png';
+import heavyarm_img from '../images/heavyarm.png';
+import heavyshell_img from '../images/heavyammo.png';
+import uniform_img from '../images/uniform.png';
+import medical_img from '../images/medical.png';
+import utilities_img from '../images/utility.png';
+
 /**
  * When using template, we need to clone and get references
  * of various classes inside in order to write specific data
@@ -70,4 +79,38 @@ export function duration_to_string(duration: number): string {
     }
 
     return result.reverse().join(' ');
+}
+
+export function get_color_class(item_type: ItemType): string {
+    switch (item_type) {
+        case ItemType.LIGHT_ARM:
+            return 'lightarm';
+        case ItemType.HEAVY_ARM:
+            return 'heavyarm';
+        case ItemType.HEAVY_SHELL:
+            return 'heavyshell';
+        case ItemType.MEDICAL:
+            return 'medical';
+        case ItemType.UTILITIES:
+            return 'utilities';
+        case ItemType.UNIFORM:
+            return 'uniform';
+    }
+}
+
+export function get_image_path(item_type: ItemType): string {
+    switch (item_type) {
+        case ItemType.LIGHT_ARM:
+            return lightarm_img;
+        case ItemType.HEAVY_ARM:
+            return heavyarm_img;
+        case ItemType.HEAVY_SHELL:
+            return heavyshell_img;
+        case ItemType.MEDICAL:
+            return medical_img;
+        case ItemType.UTILITIES:
+            return utilities_img;
+        case ItemType.UNIFORM:
+            return uniform_img;
+    }
 }

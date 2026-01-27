@@ -7,10 +7,8 @@ import { DomRegistry } from './dom-registry';
 
 let enable_local_storage: boolean;
 let user_data: UserData;
-let prefer_dark_theme: boolean;
 
 const DATA_KEY = 'userdata';
-const THEME_KEY = 'theme';
 
 function is_local_storage_available(): boolean {
     let storage_instance;
@@ -33,7 +31,6 @@ function is_local_storage_available(): boolean {
 function load_user_data() {
     const storage_instance = window.localStorage;
     const raw_user_data = storage_instance.getItem(DATA_KEY);
-    const raw_theme_data = storage_instance.getItem(THEME_KEY);
 
     if (raw_user_data !== null) {
         user_data = JSON.parse(raw_user_data) as UserData;
@@ -52,24 +49,6 @@ function load_user_data() {
             item_crafted: [],
             time_spent: 0,
         };
-    }
-
-    if (raw_theme_data !== null) {
-        prefer_dark_theme = raw_theme_data === 'true';
-    } else {
-        prefer_dark_theme = window.matchMedia(
-            '(prefers-color-scheme: dark)'
-        ).matches;
-    }
-}
-
-function update_theme(theme_button: HTMLButtonElement) {
-    if (prefer_dark_theme) {
-        theme_button.innerText = 'Light';
-        document.documentElement.setAttribute('data-theme', 'dark');
-    } else {
-        theme_button.innerText = 'Dark';
-        document.documentElement.setAttribute('data-theme', 'light');
     }
 }
 
@@ -107,22 +86,6 @@ export namespace StatScreen {
         if (enable_local_storage) {
             load_user_data();
         }
-
-        // Display mode hijacking here as it depends on UserData
-        const theme_button = DomRegistry.get_theme_button();
-        update_theme(theme_button);
-
-        theme_button.addEventListener('click', () => {
-            prefer_dark_theme = !prefer_dark_theme;
-            update_theme(theme_button);
-
-            if (enable_local_storage) {
-                window.localStorage.setItem(
-                    THEME_KEY,
-                    String(prefer_dark_theme)
-                );
-            }
-        });
 
         DomRegistry.get_stat_registry().root_element.addEventListener(
             'click',
