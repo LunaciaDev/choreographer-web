@@ -3,6 +3,7 @@ import { get_template_elements } from '../helper';
 import { ConfigData } from '../types/config-data';
 import { FillLevel } from '../types/fill-level';
 import { Cost } from '../types/item-cost';
+import { ItemType } from '../types/item-type';
 import { Priority } from '../types/priority';
 
 import {
@@ -112,7 +113,8 @@ function refresh_view() {
             );
             const item = item_data[item_ref.id];
 
-            card_template_elements['item-name'].textContent = item.name;
+            card_template_elements['item-card'].className =
+                card_template_elements['item-name'].textContent = item.name;
             card_template_elements['item-amount'].textContent =
                 item_ref.amount.toString();
             card_template_elements['item-cost'].textContent =
@@ -126,6 +128,32 @@ function refresh_view() {
                     card_template_elements['item-card'].remove();
                 }
             );
+            switch (item.type) {
+                case ItemType.LIGHT_ARM:
+                    card_template_elements['item-card'].className =
+                        'item-card lightarm';
+                    break;
+                case ItemType.HEAVY_ARM:
+                    card_template_elements['item-card'].className =
+                        'item-card heavyarm';
+                    break;
+                case ItemType.HEAVY_SHELL:
+                    card_template_elements['item-card'].className =
+                        'item-card heavyshell';
+                    break;
+                case ItemType.MEDICAL:
+                    card_template_elements['item-card'].className =
+                        'item-card medical';
+                    break;
+                case ItemType.UTILITIES:
+                    card_template_elements['item-card'].className =
+                        'item-card utilities';
+                    break;
+                case ItemType.UNIFORM:
+                    card_template_elements['item-card'].className =
+                        'item-card uniform';
+                    break;
+            }
             section_template_elements['item-section-cards'].appendChild(
                 card_template.content
             );

@@ -51,6 +51,14 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
         @for $i from 1 to 20
             --#{$name}-#{$i * 5}: #{rgba($color, calc($i * 5 / 100))}
 
+:root
+    --lightarm: #6f6f26
+    --heavyarm: #754d1d
+    --heavyshell: #902c2a
+    --utilities: #30467e
+    --medical: #436c2c
+    --uniform: #733883
+
 :root[data-theme="dark"]
     @include generate-transparencies($dark-colors)
 
@@ -287,7 +295,6 @@ main
     display: grid
     grid-template-rows: 1fr 1fr 1fr
     gap: 10px
-    background-color: var(--primary-10)
     border-radius: 6px
     padding: 10px
 
@@ -301,6 +308,24 @@ main
     .item-cost
         text-align: center
         width: 100%
+
+.lightarm
+    background: linear-gradient(135deg, var(--lightarm), 5%, var(--primary-10) 50%)
+
+.heavyarm
+    background: linear-gradient(135deg, var(--heavyarm), 5%, var(--primary-10) 50%)
+
+.heavyshell
+    background: linear-gradient(135deg, var(--heavyshell), 5%, var(--primary-10) 50%)
+
+.utilities
+    background: linear-gradient(135deg, var(--utilities), 5%, var(--primary-10) 50%)
+
+.medical
+    background: linear-gradient(135deg, var(--medical), 5%, var(--primary-10) 50%)
+
+.uniform
+    background: linear-gradient(135deg, var(--uniform), 5%, var(--primary-10) 50%)
 
 /** Others
 
