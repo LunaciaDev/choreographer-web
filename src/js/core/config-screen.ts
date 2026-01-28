@@ -7,6 +7,7 @@ import {
 import { ConfigData } from '../types/config-data';
 import { FillLevel } from '../types/fill-level';
 import { Cost } from '../types/item-cost';
+import type { ManuData } from '../types/manu-data';
 import { Priority } from '../types/priority';
 
 import {
@@ -185,6 +186,10 @@ export namespace ConfigScreen {
         DomRegistry.get_title().innerText = 'Config';
 
         refresh_view();
+    }
+
+    export function update(manu_data: ManuData) {
+        config_data.update(manu_data);
     }
 
     /**

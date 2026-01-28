@@ -110,6 +110,9 @@ export namespace StatScreen {
         start_time: number,
         manu_data: ManuData
     ): void {
+        // Do not write any data if no crate was crafted
+        if (manu_data.crate_crafted === 0) return;
+
         const end_time = Date.now();
 
         user_data.crate_crafted += manu_data.crate_crafted;
