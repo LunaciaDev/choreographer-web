@@ -235,7 +235,7 @@ export namespace ManuScreen {
      *
      * @param config_data The configuration data package
      */
-    export function start(config_data: ConfigData) {
+    export function show(config_data: ConfigData) {
         manu_data.start_manu(config_data);
         DomRegistry.get_title().innerText = 'Manu';
 

@@ -5,8 +5,8 @@ import {
     get_template_elements,
 } from '../helper';
 import type { ManuData } from '../types/manu-data';
-import { ConfigScreen } from './config-screen';
 import { DomRegistry, type ResultRegistry } from './dom-registry';
+import { StatScreen } from './stat-screen';
 
 let result_registry: ResultRegistry;
 
@@ -21,7 +21,8 @@ export namespace ResultScreen {
 
         result_registry.return_button.addEventListener('click', () => {
             result_registry.root_element.className = 'hidden';
-            ConfigScreen.start();
+            result_registry.return_button.className = 'hidden';
+            StatScreen.show();
         });
     }
 
@@ -35,6 +36,7 @@ export namespace ResultScreen {
         result_registry.item_crafted.innerHTML = '';
         result_registry.time_spent.innerText = time;
         result_registry.root_element.className = '';
+        result_registry.return_button.className = 'accent';
         DomRegistry.get_title().innerText = 'Result';
 
         const amount_crafted = manu_data.crate_crafted;

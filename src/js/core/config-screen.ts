@@ -172,14 +172,14 @@ export namespace ConfigScreen {
         config_registry.start_manu.addEventListener('click', () => {
             config_registry.start_manu.className = 'hidden';
             config_registry.root_element.className = 'hidden';
-            ManuScreen.start(config_data);
+            ManuScreen.show(config_data);
         });
     }
 
     /**
      * Change the current screen to Config Screen.
      */
-    export function start() {
+    export function show() {
         config_registry.root_element.className = '';
         config_registry.start_manu.className = 'accent';
         DomRegistry.get_title().innerText = 'Config';
