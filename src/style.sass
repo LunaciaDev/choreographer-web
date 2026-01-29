@@ -50,17 +50,16 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
             --#{$name}-#{$i * 5}: #{rgba($color, calc($i * 5 / 100))}
 
 :root
+    @include generate-transparencies($dark-colors)
+
+    --header: #1f2428
+    --overlay: #1c2020bd
     --lightarm: #6f6f26
     --heavyarm: #754d1d
     --heavyshell: #902c2a
     --utilities: #30467e
     --medical: #436c2c
     --uniform: #733883
-
-:root
-    @include generate-transparencies($dark-colors)
-
-    --header: #1f2428
 
 /**
  Custom reset configuration
@@ -146,7 +145,6 @@ table
         border-right: 2px solid var(--accent-60)
         text-align: center
 
-
 select
     background-color: var(--background)
     border: 2px solid var(--primary-30)
@@ -224,6 +222,9 @@ main
         text-align: center
         margin-bottom: 10px
 
+#config-show-logihub-help
+    margin-left: 1rem
+
 #logihub-input
     textarea
         flex-grow: 1
@@ -290,10 +291,30 @@ main
 #rq-crafted
     margin-top: 0.5rem
 
+#manu-button-panel
+    display: flex
+    width: fit-content
+    margin: 0 auto
+    align-items: end
+
+.manu-button-popup-hidden
+    display: none
+
+.manu-button-popup-show
+    text-align: center
+    background-color: var(--secondary)
+    font-size: 1.2rem
+    border-top: 2px solid #f3ee5c
+    height: 2.5rem
+    line-height: 2.5rem
+    width: 3.2rem
+    margin: 0 5px
+
 .manu-control-button
+    position: relative
     width: 3.2rem
     height: 3.2rem
-    margin: 0 3px
+    margin: 0 5px
 
 /** Result
 
@@ -380,7 +401,34 @@ main
     margin-bottom: 5px
 
 .overlay
+    display: flex
+    align-items: center
     position: absolute
+    top: 0
     width: 100vw
     height: 100vh
-    background-color: var(--background-60)
+    background-color: var(--overlay)
+
+.overlay-content
+    margin: auto
+    padding: 20px
+    width: 60vw
+    min-width: 300px
+    height: fit-content
+    max-height: 80vh
+    overflow: scroll
+    background-color: var(--background)
+
+    h3
+        text-align: center
+        margin-bottom: 1rem
+
+    ol
+        list-style-position: inside
+        padding-left: 0
+
+.codeblock
+    padding: 10px
+    font-family: 'Courier New', Courier, monospace
+    background: var(--header)
+    word-wrap: break-word

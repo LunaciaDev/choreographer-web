@@ -9,6 +9,8 @@ export type ConfigManualInput = {
 export type ConfigLogihubInput = {
     input: HTMLTextAreaElement;
     submit_button: HTMLButtonElement;
+    logihub_help: HTMLElement;
+    show_logihub_help: HTMLButtonElement;
 };
 
 export type ConfigDataView = {
@@ -33,6 +35,15 @@ export type ManuStatLabel = {
     item_card_template: HTMLTemplateElement;
 };
 
+export type ManuPopup = {
+    light_arm: HTMLElement;
+    heavy_arm: HTMLElement;
+    heavy_shell: HTMLElement;
+    utilities: HTMLElement;
+    medical: HTMLElement;
+    uniform: HTMLElement;
+};
+
 export type ManuControl = {
     light_arm: HTMLButtonElement;
     heavy_arm: HTMLButtonElement;
@@ -48,6 +59,7 @@ export type ManuRegistry = {
     root_element: HTMLElement;
     stat_label: ManuStatLabel;
     control: ManuControl;
+    popup: ManuPopup;
 };
 
 export type ResultRegistry = {
@@ -102,6 +114,10 @@ export namespace DomRegistry {
                 ) as HTMLTextAreaElement,
                 submit_button: get_element_reference(
                     'submit-logihub-import'
+                ) as HTMLButtonElement,
+                logihub_help: get_element_reference('config-logihub-help'),
+                show_logihub_help: get_element_reference(
+                    'config-show-logihub-help'
                 ) as HTMLButtonElement,
             },
             manual_input: {
@@ -166,6 +182,26 @@ export namespace DomRegistry {
                 ) as HTMLButtonElement,
                 submit_button: get_element_reference(
                     'rq-crafted'
+                ) as HTMLButtonElement,
+            },
+            popup: {
+                light_arm: get_element_reference(
+                    'rq-lightarm-popup'
+                ) as HTMLButtonElement,
+                heavy_arm: get_element_reference(
+                    'rq-heavyarm-popup'
+                ) as HTMLButtonElement,
+                heavy_shell: get_element_reference(
+                    'rq-heavyshell-popup'
+                ) as HTMLButtonElement,
+                utilities: get_element_reference(
+                    'rq-utilities-popup'
+                ) as HTMLButtonElement,
+                medical: get_element_reference(
+                    'rq-medical-popup'
+                ) as HTMLButtonElement,
+                uniform: get_element_reference(
+                    'rq-uniform-popup'
                 ) as HTMLButtonElement,
             },
         };
