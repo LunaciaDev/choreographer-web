@@ -71,6 +71,32 @@ export namespace StatScreen {
                 ConfigScreen.show();
             }
         );
+
+        DomRegistry.get_stat_registry().reset_stat_button.addEventListener(
+            'click',
+            () => {
+                user_data = {
+                    crate_crafted: 0,
+                    material_consumed: new Cost(),
+                    item_crafted: [],
+                    time_spent: 0,
+                };
+
+                if (enable_local_storage) {
+                    const data_string = JSON.stringify(user_data);
+
+                    // Block unnecessary writes
+                    if (window.localStorage.getItem(DATA_KEY) !== data_string) {
+                        window.localStorage.setItem(
+                            DATA_KEY,
+                            JSON.stringify(user_data)
+                        );
+                    }
+                }
+
+                show();
+            }
+        );
     }
 
     export function show(): void {
