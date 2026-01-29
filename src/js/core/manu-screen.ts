@@ -17,6 +17,7 @@ let manu_registry: ManuRegistry;
 let manu_data: ManuData;
 let time_ref: number;
 let start_time: number;
+let anim_timeouts: number[];
 
 /**
  * Given an itemType, add to the queue the current most-prioritized that has not been finished.
@@ -181,6 +182,27 @@ function refresh_buttons() {
     });
 }
 
+function show_popup(popup_element: HTMLElement, item_type: ItemType) {
+    if (anim_timeouts[item_type] == -1) {
+        popup_element.innerText = '1';
+        popup_element.className = 'manu-button-popup-show';
+
+        anim_timeouts[item_type] = window.setTimeout(() => {
+            popup_element.className = 'manu-button-popup-hidden';
+            anim_timeouts[item_type] = -1;
+        }, 3000);
+    } else {
+        popup_element.innerText = (
+            parseInt(popup_element.innerText) + 1
+        ).toString();
+        window.clearTimeout(anim_timeouts[item_type]);
+        anim_timeouts[item_type] = window.setTimeout(() => {
+            popup_element.className = 'manu-button-popup-hidden';
+            anim_timeouts[item_type] = -1;
+        }, 3000);
+    }
+}
+
 export namespace ManuScreen {
     /**
      * Initialize the component.
@@ -190,24 +212,31 @@ export namespace ManuScreen {
     export function init() {
         manu_registry = DomRegistry.get_manu_registry();
         manu_data = new ManuData();
+        anim_timeouts = ItemType.get_iterator().map(() => -1);
 
         manu_registry.control.light_arm.addEventListener('click', () => {
             add_queue(ItemType.LIGHT_ARM);
+            show_popup(manu_registry.popup.light_arm, ItemType.LIGHT_ARM);
         });
         manu_registry.control.heavy_arm.addEventListener('click', () => {
             add_queue(ItemType.HEAVY_ARM);
+            show_popup(manu_registry.popup.heavy_arm, ItemType.HEAVY_ARM);
         });
         manu_registry.control.heavy_shell.addEventListener('click', () => {
             add_queue(ItemType.HEAVY_SHELL);
+            show_popup(manu_registry.popup.heavy_shell, ItemType.HEAVY_SHELL);
         });
         manu_registry.control.utilities.addEventListener('click', () => {
             add_queue(ItemType.UTILITIES);
+            show_popup(manu_registry.popup.utilities, ItemType.UTILITIES);
         });
         manu_registry.control.medical.addEventListener('click', () => {
             add_queue(ItemType.MEDICAL);
+            show_popup(manu_registry.popup.medical, ItemType.MEDICAL);
         });
         manu_registry.control.uniform.addEventListener('click', () => {
             add_queue(ItemType.UNIFORM);
+            show_popup(manu_registry.popup.uniform, ItemType.UNIFORM);
         });
         manu_registry.control.submit_button.addEventListener(
             'click',
