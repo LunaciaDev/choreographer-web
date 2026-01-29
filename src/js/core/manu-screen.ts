@@ -42,20 +42,10 @@ function add_queue(item_type: ItemType) {
  *
  * Same rules apply as addQueue.
  */
-function submitItems() {
+function submit_items() {
     // [TODO]: Create clicks feedback
-    const new_item_ids = manu_data.submit_items();
-
-    manu_registry.stat_label.item_to_craft.innerHTML = '';
-    manu_registry.stat_label.crate_crafted.innerText =
-        manu_data.crate_crafted.toString();
-    manu_registry.stat_label.cost_to_craft.innerText =
-        manu_data.current_cost.to_string();
-
-    new_item_ids.forEach((id) => {
-        add_item_card(id);
-    });
-
+    manu_data.submit_items();
+    refresh_item_cards();
     refresh_buttons();
 }
 
@@ -87,9 +77,7 @@ function add_item_card(item_id: number) {
         manu_data.put_back_item(item_id);
 
         template_elements['manu-item-line'].remove();
-        manu_registry.stat_label.cost_to_craft.textContent =
-            manu_data.current_cost.to_string();
-
+        refresh_item_cards();
         refresh_buttons();
     });
     template_elements['manu-item-line'].className +=
@@ -98,6 +86,15 @@ function add_item_card(item_id: number) {
     manu_registry.stat_label.item_to_craft.appendChild(template.content);
     manu_registry.stat_label.cost_to_craft.textContent =
         manu_data.current_cost.to_string();
+}
+
+function refresh_item_cards() {
+    manu_registry.stat_label.item_to_craft.innerHTML = '';
+    manu_registry.stat_label.crate_crafted.innerText =
+        manu_data.crate_crafted.toString();
+    manu_registry.stat_label.cost_to_craft.innerText =
+        manu_data.current_cost.to_string();
+    manu_data.staged_crate.forEach((item_id) => add_item_card(item_id));
 }
 
 /**
@@ -214,10 +211,11 @@ export namespace ManuScreen {
         });
         manu_registry.control.submit_button.addEventListener(
             'click',
-            submitItems
+            submit_items
         );
 
         manu_registry.stop_manu_button.addEventListener('click', () => {
+            manu_data.clear_staged_items();
             StatScreen.update_manu_stat(start_time, manu_data);
             ConfigScreen.update(manu_data);
             ResultScreen.show(
@@ -248,11 +246,9 @@ export namespace ManuScreen {
             );
         }, 1000);
 
-        manu_registry.stat_label.cost_to_craft.innerText =
-            manu_data.current_cost.to_string();
-        manu_registry.stat_label.crate_crafted.innerText = '0';
         manu_registry.stat_label.time_spent.innerText = '0s';
 
+        refresh_item_cards();
         refresh_buttons();
 
         manu_registry.stop_manu_button.className = 'accent';
