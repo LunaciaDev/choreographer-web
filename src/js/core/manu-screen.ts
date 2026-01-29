@@ -8,6 +8,7 @@ import {
 import type { ConfigData } from '../types/config-data';
 import { ItemType } from '../types/item-type';
 import { ManuData } from '../types/manu-data';
+import { ConfigScreen } from './config-screen';
 import { DomRegistry, type ManuRegistry } from './dom-registry';
 import { ResultScreen } from './result-screen';
 import { StatScreen } from './stat-screen';
@@ -220,6 +221,7 @@ export namespace ManuScreen {
 
         manu_registry.stop_manu_button.addEventListener('click', () => {
             StatScreen.update_manu_stat(start_time, manu_data);
+            ConfigScreen.update(manu_data);
             ResultScreen.show(
                 manu_data,
                 manu_registry.stat_label.time_spent.innerText
@@ -235,7 +237,7 @@ export namespace ManuScreen {
      *
      * @param config_data The configuration data package
      */
-    export function start(config_data: ConfigData) {
+    export function show(config_data: ConfigData) {
         manu_data.start_manu(config_data);
         DomRegistry.get_title().innerText = 'Manu';
 
@@ -251,6 +253,7 @@ export namespace ManuScreen {
         manu_registry.stat_label.cost_to_craft.innerText =
             manu_data.current_cost.to_string();
         manu_registry.stat_label.crate_crafted.innerText = '0';
+        manu_registry.stat_label.time_spent.innerText = '0s';
 
         refresh_buttons();
 

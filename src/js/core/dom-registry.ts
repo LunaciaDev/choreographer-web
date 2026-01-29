@@ -61,6 +61,8 @@ export type ResultRegistry = {
 
 export type StatRegistry = {
     root_element: HTMLElement;
+    start_config_button: HTMLButtonElement;
+    reset_stat_button: HTMLButtonElement;
     crate_count: HTMLElement;
     time_spent: HTMLElement;
     time_to_hundred_crate: HTMLElement;
@@ -85,7 +87,6 @@ let manu_registry: ManuRegistry;
 let result_registry: ResultRegistry;
 let stat_registry: StatRegistry;
 let title: HTMLElement;
-let stat_button: HTMLButtonElement;
 
 export namespace DomRegistry {
     export function init() {
@@ -181,6 +182,12 @@ export namespace DomRegistry {
             ) as HTMLTemplateElement,
         };
         stat_registry = {
+            start_config_button: get_element_reference(
+                'start-config-button'
+            ) as HTMLButtonElement,
+            reset_stat_button: get_element_reference(
+                'stat-reset'
+            ) as HTMLButtonElement,
             root_element: get_element_reference('stat-view'),
             crate_count: get_element_reference('stat-crate-count'),
             time_spent: get_element_reference('stat-time-spent'),
@@ -192,7 +199,6 @@ export namespace DomRegistry {
             hemat_used: get_element_reference('stat-hemat-used'),
             rmat_used: get_element_reference('stat-rmat-used'),
         };
-        stat_button = get_element_reference('show-stats') as HTMLButtonElement;
     }
 
     export function get_title(): HTMLElement {
@@ -213,9 +219,5 @@ export namespace DomRegistry {
 
     export function get_stat_registry(): StatRegistry {
         return stat_registry;
-    }
-
-    export function get_stat_button(): HTMLButtonElement {
-        return stat_button;
     }
 }

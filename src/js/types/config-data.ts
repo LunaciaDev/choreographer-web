@@ -121,11 +121,11 @@ export class ConfigData {
             });
         });
 
-        manu_data.data.forEach((value, index) => {
+        manu_data.data.forEach((value) => {
             value.forEach((item) => {
                 this.data[item.fill_level][item.id].amount =
                     item.amount - item.crafted_amount;
-                this.data[item.fill_level][item.id].priority = index;
+                this.data[item.fill_level][item.id].priority = item.priority;
             });
         });
     }

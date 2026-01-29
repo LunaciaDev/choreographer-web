@@ -53,53 +53,49 @@
     <body>
         <header>
             <div id="app-name">
-                Choreographer v0.3.0<br />Foxhole 1.63 "Airborne"
+                Choreographer v1.0<br />Foxhole 1.63 "Airborne"
             </div>
             <div id="title">Home</div>
-            <button id="show-stats">Stats</button>
-            <button id="start-manu-button" class="accent">Start Manu</button>
+            <button id="start-config-button" class="accent">
+                Configure New Session
+            </button>
+            <button id="start-manu-button" class="hidden">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
+            <button id="return-button" class="hidden">Return</button>
         </header>
         <main>
-            <div id="stat-view" class="hidden">
-                <div id="stat-bg">
-                    <div class="line">Statistics</div>
-                    <div>
-                        <div class="line">
-                            Total Crate Manufactured
-                            <div id="stat-crate-count"></div>
-                        </div>
-                        <div class="line">
-                            Time Spent Manufacturing
-                            <div id="stat-time-spent"></div>
-                        </div>
-                        <div class="line">
-                            Avg. time to 100 crate
-                            <div id="stat-time-hundred-crate"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="line">Material Consumed</div>
-                        <div class="line">
-                            Basic Material
-                            <div id="stat-bmat-used"></div>
-                        </div>
-                        <div class="line">
-                            Explosive Material
-                            <div id="stat-emat-used"></div>
-                        </div>
-                        <div class="line">
-                            Heavy Explosive Material
-                            <div id="stat-hemat-used"></div>
-                        </div>
-                        <div class="line">
-                            Refined Material
-                            <div id="stat-rmat-used"></div>
-                        </div>
-                    </div>
-                </div>
+            <div id="stat-view" class="">
+                <h2 class="stat-header">Lifetime Statistic</h2>
+                <table>
+                    <tr>
+                        <th>Total Crate Manufactured</th>
+                        <th>Time Spent Manufacturing</th>
+                        <th>Average time / 100 crates</th>
+                    </tr>
+                    <tr>
+                        <td id="stat-crate-count"></td>
+                        <td id="stat-time-spent"></td>
+                        <td id="stat-time-hundred-crate"></td>
+                    </tr>
+                </table>
+                <h3 class="stat-header">Material Consumed</h3>
+                <table>
+                    <tr>
+                        <th>Basic Material</th>
+                        <th>Explosive Material</th>
+                        <th>Heavy Explosive Material</th>
+                        <th>Refined Material</th>
+                    </tr>
+                    <tr>
+                        <td id="stat-bmat-used"></td>
+                        <td id="stat-emat-used"></td>
+                        <td id="stat-hemat-used"></td>
+                        <td id="stat-rmat-used"></td>
+                    </tr>
+                </table>
+                <button id="stat-reset">Reset Statistics</button>
             </div>
-            <div id="config-view" class="">
+            <div id="config-view" class="hidden">
                 <div id="data-input">
                     <div id="logihub-input">
                         <div class="input-wrapper">
@@ -154,31 +150,26 @@
                 <div id="data-view"></div>
             </div>
             <div id="manu-view" class="hidden">
-                <div id="statistic-view">
-                    <div class="vertical-line">
-                        <div class="label">Crate Crafted</div>
-                        <div id="crate-crafted"></div>
-                    </div>
-                    <div class="vertical-line">
-                        <div class="label">Time Elapsed</div>
-                        <div id="time-spent"></div>
-                    </div>
-                </div>
+                <table>
+                    <tr>
+                        <th>Crate Crafted</th>
+                        <th>Material Needed</th>
+                        <th>Time Elapsed</th>
+                    </tr>
+                    <tr>
+                        <td id="crate-crafted"></td>
+                        <td id="cost-to-craft"></td>
+                        <td id="time-spent"></td>
+                    </tr>
+                </table>
                 <div id="requirement-view">
-                    <div class="line">
-                        <div class="label">Material Needed</div>
-                        <div id="cost-to-craft"></div>
-                    </div>
-                    <div class="line">
-                        <div class="label">Queues to set</div>
-                        <div id="item-to-craft"></div>
-                    </div>
+                    <div id="manu-qs">Queues to set</div>
+                    <div id="item-to-craft"></div>
                 </div>
                 <div id="manu-control">
                     <div class="line">
                         Clicks empty queues, click Submit after setting queues
                     </div>
-                    <div class="line">Always set a full 4 items queue!</div>
                     <div class="line">
                         <button class="manu-control-button" id="rq-lightarm">
                             <img src="images/smallarm.png" />
@@ -205,21 +196,18 @@
                 </div>
             </div>
             <div id="result-view" class="hidden">
-                <div class="statistic">
-                    <div class="group">
-                        <div class="label">Time spent Manufacturing</div>
-                        <div id="result-time"></div>
-                    </div>
-                    <div class="group">
-                        <div class="label">Total Crate Manufactured</div>
-                        <div id="result-crate"></div>
-                    </div>
-                </div>
-                <div class="line">
-                    <div class="label">Crates Manufactured</div>
-                    <div id="result-item-crafted"></div>
-                </div>
-                <button class="accent" id="return-button">Return</button>
+                <table>
+                    <tr>
+                        <th>Time Spent</th>
+                        <th>Crates Manufactured</th>
+                    </tr>
+                    <tr>
+                        <td id="result-time"></td>
+                        <td id="result-crate"></td>
+                    </tr>
+                </table>
+                <div class="result-hd">Crates Manufactured</div>
+                <div id="result-item-crafted"></div>
             </div>
         </main>
     </body>

@@ -7,6 +7,7 @@ import {
 import { ConfigData } from '../types/config-data';
 import { FillLevel } from '../types/fill-level';
 import { Cost } from '../types/item-cost';
+import type { ManuData } from '../types/manu-data';
 import { Priority } from '../types/priority';
 
 import {
@@ -172,19 +173,23 @@ export namespace ConfigScreen {
         config_registry.start_manu.addEventListener('click', () => {
             config_registry.start_manu.className = 'hidden';
             config_registry.root_element.className = 'hidden';
-            ManuScreen.start(config_data);
+            ManuScreen.show(config_data);
         });
     }
 
     /**
      * Change the current screen to Config Screen.
      */
-    export function start() {
+    export function show() {
         config_registry.root_element.className = '';
         config_registry.start_manu.className = 'accent';
         DomRegistry.get_title().innerText = 'Config';
 
         refresh_view();
+    }
+
+    export function update(manu_data: ManuData) {
+        config_data.update(manu_data);
     }
 
     /**
