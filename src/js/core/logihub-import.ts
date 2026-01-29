@@ -48,6 +48,17 @@ export namespace LogihubImporter {
             DomRegistry.get_config_registry().logihub_input;
         logihub_input = logihub_registry.input;
         logihub_registry.submit_button.addEventListener('click', import_items);
+
+        logihub_registry.logihub_help.addEventListener('click', (event) => {
+            if (event.target !== logihub_registry.logihub_help) {
+                return;
+            }
+
+            logihub_registry.logihub_help.className = 'hidden';
+        });
+        logihub_registry.show_logihub_help.addEventListener('click', () => {
+            logihub_registry.logihub_help.className = 'overlay';
+        });
     }
 
     /**

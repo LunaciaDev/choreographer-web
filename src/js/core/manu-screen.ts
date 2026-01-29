@@ -76,7 +76,6 @@ function add_item_card(item_id: number) {
         'manu-item-line',
         'item-image',
         'remove-line',
-        'push-back-line',
     ]);
     const item = item_data[item_id];
 
@@ -93,7 +92,6 @@ function add_item_card(item_id: number) {
 
         refresh_buttons();
     });
-    // [TODO]: Remove reference to push-back-line
     template_elements['manu-item-line'].className +=
         ' ' + get_color_class(item.type);
 

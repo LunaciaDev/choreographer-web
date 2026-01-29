@@ -110,6 +110,8 @@ export class ManuData {
             if (this.data[item_type][current_index].id != id) {
                 current_index -= 1;
             }
+
+            break;
         }
 
         this.data[item_type][current_index].crafted_amount -= 4;

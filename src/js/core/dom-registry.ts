@@ -9,6 +9,8 @@ export type ConfigManualInput = {
 export type ConfigLogihubInput = {
     input: HTMLTextAreaElement;
     submit_button: HTMLButtonElement;
+    logihub_help: HTMLElement;
+    show_logihub_help: HTMLButtonElement;
 };
 
 export type ConfigDataView = {
@@ -102,6 +104,10 @@ export namespace DomRegistry {
                 ) as HTMLTextAreaElement,
                 submit_button: get_element_reference(
                     'submit-logihub-import'
+                ) as HTMLButtonElement,
+                logihub_help: get_element_reference('config-logihub-help'),
+                show_logihub_help: get_element_reference(
+                    'config-show-logihub-help'
                 ) as HTMLButtonElement,
             },
             manual_input: {

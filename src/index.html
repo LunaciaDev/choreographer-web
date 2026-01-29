@@ -46,7 +46,6 @@
             <img class="item-image" />
             <div class="manu-item-name"></div>
             <button class="remove-line">X</button>
-            <button class="push-back-line">-</button>
         </div>
     </template>
 
@@ -96,6 +95,67 @@
                 <button id="stat-reset">Reset Statistics</button>
             </div>
             <div id="config-view" class="hidden">
+                <div id="config-logihub-help" class="hidden">
+                    <div class="overlay-content">
+                        <h3>How to import warehouse data from Logihub?</h3>
+                        <ol>
+                            <li>In LogiHub, switch to any Factory view.</li>
+                            <li>
+                                Open Developer Tools on your web browser
+                                (typically <code>Ctrl + Shift + I</code>)
+                            </li>
+                            <li>
+                                Copy and run the following JavaScript code into
+                                the Console:
+                                <div class="codeblock">
+                                    {let res =
+                                    [];document.querySelectorAll('app-supply-list-item').forEach((item)
+                                    => {let obj = {};let nameAndAmount =
+                                    item.querySelector('.card-header').querySelectorAll('span');let
+                                    priorityAndPercentage =
+                                    item.querySelector('.card-footer').querySelectorAll('span');obj.name
+                                    =
+                                    nameAndAmount[0].innerHTML.trim();obj.amount
+                                    =
+                                    parseInt(nameAndAmount[1].innerHTML.trim());obj.priority
+                                    =
+                                    priorityAndPercentage[0].innerHTML.trim();obj.percentage
+                                    =
+                                    parseInt(priorityAndPercentage[priorityAndPercentage.length
+                                    - 1].innerHTML.trim())/100;if (obj.priority
+                                    === "&nbsp;") obj.priority =
+                                    "-";res.push(obj);});console.log(JSON.stringify(res));}
+                                </div>
+                                The script will:
+                                <ul>
+                                    <li>
+                                        Get the document part showing the
+                                        warehouse content
+                                        (<code>'app-supply-list-item'</code>)
+                                        which have a bunch of 'item cards'
+                                    </li>
+                                    <li>
+                                        For each item card, take the name (1st
+                                        span of <code>'card-header'</code> span
+                                        class), the priority (1st span of
+                                        <code>'card-footer'</code> span class,
+                                        if it is a whitespace mean no priority),
+                                        the percentage (last span of
+                                        <code>'card-footer'</code> span class)
+                                    </li>
+                                    <li>
+                                        Record all of that into a JSON object
+                                        and print it out.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                An export in text will be produced, copy and
+                                paste it into the LogiHub import box.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
                 <div id="data-input">
                     <div id="logihub-input">
                         <div class="input-wrapper">
@@ -108,9 +168,12 @@
                                 name="logihub-import-paste"
                             ></textarea>
                         </div>
-                        <button class="accent" id="submit-logihub-import">
-                            Submit
-                        </button>
+                        <div>
+                            <button class="accent" id="submit-logihub-import">
+                                Submit
+                            </button>
+                            <button id="config-show-logihub-help">?</button>
+                        </div>
                     </div>
                     <div class="vertical-separator"></div>
                     <div id="manual-input">
