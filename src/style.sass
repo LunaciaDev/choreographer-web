@@ -153,9 +153,13 @@ input[type=number]::-webkit-outer-spin-button
     background-color: var(--background)
 
 #stat-basic
+    width: 60vw
+    min-width: 700px
     grid-template-columns: 1fr 1fr 1fr
 
 #stat-material
+    width: 60vw
+    min-width: 700px
     grid-template-columns: 1fr 1fr 1fr 1fr
 
 #manu-info-table
@@ -463,8 +467,13 @@ main
         width: 75vw
 
 @media (max-width: 700px)
+    #stat-material
+        width: fit-content
+        min-width: 0
+
     #stat-basic, #data-input-table
         width: fit-content
+        min-width: 0
         grid-template-columns: none
         grid-template-rows: 1fr
 
