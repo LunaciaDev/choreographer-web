@@ -65,33 +65,45 @@
         <main>
             <div id="stat-view" class="">
                 <h2 class="stat-header">Lifetime Statistics</h2>
-                <table>
-                    <tr>
-                        <th>Total Crate Manufactured</th>
-                        <th>Time Spent Manufacturing</th>
-                        <th>Average time / 100 crates</th>
-                    </tr>
-                    <tr>
-                        <td id="stat-crate-count"></td>
-                        <td id="stat-time-spent"></td>
-                        <td id="stat-time-hundred-crate"></td>
-                    </tr>
-                </table>
+                <div id="stat-basic" class="table">
+                    <div class="table-cell">
+                        <div class="table-header">Total Crate Manufactured</div>
+                        <div class="table-content" id="stat-crate-count"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Time Spent Manufacturing</div>
+                        <div class="table-content" id="stat-time-spent"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">
+                            Average time / 100 crates
+                        </div>
+                        <div
+                            class="table-content"
+                            id="stat-time-hundred-crate"
+                        ></div>
+                    </div>
+                </div>
                 <h3 class="stat-header">Material Consumed</h3>
-                <table>
-                    <tr>
-                        <th>Basic Material</th>
-                        <th>Explosive Material</th>
-                        <th>Heavy Explosive Material</th>
-                        <th>Refined Material</th>
-                    </tr>
-                    <tr>
-                        <td id="stat-bmat-used"></td>
-                        <td id="stat-emat-used"></td>
-                        <td id="stat-hemat-used"></td>
-                        <td id="stat-rmat-used"></td>
-                    </tr>
-                </table>
+                <div id="stat-material" class="table">
+                    <div class="table-cell">
+                        <div class="table-header">Basic Material</div>
+
+                        <div class="table-content" id="stat-bmat-used"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Explosive Material</div>
+                        <div class="table-content" id="stat-emat-used"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Heavy Explosive Material</div>
+                        <div class="table-content" id="stat-hemat-used"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Refined Material</div>
+                        <div class="table-content" id="stat-rmat-used"></div>
+                    </div>
+                </div>
                 <button id="stat-reset">Reset Statistics</button>
             </div>
             <div id="config-view" class="hidden">
@@ -157,74 +169,78 @@
                     </div>
                 </div>
                 <div id="data-input">
-                    <div id="logihub-input">
-                        <div class="input-wrapper">
-                            <h2>Import from LogiHub</h2>
-                            <label for="logihub-import-paste"
-                                >Paste LogiHub export here:</label
-                            >
-                            <textarea
-                                id="logihub-import-paste"
-                                name="logihub-import-paste"
-                            ></textarea>
+                    <div class="table" id="data-input-table">
+                        <div class="table-cell">
+                            <div class="table-header">Import from LogiHub</div>
+                            <div class="table-content" id="logihub-input">
+                                <label for="logihub-import-paste"
+                                    >Paste LogiHub export here:</label
+                                >
+                                <textarea
+                                    id="logihub-import-paste"
+                                    name="logihub-import-paste"
+                                ></textarea>
+                            </div>
+                            <div id="logihub-import-button-group">
+                                <button
+                                    class="accent"
+                                    id="submit-logihub-import"
+                                >
+                                    Submit
+                                </button>
+                                <button id="config-show-logihub-help">?</button>
+                            </div>
                         </div>
-                        <div>
-                            <button class="accent" id="submit-logihub-import">
-                                Submit
-                            </button>
-                            <button id="config-show-logihub-help">?</button>
+                        <div class="table-cell">
+                            <div class="table-header">Manual Entry</div>
+                            <div class="table-content" id="manual-input">
+                                <label for="item-name">Item name:</label>
+                                <input
+                                    id="item-name"
+                                    list="item-names-list"
+                                    name="item-name"
+                                    placeholder="Type here..."
+                                />
+                                <datalist id="item-names-list"> </datalist>
+                                <label for="priority">Priority:</label>
+                                <select id="priority" name="priority">
+                                    <option value="-">No Priority</option>
+                                    <option value="Priority">Priority</option>
+                                    <option value="High Priority">
+                                        High Priority
+                                    </option>
+                                </select>
+                                <label for="amount">Amount:</label>
+                                <input
+                                    id="amount"
+                                    type="number"
+                                    name="amount"
+                                    min="0"
+                                />
+                                <button class="accent" id="submit-item-button">
+                                    Submit
+                                </button>
+                            </div>
                         </div>
-                    </div>
-                    <div class="vertical-separator"></div>
-                    <div id="manual-input">
-                        <div class="input-wrapper">
-                            <h2>Manual Entry</h2>
-                            <label for="item-name">Item name:</label>
-                            <input
-                                id="item-name"
-                                list="item-names-list"
-                                name="item-name"
-                                placeholder="Type here..."
-                            />
-                            <datalist id="item-names-list">
-                                <!-- Populated by initialization code -->
-                            </datalist>
-                            <label for="priority">Priority:</label>
-                            <select id="priority" name="priority">
-                                <option value="-">No Priority</option>
-                                <option value="Priority">Priority</option>
-                                <option value="High Priority">
-                                    High Priority
-                                </option>
-                            </select>
-                            <label for="amount">Amount:</label>
-                            <input
-                                id="amount"
-                                type="number"
-                                name="amount"
-                                min="0"
-                            />
-                        </div>
-                        <button class="accent" id="submit-item-button">
-                            Submit
-                        </button>
                     </div>
                 </div>
                 <div id="data-view"></div>
             </div>
             <div id="manu-view" class="hidden">
-                <table>
-                    <tr>
-                        <th>Crate Crafted</th>
-                        <th>Material Needed</th>
-                        <th>Time Elapsed</th>
-                    </tr>
-                    <tr>
-                        <td id="crate-crafted"></td>
-                        <td id="cost-to-craft"></td>
-                        <td id="time-spent"></td>
-                    </tr>
-                </table>
+                <div class="table" id="manu-info-table">
+                    <div class="table-cell">
+                        <div class="table-header">Crate Crafted</div>
+                        <div class="table-content" id="crate-crafted"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Material Needed</div>
+                        <div class="table-content" id="cost-to-craft"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Time Elapsed</div>
+                        <div class="table-content" id="time-spent"></div>
+                    </div>
+                </div>
                 <div id="requirement-view">
                     <div id="manu-qs">Queues to set</div>
                     <div id="item-to-craft"></div>
@@ -323,19 +339,20 @@
                 </div>
             </div>
             <div id="result-view" class="hidden">
-                <table>
-                    <tr>
-                        <th>Time Spent</th>
-                        <th>Crates Manufactured</th>
-                    </tr>
-                    <tr>
-                        <td id="result-time"></td>
-                        <td id="result-crate"></td>
-                    </tr>
-                </table>
+                <div class="table" id="result-table">
+                    <div class="table-cell">
+                        <div class="table-header">Time Spent</div>
+                        <div class="table-content" id="result-time"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Total Crates</div>
+                        <div class="table-content" id="result-crate"></div>
+                    </div>
+                </div>
                 <div class="result-hd">Crates Manufactured</div>
                 <div id="result-item-crafted"></div>
             </div>
         </main>
+        <footer>Choreographer v1.0 -- Foxhole 1.63 "Airborne"</footer>
     </body>
 </html>

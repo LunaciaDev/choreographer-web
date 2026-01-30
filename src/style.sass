@@ -110,6 +110,12 @@ input:focus, textarea:focus
 textarea
     resize: none
 
+footer
+    display: none
+    text-align: center
+    background-color: var(--header)
+    padding: 5px 0
+
 /** This is probably not a good idea
 input[type="number"]
     -webkit-appearance: textfield
@@ -120,30 +126,52 @@ input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button
     -webkit-appearance: none
 
-table
-    margin: 0 auto 1.5rem auto
-    width: 65vw
-    min-width: 700px
+.table
+    display: grid
 
-    border-collapse: collapse
-    border-style: hidden
+    margin: 0 auto 1rem auto
 
-    table-layout: fixed
+.table-cell
+    display: flex
+    flex-direction: column
+    padding: 0 5px
 
-    th
-        padding-bottom: 0.6rem
-        font-size: 1.22rem
-        font-weight: 400
+.table-cell:not(:last-child)
+    border-right: 2px solid var(--accent-60)
 
-    td
-        font-size: 1.1rem
+.table-header
+    font-size: 1.22rem
+    margin-top: auto
+    margin-bottom: 0.5rem
+    text-align: center
+    background-color: var(--background)
 
-    td, th
-        padding-left: 10px
-        padding-right: 10px
-        border-left: 2px solid var(--accent-60)
-        border-right: 2px solid var(--accent-60)
-        text-align: center
+.table-content
+    font-size: 1.1rem
+    margin-top: auto
+    text-align: center
+    background-color: var(--background)
+
+#stat-basic
+    grid-template-columns: 1fr 1fr 1fr
+
+#stat-material
+    grid-template-columns: 1fr 1fr 1fr 1fr
+
+#manu-info-table
+    grid-template-columns: 1fr 1fr 1fr
+
+#result-table
+    grid-template-columns: 1fr 1fr
+
+#data-input-table
+    grid-template-columns: 1fr 1fr
+    width: 100%
+
+    .table-header
+        margin-top: 0
+        font-weight: bold
+        font-size: 1.3rem
 
 select
     background-color: var(--background)
@@ -167,21 +195,21 @@ header
     position: relative
     padding: 10px 0
 
-    #title
-        /** https://stackoverflow.com/a/1777282 ; wow.
-        position: absolute
-        left: 0
-        right: 0
-        margin-inline: auto
-        font-size: 1.3rem
-        width: fit-content
-
     button
         margin-right: 1rem
 
-    #app-name
-        margin-left: 1rem
-        margin-right: auto
+#title
+    /** https://stackoverflow.com/a/1777282 ; wow.
+    position: absolute
+    left: 0
+    right: 0
+    margin-inline: auto
+    font-size: 1.3rem
+    width: fit-content
+
+#app-name
+    margin-left: 1rem
+    margin-right: auto
 
 main
     margin-top: 1rem
@@ -197,10 +225,9 @@ main
 #logihub-input, #manual-input
     display: flex
     flex-direction: column
-    margin-left: auto
-    margin-right: auto
-    align-items: center
+    margin: 0 auto
     width: 25vw
+    height: 100%
     min-width: 30ch
 
     label
@@ -209,21 +236,17 @@ main
         margin-bottom: 5px
 
     button
-        margin-top: 10px
+        margin-top: 1.5rem
 
-.input-wrapper
-    display: flex
-    flex-direction: column
-    flex-grow: 1
-    width: 100%
-    padding: 0 10px
-
-    h2
-        text-align: center
-        margin-bottom: 10px
+#submit-item-button
+    margin-left: auto
+    margin-right: auto
 
 #config-show-logihub-help
     margin-left: 1rem
+
+#logihub-import-button-group
+    margin: 1rem auto 0 auto
 
 #logihub-input
     textarea
@@ -233,7 +256,7 @@ main
     display: grid
     gap: 1rem
     /* dynamically create column, making sure element have at least 250px
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
     margin: 0 1rem
 
 #result-item-crafted
@@ -250,7 +273,7 @@ main
     flex-direction: column
     margin-left: auto
     margin-right: auto
-    width: 50vw
+    width: 60vw
     height: 100%
 
     table
@@ -262,9 +285,9 @@ main
     flex-direction: column
     align-items: center
 
-    #manu-qs
-        font-size: 1.2rem
-        margin-bottom: 0.5rem
+#manu-qs
+    font-size: 1.2rem
+    margin-bottom: 0.5rem
 
 #item-to-craft
     display: flex
@@ -432,3 +455,49 @@ main
     font-family: 'Courier New', Courier, monospace
     background: var(--header)
     word-wrap: break-word
+
+/** At rules
+
+@media (max-width: 1000px)
+    #manu-view
+        width: 75vw
+
+@media (max-width: 700px)
+    #stat-basic, #data-input-table
+        width: fit-content
+        grid-template-columns: none
+        grid-template-rows: 1fr
+
+        .table-cell:not(:last-child)
+            border-right: none
+            border-bottom: 2px solid var(--accent-60)
+
+        .table-content
+            padding-bottom: 0.75rem
+
+        .table-header
+            padding-top: 0.75rem
+
+        #logihub-input textarea
+            min-height: 10ch
+
+    #data-input-table #logihub-import-button-group
+        margin-bottom: 1.5rem
+
+    #manu-view
+        width: 100vw
+
+@media (max-width: 450px)
+    #app-name
+        display: none
+
+    #title
+        position: relative
+        margin: 0 0 0 10px
+
+    header button
+        margin-left: auto
+        margin-right: 10px
+
+    footer
+        display: block
