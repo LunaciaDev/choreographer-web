@@ -9,11 +9,14 @@ export type ConfigManualInput = {
 export type ConfigLogihubInput = {
     input: HTMLTextAreaElement;
     submit_button: HTMLButtonElement;
+    logihub_help: HTMLElement;
+    show_logihub_help: HTMLButtonElement;
 };
 
 export type ConfigDataView = {
     root_element: HTMLElement;
     item_card_template: HTMLTemplateElement;
+    item_section_template: HTMLTemplateElement;
 };
 
 export type ConfigRegistry = {
@@ -32,6 +35,15 @@ export type ManuStatLabel = {
     item_card_template: HTMLTemplateElement;
 };
 
+export type ManuPopup = {
+    light_arm: HTMLElement;
+    heavy_arm: HTMLElement;
+    heavy_shell: HTMLElement;
+    utilities: HTMLElement;
+    medical: HTMLElement;
+    uniform: HTMLElement;
+};
+
 export type ManuControl = {
     light_arm: HTMLButtonElement;
     heavy_arm: HTMLButtonElement;
@@ -47,6 +59,7 @@ export type ManuRegistry = {
     root_element: HTMLElement;
     stat_label: ManuStatLabel;
     control: ManuControl;
+    popup: ManuPopup;
 };
 
 export type ResultRegistry = {
@@ -60,6 +73,8 @@ export type ResultRegistry = {
 
 export type StatRegistry = {
     root_element: HTMLElement;
+    start_config_button: HTMLButtonElement;
+    reset_stat_button: HTMLButtonElement;
     crate_count: HTMLElement;
     time_spent: HTMLElement;
     time_to_hundred_crate: HTMLElement;
@@ -84,15 +99,10 @@ let manu_registry: ManuRegistry;
 let result_registry: ResultRegistry;
 let stat_registry: StatRegistry;
 let title: HTMLElement;
-let theme_button: HTMLButtonElement;
-let stat_button: HTMLButtonElement;
 
 export namespace DomRegistry {
     export function init() {
         title = get_element_reference('title');
-        theme_button = get_element_reference(
-            'theme-switch'
-        ) as HTMLButtonElement;
         config_registry = {
             start_manu: get_element_reference(
                 'start-manu-button'
@@ -104,6 +114,10 @@ export namespace DomRegistry {
                 ) as HTMLTextAreaElement,
                 submit_button: get_element_reference(
                     'submit-logihub-import'
+                ) as HTMLButtonElement,
+                logihub_help: get_element_reference('config-logihub-help'),
+                show_logihub_help: get_element_reference(
+                    'config-show-logihub-help'
                 ) as HTMLButtonElement,
             },
             manual_input: {
@@ -127,6 +141,9 @@ export namespace DomRegistry {
                 root_element: get_element_reference('data-view'),
                 item_card_template: get_element_reference(
                     'item-card-template'
+                ) as HTMLTemplateElement,
+                item_section_template: get_element_reference(
+                    'item-section-template'
                 ) as HTMLTemplateElement,
             },
         };
@@ -167,6 +184,26 @@ export namespace DomRegistry {
                     'rq-crafted'
                 ) as HTMLButtonElement,
             },
+            popup: {
+                light_arm: get_element_reference(
+                    'rq-lightarm-popup'
+                ) as HTMLButtonElement,
+                heavy_arm: get_element_reference(
+                    'rq-heavyarm-popup'
+                ) as HTMLButtonElement,
+                heavy_shell: get_element_reference(
+                    'rq-heavyshell-popup'
+                ) as HTMLButtonElement,
+                utilities: get_element_reference(
+                    'rq-utilities-popup'
+                ) as HTMLButtonElement,
+                medical: get_element_reference(
+                    'rq-medical-popup'
+                ) as HTMLButtonElement,
+                uniform: get_element_reference(
+                    'rq-uniform-popup'
+                ) as HTMLButtonElement,
+            },
         };
         result_registry = {
             root_element: get_element_reference('result-view'),
@@ -181,6 +218,12 @@ export namespace DomRegistry {
             ) as HTMLTemplateElement,
         };
         stat_registry = {
+            start_config_button: get_element_reference(
+                'start-config-button'
+            ) as HTMLButtonElement,
+            reset_stat_button: get_element_reference(
+                'stat-reset'
+            ) as HTMLButtonElement,
             root_element: get_element_reference('stat-view'),
             crate_count: get_element_reference('stat-crate-count'),
             time_spent: get_element_reference('stat-time-spent'),
@@ -192,15 +235,10 @@ export namespace DomRegistry {
             hemat_used: get_element_reference('stat-hemat-used'),
             rmat_used: get_element_reference('stat-rmat-used'),
         };
-        stat_button = get_element_reference('show-stats') as HTMLButtonElement;
     }
 
     export function get_title(): HTMLElement {
         return title;
-    }
-
-    export function get_theme_button(): HTMLButtonElement {
-        return theme_button;
     }
 
     export function get_config_registry(): ConfigRegistry {
@@ -217,9 +255,5 @@ export namespace DomRegistry {
 
     export function get_stat_registry(): StatRegistry {
         return stat_registry;
-    }
-
-    export function get_stat_button(): HTMLButtonElement {
-        return stat_button;
     }
 }

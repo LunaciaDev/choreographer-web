@@ -1,19 +1,23 @@
 import { item_data } from '../data/item-data';
-import { duration_to_string, get_template_elements } from '../helper';
-import type { Item } from '../types/item';
-import { Cost } from '../types/item-cost';
+import {
+    duration_to_string,
+    get_color_class,
+    get_image_path,
+    get_template_elements,
+} from '../helper';
+import type { ConfigData } from '../types/config-data';
 import { ItemType } from '../types/item-type';
+import { ManuData } from '../types/manu-data';
+import { ConfigScreen } from './config-screen';
 import { DomRegistry, type ManuRegistry } from './dom-registry';
 import { ResultScreen } from './result-screen';
 import { StatScreen } from './stat-screen';
 
 let manu_registry: ManuRegistry;
-let configured_items: Item[][];
-let queued_items: string[];
-let current_cost: Cost;
+let manu_data: ManuData;
 let time_ref: number;
 let start_time: number;
-let crate_crafted: number;
+let anim_timeouts: number[];
 
 /**
  * Given an itemType, add to the queue the current most-prioritized that has not been finished.
@@ -25,29 +29,11 @@ let crate_crafted: number;
  */
 function add_queue(item_type: ItemType) {
     // [TODO]: Create feedback for clicks
-    const row = configured_items[item_type];
+    const item_id = manu_data.add_queue(item_type);
 
-    if (row.length === 0) return;
+    if (item_id == null) return;
 
-    for (const entry of row) {
-        // if we reached the manu goal, find next one.
-        if (entry.amount === entry.crafted_amount) continue;
-
-        const cost = item_data.get(entry.id)?.cost;
-        if (cost === undefined) continue;
-
-        entry.crafted_amount += 4;
-
-        // if the total cost require more than 13 slots, move to queue.
-        if (current_cost.get_theoretical_cost_in_slots(cost) > 13) {
-            queued_items.push(entry.id);
-            break;
-        }
-
-        add_item_card(entry.id);
-        break;
-    }
-
+    add_item_card(item_id);
     refresh_buttons();
 }
 
@@ -57,27 +43,10 @@ function add_queue(item_type: ItemType) {
  *
  * Same rules apply as addQueue.
  */
-function submitItems() {
+function submit_items() {
     // [TODO]: Create clicks feedback
-    manu_registry.stat_label.item_to_craft.innerHTML = '';
-    current_cost.reset();
-    manu_registry.stat_label.crate_crafted.innerText = crate_crafted.toString();
-    manu_registry.stat_label.cost_to_craft.innerText = current_cost.to_string();
-
-    for (let index = 0; index < queued_items.length; index++) {
-        const item_id = queued_items[index];
-        const item_cost = item_data.get(item_id)?.cost;
-        if (item_cost === undefined) return;
-
-        if (current_cost.get_theoretical_cost_in_slots(item_cost) <= 13) {
-            add_item_card(item_id);
-            queued_items.splice(index, 1);
-            index -= 1;
-        }
-
-        if (current_cost.get_cost_in_slots() > 13) break;
-    }
-
+    manu_data.submit_items();
+    refresh_item_cards();
     refresh_buttons();
 }
 
@@ -87,71 +56,46 @@ function submitItems() {
  * User can remove it from the main queue (x button) or manually
  * push the item back to the waiting queue (- button).
  *
- * @param itemId The internal ID of the item
+ * @param item_id The internal ID of the item
  */
-function add_item_card(itemId: string) {
+function add_item_card(item_id: number) {
     const template = manu_registry.stat_label.item_card_template.cloneNode(
         true
     ) as HTMLTemplateElement;
     const template_elements = get_template_elements(template, [
         'manu-item-name',
         'manu-item-line',
+        'item-image',
         'remove-line',
-        'push-back-line',
     ]);
-    const item = item_data.get(itemId);
-    if (item === undefined) return;
-
-    current_cost.add(item.cost);
+    const item = item_data[item_id];
 
     template_elements['manu-item-name'].textContent = item.name;
+    (template_elements['item-image'] as HTMLImageElement).src = get_image_path(
+        item.type
+    );
     template_elements['remove-line'].addEventListener('click', () => {
-        // [TODO]: Create feedback for clicks
-        const type = item.type;
-        const row = configured_items[type];
-
-        crate_crafted -= 4;
-        current_cost.subtract(item.cost);
-
-        for (const entry of row) {
-            if (entry.id !== itemId) continue;
-
-            entry.crafted_amount -= 4;
-        }
+        manu_data.put_back_item(item_id);
 
         template_elements['manu-item-line'].remove();
-        manu_registry.stat_label.cost_to_craft.textContent =
-            current_cost.to_string();
-
+        refresh_item_cards();
         refresh_buttons();
     });
-    template_elements['push-back-line'].addEventListener('click', () => {
-        queued_items.push(itemId);
-        current_cost.subtract(item.cost);
-
-        template_elements['manu-item-line'].remove();
-        manu_registry.stat_label.cost_to_craft.textContent =
-            current_cost.to_string();
-    });
+    template_elements['manu-item-line'].className +=
+        ' ' + get_color_class(item.type);
 
     manu_registry.stat_label.item_to_craft.appendChild(template.content);
     manu_registry.stat_label.cost_to_craft.textContent =
-        current_cost.to_string();
-    crate_crafted += 4;
+        manu_data.current_cost.to_string();
 }
 
-function is_queue_empty(item_type: ItemType): boolean {
-    const item_row = configured_items[item_type];
-
-    if (item_row.length === 0) return true;
-
-    if (
-        item_row[item_row.length - 1].amount ===
-        item_row[item_row.length - 1].crafted_amount
-    )
-        return true;
-
-    return false;
+function refresh_item_cards() {
+    manu_registry.stat_label.item_to_craft.innerHTML = '';
+    manu_registry.stat_label.crate_crafted.innerText =
+        manu_data.crate_crafted.toString();
+    manu_registry.stat_label.cost_to_craft.innerText =
+        manu_data.current_cost.to_string();
+    manu_data.staged_crate.forEach((item_id) => add_item_card(item_id));
 }
 
 /**
@@ -171,40 +115,91 @@ function refresh_buttons() {
         manu_registry.control.submit_button.removeAttribute('disabled');
     }
 
-    if (is_queue_empty(ItemType.LIGHT_ARM)) {
-        manu_registry.control.light_arm.setAttribute('disabled', 'disabled');
-    } else {
-        manu_registry.control.light_arm.removeAttribute('disabled');
-    }
+    ItemType.get_iterator().forEach((item_type) => {
+        if (manu_data.is_queue_empty(item_type)) {
+            switch (item_type) {
+                case ItemType.LIGHT_ARM:
+                    manu_registry.control.light_arm.setAttribute(
+                        'disabled',
+                        'disabled'
+                    );
+                    break;
+                case ItemType.HEAVY_ARM:
+                    manu_registry.control.heavy_arm.setAttribute(
+                        'disabled',
+                        'disabled'
+                    );
+                    break;
+                case ItemType.HEAVY_SHELL:
+                    manu_registry.control.heavy_shell.setAttribute(
+                        'disabled',
+                        'disabled'
+                    );
+                    break;
+                case ItemType.MEDICAL:
+                    manu_registry.control.medical.setAttribute(
+                        'disabled',
+                        'disabled'
+                    );
+                    break;
+                case ItemType.UTILITIES:
+                    manu_registry.control.utilities.setAttribute(
+                        'disabled',
+                        'disabled'
+                    );
+                    break;
+                case ItemType.UNIFORM:
+                    manu_registry.control.uniform.setAttribute(
+                        'disabled',
+                        'disabled'
+                    );
+                    break;
+            }
+        } else {
+            switch (item_type) {
+                case ItemType.LIGHT_ARM:
+                    manu_registry.control.light_arm.removeAttribute('disabled');
+                    break;
+                case ItemType.HEAVY_ARM:
+                    manu_registry.control.heavy_arm.removeAttribute('disabled');
+                    break;
+                case ItemType.HEAVY_SHELL:
+                    manu_registry.control.heavy_shell.removeAttribute(
+                        'disabled'
+                    );
+                    break;
+                case ItemType.MEDICAL:
+                    manu_registry.control.medical.removeAttribute('disabled');
+                    break;
+                case ItemType.UTILITIES:
+                    manu_registry.control.utilities.removeAttribute('disabled');
+                    break;
+                case ItemType.UNIFORM:
+                    manu_registry.control.uniform.removeAttribute('disabled');
+                    break;
+            }
+        }
+    });
+}
 
-    if (is_queue_empty(ItemType.HEAVY_ARM)) {
-        manu_registry.control.heavy_arm.setAttribute('disabled', 'disabled');
-    } else {
-        manu_registry.control.heavy_arm.removeAttribute('disabled');
-    }
+function show_popup(popup_element: HTMLElement, item_type: ItemType) {
+    if (anim_timeouts[item_type] == -1) {
+        popup_element.innerText = '1';
+        popup_element.className = 'manu-button-popup-show';
 
-    if (is_queue_empty(ItemType.HEAVY_SHELL)) {
-        manu_registry.control.heavy_shell.setAttribute('disabled', 'disabled');
+        anim_timeouts[item_type] = window.setTimeout(() => {
+            popup_element.className = 'manu-button-popup-hidden';
+            anim_timeouts[item_type] = -1;
+        }, 3000);
     } else {
-        manu_registry.control.heavy_shell.removeAttribute('disabled');
-    }
-
-    if (is_queue_empty(ItemType.MEDICAL)) {
-        manu_registry.control.medical.setAttribute('disabled', 'disabled');
-    } else {
-        manu_registry.control.medical.removeAttribute('disabled');
-    }
-
-    if (is_queue_empty(ItemType.UTILITIES)) {
-        manu_registry.control.utilities.setAttribute('disabled', 'disabled');
-    } else {
-        manu_registry.control.utilities.removeAttribute('disabled');
-    }
-
-    if (is_queue_empty(ItemType.UNIFORM)) {
-        manu_registry.control.uniform.setAttribute('disabled', 'disabled');
-    } else {
-        manu_registry.control.uniform.removeAttribute('disabled');
+        popup_element.innerText = (
+            parseInt(popup_element.innerText) + 1
+        ).toString();
+        window.clearTimeout(anim_timeouts[item_type]);
+        anim_timeouts[item_type] = window.setTimeout(() => {
+            popup_element.className = 'manu-button-popup-hidden';
+            anim_timeouts[item_type] = -1;
+        }, 3000);
     }
 }
 
@@ -216,35 +211,44 @@ export namespace ManuScreen {
      */
     export function init() {
         manu_registry = DomRegistry.get_manu_registry();
-        current_cost = new Cost();
+        manu_data = new ManuData();
+        anim_timeouts = ItemType.get_iterator().map(() => -1);
 
         manu_registry.control.light_arm.addEventListener('click', () => {
             add_queue(ItemType.LIGHT_ARM);
+            show_popup(manu_registry.popup.light_arm, ItemType.LIGHT_ARM);
         });
         manu_registry.control.heavy_arm.addEventListener('click', () => {
             add_queue(ItemType.HEAVY_ARM);
+            show_popup(manu_registry.popup.heavy_arm, ItemType.HEAVY_ARM);
         });
         manu_registry.control.heavy_shell.addEventListener('click', () => {
             add_queue(ItemType.HEAVY_SHELL);
+            show_popup(manu_registry.popup.heavy_shell, ItemType.HEAVY_SHELL);
         });
         manu_registry.control.utilities.addEventListener('click', () => {
             add_queue(ItemType.UTILITIES);
+            show_popup(manu_registry.popup.utilities, ItemType.UTILITIES);
         });
         manu_registry.control.medical.addEventListener('click', () => {
             add_queue(ItemType.MEDICAL);
+            show_popup(manu_registry.popup.medical, ItemType.MEDICAL);
         });
         manu_registry.control.uniform.addEventListener('click', () => {
             add_queue(ItemType.UNIFORM);
+            show_popup(manu_registry.popup.uniform, ItemType.UNIFORM);
         });
         manu_registry.control.submit_button.addEventListener(
             'click',
-            submitItems
+            submit_items
         );
 
         manu_registry.stop_manu_button.addEventListener('click', () => {
-            StatScreen.update_manu_stat(start_time, configured_items);
+            manu_data.clear_staged_items();
+            StatScreen.update_manu_stat(start_time, manu_data);
+            ConfigScreen.update(manu_data);
             ResultScreen.show(
-                configured_items,
+                manu_data,
                 manu_registry.stat_label.time_spent.innerText
             );
             clearInterval(time_ref);
@@ -256,22 +260,11 @@ export namespace ManuScreen {
     /**
      * Switch the screen to manu screen.
      *
-     * @param data The to-manu list
+     * @param config_data The configuration data package
      */
-    export function start(data: Item[][]) {
-        configured_items = data;
-        crate_crafted = 0;
-
+    export function show(config_data: ConfigData) {
+        manu_data.start_manu(config_data);
         DomRegistry.get_title().innerText = 'Manu';
-
-        // Round all crate count to multiple of four.
-        for (const row of configured_items) {
-            for (const item of row) {
-                item.amount = Math.ceil(item.amount / 4) * 4;
-            }
-        }
-
-        queued_items = [];
 
         start_time = Date.now();
         time_ref = setInterval(() => {
@@ -282,12 +275,9 @@ export namespace ManuScreen {
             );
         }, 1000);
 
-        current_cost.reset();
+        manu_registry.stat_label.time_spent.innerText = '0s';
 
-        manu_registry.stat_label.cost_to_craft.innerText =
-            current_cost.to_string();
-        manu_registry.stat_label.crate_crafted.innerText = '0';
-
+        refresh_item_cards();
         refresh_buttons();
 
         manu_registry.stop_manu_button.className = 'accent';

@@ -1,5 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Jost:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Jost&display=swap')
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@700&display=swap')
 
 /*
  Josh's Custom CSS Reset
@@ -41,8 +41,6 @@ h1, h2, h3, h4, h5, h6
 
 /* Palette generation
 
-$light-colors: "text" #031017, "background" #f1f3f4, "primary" #1b3a46, "secondary" #9cb5c4, "accent" #16537e
-
 $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondary" #3b5463, "accent" #81bee9
 
 @mixin generate-transparencies($color-map)
@@ -51,11 +49,17 @@ $dark-colors: "text" #e8f5fc, "background" #242d33, "primary" #b9d8e4, "secondar
         @for $i from 1 to 20
             --#{$name}-#{$i * 5}: #{rgba($color, calc($i * 5 / 100))}
 
-:root[data-theme="dark"]
+:root
     @include generate-transparencies($dark-colors)
 
-:root[data-theme="light"]
-    @include generate-transparencies($light-colors)
+    --header: #1f2428
+    --overlay: #1c2020bd
+    --lightarm: #6f6f26
+    --heavyarm: #754d1d
+    --heavyshell: #902c2a
+    --utilities: #30467e
+    --medical: #436c2c
+    --uniform: #733883
 
 /**
  Custom reset configuration
@@ -106,6 +110,12 @@ input:focus, textarea:focus
 textarea
     resize: none
 
+footer
+    display: none
+    text-align: center
+    background-color: var(--header)
+    padding: 5px 0
+
 /** This is probably not a good idea
 input[type="number"]
     -webkit-appearance: textfield
@@ -115,6 +125,53 @@ input[type="number"]
 input[type=number]::-webkit-inner-spin-button,
 input[type=number]::-webkit-outer-spin-button
     -webkit-appearance: none
+
+.table
+    display: grid
+
+    margin: 0 auto 1rem auto
+
+.table-cell
+    display: flex
+    flex-direction: column
+    padding: 0 5px
+
+.table-cell:not(:last-child)
+    border-right: 2px solid var(--accent-60)
+
+.table-header
+    font-size: 1.22rem
+    margin-top: auto
+    margin-bottom: 0.5rem
+    text-align: center
+    background-color: var(--background)
+
+.table-content
+    font-size: 1.1rem
+    margin-top: auto
+    text-align: center
+    background-color: var(--background)
+
+#stat-basic
+    grid-template-columns: 1fr 1fr 1fr
+
+#stat-material
+    grid-template-columns: 1fr 1fr 1fr 1fr
+
+#manu-info-table
+    grid-template-columns: 1fr 1fr 1fr
+
+#result-table
+    grid-template-columns: 1fr 1fr
+
+#data-input-table
+    grid-template-columns: 1fr 1fr
+    width: 100%
+
+    .table-header
+        margin-top: 0
+        font-weight: bold
+        font-size: 1.3rem
 
 select
     background-color: var(--background)
@@ -133,25 +190,26 @@ body
 header
     display: flex
     align-content: center
+    align-items: center
+    background-color: var(--header)
     position: relative
-    margin: 10px 0
-
-    #title
-        /** https://stackoverflow.com/a/1777282 ; wow.
-        position: absolute
-        left: 0
-        right: 0
-        margin-inline: auto
-        width: fit-content
+    padding: 10px 0
 
     button
         margin-right: 1rem
-        top: calc( 50% - 0.9em + 5px )
 
-    #app-name
-        margin-left: 1rem
-        margin-right: auto
-        top: calc( 50% - 0.9em + 5px )
+#title
+    /** https://stackoverflow.com/a/1777282 ; wow.
+    position: absolute
+    left: 0
+    right: 0
+    margin-inline: auto
+    font-size: 1.3rem
+    width: fit-content
+
+#app-name
+    margin-left: 1rem
+    margin-right: auto
 
 main
     margin-top: 1rem
@@ -167,40 +225,46 @@ main
 #logihub-input, #manual-input
     display: flex
     flex-direction: column
-    margin-left: auto
-    margin-right: auto
-    align-items: center
+    margin: 0 auto
     width: 25vw
+    height: 100%
     min-width: 30ch
 
     label
+        text-align: left
         margin-top: 10px
         margin-bottom: 5px
 
     button
-        margin-top: 10px
+        margin-top: 1.5rem
 
-.input-wrapper
-    display: flex
-    flex-direction: column
-    flex-grow: 1
-    width: 100%
-    padding: 0 10px
+#submit-item-button
+    margin-left: auto
+    margin-right: auto
 
-    h2
-        text-align: center
-        margin-bottom: 10px
+#config-show-logihub-help
+    margin-left: 1rem
+
+#logihub-import-button-group
+    margin: 1rem auto 0 auto
 
 #logihub-input
     textarea
         flex-grow: 1
 
-#data-view, #result-item-crafted
+#data-view .item-section-cards, #result-item-crafted
     display: grid
     gap: 1rem
     /* dynamically create column, making sure element have at least 250px
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr))
-    margin: 2rem 1rem 0 1rem
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr))
+    margin: 0 1rem
+
+#result-item-crafted
+    margin-top: 1rem
+
+#data-view .item-section-title
+    margin: 1rem auto
+    width: fit-content
 
 /** Manu View
 
@@ -209,17 +273,21 @@ main
     flex-direction: column
     margin-left: auto
     margin-right: auto
-    width: 50vw
+    width: 60vw
     height: 100%
 
-#statistic-view
-    display: flex
-    margin: 10px 0
+    table
+        width: 100%
+        min-width: 0
 
 #requirement-view
     display: flex
     flex-direction: column
     align-items: center
+
+#manu-qs
+    font-size: 1.2rem
+    margin-bottom: 0.5rem
 
 #item-to-craft
     display: flex
@@ -243,37 +311,54 @@ main
     margin-top: auto
     margin-bottom: 10px
 
+#rq-crafted
+    margin-top: 0.5rem
+
+#manu-button-panel
+    display: flex
+    width: fit-content
+    margin: 0 auto
+    align-items: end
+
+.manu-button-popup-hidden
+    display: none
+
+.manu-button-popup-show
+    text-align: center
+    background-color: var(--secondary)
+    font-size: 1.2rem
+    border-top: 2px solid #f3ee5c
+    height: 2.5rem
+    line-height: 2.5rem
+    width: 3.2rem
+    margin: 0 5px
+
 .manu-control-button
-    width: 3.5rem
-    height: 3.5rem
+    position: relative
+    width: 3.2rem
+    height: 3.2rem
+    margin: 0 5px
 
 /** Result
 
-#result-view
-    display: flex
-    flex-direction: column
-
-    .statistic
-        display: flex
-
-        .group
-            margin: 0 auto
-            text-align: center
-
-#return-button
-    margin: 10px auto 0 auto
+.result-hd
+    font-size: 1.2rem
+    margin-top: 3rem
+    text-align: center
 
 #result-item-crafted
     .item-card
         grid-template-rows: 1fr
 
-/** Stat
-#stat-bg
-    background-color: var(--secondary)
+/** Stat View
+
+.stat-header
+    text-align: center
+    margin-bottom: 1.5rem
+
+#stat-reset
+    display: block
     margin: 0 auto
-    padding: 10px
-    width: fit-content
-    min-width: 20vw
 
 /** Item Card
 
@@ -281,7 +366,6 @@ main
     display: grid
     grid-template-rows: 1fr 1fr 1fr
     gap: 10px
-    background-color: var(--primary-10)
     border-radius: 6px
     padding: 10px
 
@@ -296,13 +380,35 @@ main
         text-align: center
         width: 100%
 
+.item-image
+    height: 1.5rem
+    margin-right: 5px
+
+.lightarm
+    background: linear-gradient(135deg, var(--lightarm), 5%, var(--primary-10) 50%)
+
+.heavyarm
+    background: linear-gradient(135deg, var(--heavyarm), 5%, var(--primary-10) 50%)
+
+.heavyshell
+    background: linear-gradient(135deg, var(--heavyshell), 5%, var(--primary-10) 50%)
+
+.utilities
+    background: linear-gradient(135deg, var(--utilities), 5%, var(--primary-10) 50%)
+
+.medical
+    background: linear-gradient(135deg, var(--medical), 5%, var(--primary-10) 50%)
+
+.uniform
+    background: linear-gradient(135deg, var(--uniform), 5%, var(--primary-10) 50%)
+
 /** Others
 
 .hidden
     display: none !important
 
 .vertical-separator
-    border: 2px solid var(--primary-25)
+    border: 1px solid var(--accent-60)
     border-radius: 4px
     margin: 15px 0
 
@@ -318,7 +424,80 @@ main
     margin-bottom: 5px
 
 .overlay
+    display: flex
+    align-items: center
     position: absolute
+    top: 0
     width: 100vw
     height: 100vh
-    background-color: var(--background-60)
+    background-color: var(--overlay)
+
+.overlay-content
+    margin: auto
+    padding: 20px
+    width: 60vw
+    min-width: 300px
+    height: fit-content
+    max-height: 80vh
+    overflow: scroll
+    background-color: var(--background)
+
+    h3
+        text-align: center
+        margin-bottom: 1rem
+
+    ol
+        list-style-position: inside
+        padding-left: 0
+
+.codeblock
+    padding: 10px
+    font-family: 'Courier New', Courier, monospace
+    background: var(--header)
+    word-wrap: break-word
+
+/** At rules
+
+@media (max-width: 1000px)
+    #manu-view
+        width: 75vw
+
+@media (max-width: 700px)
+    #stat-basic, #data-input-table
+        width: fit-content
+        grid-template-columns: none
+        grid-template-rows: 1fr
+
+        .table-cell:not(:last-child)
+            border-right: none
+            border-bottom: 2px solid var(--accent-60)
+
+        .table-content
+            padding-bottom: 0.75rem
+
+        .table-header
+            padding-top: 0.75rem
+
+        #logihub-input textarea
+            min-height: 10ch
+
+    #data-input-table #logihub-import-button-group
+        margin-bottom: 1.5rem
+
+    #manu-view
+        width: 100vw
+
+@media (max-width: 450px)
+    #app-name
+        display: none
+
+    #title
+        position: relative
+        margin: 0 0 0 10px
+
+    header button
+        margin-left: auto
+        margin-right: 10px
+
+    footer
+        display: block

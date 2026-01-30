@@ -7,12 +7,17 @@
         <title>Choreographer</title>
     </head>
 
+    <template id="item-section-template">
+        <div class="item-section">
+            <h3 class="item-section-title"></h3>
+            <div class="item-section-cards"></div>
+        </div>
+    </template>
+
     <template id="item-card-template">
         <div class="item-card">
             <div class="item-card-line">
-                <div class="item-image">
-                    <!-- <img> -->
-                </div>
+                <img class="item-image" />
                 <div class="item-name"></div>
                 <div class="item-amount"></div>
             </div>
@@ -29,9 +34,7 @@
     <template id="result-item-card">
         <div class="item-card">
             <div class="item-card-line">
-                <div class="item-image">
-                    <!-- <img> -->
-                </div>
+                <img class="item-image" />
                 <div class="item-name"></div>
                 <div class="item-amount"></div>
             </div>
@@ -40,159 +43,295 @@
 
     <template id="manu-item-line-template">
         <div class="manu-item-line">
+            <img class="item-image" />
             <div class="manu-item-name"></div>
             <button class="remove-line">X</button>
-            <button class="push-back-line">-</button>
         </div>
     </template>
 
     <body>
         <header>
-            <div id="app-name">Choreographer v0.2.2</div>
+            <div id="app-name">
+                Choreographer v1.0<br />Foxhole 1.63 "Airborne"
+            </div>
             <div id="title">Home</div>
-            <button id="theme-switch">Dark</button>
-            <button id="show-stats">Stats</button>
-            <button id="start-manu-button" class="accent">Start Manu</button>
+            <button id="start-config-button" class="accent">
+                Configure New Session
+            </button>
+            <button id="start-manu-button" class="hidden">Start Manu</button>
             <button id="stop-manu-button" class="hidden">Stop Manu</button>
+            <button id="return-button" class="hidden">Return</button>
         </header>
         <main>
-            <div id="stat-view" class="hidden">
-                <div id="stat-bg">
-                    <div class="line">Statistics</div>
-                    <div>
-                        <div class="line">
-                            Total Crate Manufactured
-                            <div id="stat-crate-count"></div>
-                        </div>
-                        <div class="line">
-                            Time Spent Manufacturing
-                            <div id="stat-time-spent"></div>
-                        </div>
-                        <div class="line">
-                            Avg. time to 100 crate
-                            <div id="stat-time-hundred-crate"></div>
-                        </div>
+            <div id="stat-view" class="">
+                <h2 class="stat-header">Lifetime Statistics</h2>
+                <div id="stat-basic" class="table">
+                    <div class="table-cell">
+                        <div class="table-header">Total Crate Manufactured</div>
+                        <div class="table-content" id="stat-crate-count"></div>
                     </div>
-                    <div>
-                        <div class="line">Material Consumed</div>
-                        <div class="line">
-                            Basic Material
-                            <div id="stat-bmat-used"></div>
+                    <div class="table-cell">
+                        <div class="table-header">Time Spent Manufacturing</div>
+                        <div class="table-content" id="stat-time-spent"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">
+                            Average time / 100 crates
                         </div>
-                        <div class="line">
-                            Explosive Material
-                            <div id="stat-emat-used"></div>
-                        </div>
-                        <div class="line">
-                            Heavy Explosive Material
-                            <div id="stat-hemat-used"></div>
-                        </div>
-                        <div class="line">
-                            Refined Material
-                            <div id="stat-rmat-used"></div>
-                        </div>
+                        <div
+                            class="table-content"
+                            id="stat-time-hundred-crate"
+                        ></div>
                     </div>
                 </div>
-            </div>
-            <div id="config-view" class="">
-                <div id="data-input">
-                    <div id="logihub-input">
-                        <div class="input-wrapper">
-                            <h2>Import from LogiHub</h2>
-                            <label for="logihub-import-paste"
-                                >Paste LogiHub export here:</label
-                            >
-                            <textarea
-                                id="logihub-import-paste"
-                                name="logihub-import-paste"
-                            ></textarea>
-                        </div>
-                        <button class="accent" id="submit-logihub-import">
-                            Submit
-                        </button>
+                <h3 class="stat-header">Material Consumed</h3>
+                <div id="stat-material" class="table">
+                    <div class="table-cell">
+                        <div class="table-header">Basic Material</div>
+
+                        <div class="table-content" id="stat-bmat-used"></div>
                     </div>
-                    <div class="vertical-separator"></div>
-                    <div id="manual-input">
-                        <div class="input-wrapper">
-                            <h2>Manual Entry</h2>
-                            <label for="item-name">Item name:</label>
-                            <input
-                                id="item-name"
-                                list="item-names-list"
-                                name="item-name"
-                                placeholder="Type here..."
-                            />
-                            <datalist id="item-names-list">
-                                <!-- Populated by initialization code -->
-                            </datalist>
-                            <label for="priority">Priority:</label>
-                            <select id="priority" name="priority">
-                                <option value="-">No Priority</option>
-                                <option value="Priority">Priority</option>
-                                <option value="High Priority">
-                                    High Priority
-                                </option>
-                            </select>
-                            <label for="amount">Amount:</label>
-                            <input
-                                id="amount"
-                                type="number"
-                                name="amount"
-                                min="0"
-                            />
+                    <div class="table-cell">
+                        <div class="table-header">Explosive Material</div>
+                        <div class="table-content" id="stat-emat-used"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Heavy Explosive Material</div>
+                        <div class="table-content" id="stat-hemat-used"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Refined Material</div>
+                        <div class="table-content" id="stat-rmat-used"></div>
+                    </div>
+                </div>
+                <button id="stat-reset">Reset Statistics</button>
+            </div>
+            <div id="config-view" class="hidden">
+                <div id="config-logihub-help" class="hidden">
+                    <div class="overlay-content">
+                        <h3>How to import warehouse data from Logihub?</h3>
+                        <ol>
+                            <li>In LogiHub, switch to any Factory view.</li>
+                            <li>
+                                Open Developer Tools on your web browser
+                                (typically <code>Ctrl + Shift + I</code>)
+                            </li>
+                            <li>
+                                Copy and run the following JavaScript code into
+                                the Console:
+                                <div class="codeblock">
+                                    {let res =
+                                    [];document.querySelectorAll('app-supply-list-item').forEach((item)
+                                    => {let obj = {};let nameAndAmount =
+                                    item.querySelector('.card-header').querySelectorAll('span');let
+                                    priorityAndPercentage =
+                                    item.querySelector('.card-footer').querySelectorAll('span');obj.name
+                                    =
+                                    nameAndAmount[0].innerHTML.trim();obj.amount
+                                    =
+                                    parseInt(nameAndAmount[1].innerHTML.trim());obj.priority
+                                    =
+                                    priorityAndPercentage[0].innerHTML.trim();obj.percentage
+                                    =
+                                    parseInt(priorityAndPercentage[priorityAndPercentage.length
+                                    - 1].innerHTML.trim())/100;if (obj.priority
+                                    === "&nbsp;") obj.priority =
+                                    "-";res.push(obj);});console.log(JSON.stringify(res));}
+                                </div>
+                                The script will:
+                                <ul>
+                                    <li>
+                                        Get the document part showing the
+                                        warehouse content
+                                        (<code>'app-supply-list-item'</code>)
+                                        which have a bunch of 'item cards'
+                                    </li>
+                                    <li>
+                                        For each item card, take the name (1st
+                                        span of <code>'card-header'</code> span
+                                        class), the priority (1st span of
+                                        <code>'card-footer'</code> span class,
+                                        if it is a whitespace mean no priority),
+                                        the percentage (last span of
+                                        <code>'card-footer'</code> span class)
+                                    </li>
+                                    <li>
+                                        Record all of that into a JSON object
+                                        and print it out.
+                                    </li>
+                                </ul>
+                            </li>
+                            <li>
+                                An export in text will be produced, copy and
+                                paste it into the LogiHub import box.
+                            </li>
+                        </ol>
+                    </div>
+                </div>
+                <div id="data-input">
+                    <div class="table" id="data-input-table">
+                        <div class="table-cell">
+                            <div class="table-header">Import from LogiHub</div>
+                            <div class="table-content" id="logihub-input">
+                                <label for="logihub-import-paste"
+                                    >Paste LogiHub export here:</label
+                                >
+                                <textarea
+                                    id="logihub-import-paste"
+                                    name="logihub-import-paste"
+                                ></textarea>
+                            </div>
+                            <div id="logihub-import-button-group">
+                                <button
+                                    class="accent"
+                                    id="submit-logihub-import"
+                                >
+                                    Submit
+                                </button>
+                                <button id="config-show-logihub-help">?</button>
+                            </div>
                         </div>
-                        <button class="accent" id="submit-item-button">
-                            Submit
-                        </button>
+                        <div class="table-cell">
+                            <div class="table-header">Manual Entry</div>
+                            <div class="table-content" id="manual-input">
+                                <label for="item-name">Item name:</label>
+                                <input
+                                    id="item-name"
+                                    list="item-names-list"
+                                    name="item-name"
+                                    placeholder="Type here..."
+                                />
+                                <datalist id="item-names-list"> </datalist>
+                                <label for="priority">Priority:</label>
+                                <select id="priority" name="priority">
+                                    <option value="-">No Priority</option>
+                                    <option value="Priority">Priority</option>
+                                    <option value="High Priority">
+                                        High Priority
+                                    </option>
+                                </select>
+                                <label for="amount">Amount:</label>
+                                <input
+                                    id="amount"
+                                    type="number"
+                                    name="amount"
+                                    min="0"
+                                />
+                                <button class="accent" id="submit-item-button">
+                                    Submit
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="data-view"></div>
             </div>
             <div id="manu-view" class="hidden">
-                <div id="statistic-view">
-                    <div class="vertical-line">
-                        <div class="label">Crate Crafted</div>
-                        <div id="crate-crafted"></div>
+                <div class="table" id="manu-info-table">
+                    <div class="table-cell">
+                        <div class="table-header">Crate Crafted</div>
+                        <div class="table-content" id="crate-crafted"></div>
                     </div>
-                    <div class="vertical-line">
-                        <div class="label">Time Elapsed</div>
-                        <div id="time-spent"></div>
+                    <div class="table-cell">
+                        <div class="table-header">Material Needed</div>
+                        <div class="table-content" id="cost-to-craft"></div>
+                    </div>
+                    <div class="table-cell">
+                        <div class="table-header">Time Elapsed</div>
+                        <div class="table-content" id="time-spent"></div>
                     </div>
                 </div>
                 <div id="requirement-view">
-                    <div class="line">
-                        <div class="label">Material Needed</div>
-                        <div id="cost-to-craft"></div>
-                    </div>
-                    <div class="line">
-                        <div class="label">Queues to set</div>
-                        <div id="item-to-craft"></div>
-                    </div>
+                    <div id="manu-qs">Queues to set</div>
+                    <div id="item-to-craft"></div>
                 </div>
                 <div id="manu-control">
                     <div class="line">
                         Clicks empty queues, click Submit after setting queues
                     </div>
-                    <div class="line">Always set a full 4 items queue!</div>
-                    <div class="line">
-                        <button class="manu-control-button" id="rq-lightarm">
-                            <img src="images/smallarm.png" />
-                        </button>
-                        <button class="manu-control-button" id="rq-heavyarm">
-                            <img src="images/heavyarm.png" />
-                        </button>
-                        <button class="manu-control-button" id="rq-heavyshell">
-                            <img src="images/heavyammo.png" />
-                        </button>
-                        <button class="manu-control-button" id="rq-utilities">
-                            <img src="images/utility.png" />
-                        </button>
-                        <button class="manu-control-button" id="rq-medical">
-                            <img src="images/medical.png" />
-                        </button>
-                        <button class="manu-control-button" id="rq-uniform">
-                            <img src="images/uniform.png" />
-                        </button>
+                    <div id="manu-button-panel">
+                        <div>
+                            <div
+                                id="rq-lightarm-popup"
+                                class="manu-button-popup-hidden"
+                            >
+                                3
+                            </div>
+                            <button
+                                class="manu-control-button"
+                                id="rq-lightarm"
+                            >
+                                <img src="images/smallarm.png" />
+                            </button>
+                        </div>
+                        <div>
+                            <div
+                                id="rq-heavyarm-popup"
+                                class="manu-button-popup-hidden"
+                            >
+                                3
+                            </div>
+                            <button
+                                class="manu-control-button"
+                                id="rq-heavyarm"
+                            >
+                                <img src="images/heavyarm.png" />
+                            </button>
+                        </div>
+                        <div>
+                            <div
+                                id="rq-heavyshell-popup"
+                                class="manu-button-popup-hidden"
+                            >
+                                3
+                            </div>
+
+                            <button
+                                class="manu-control-button"
+                                id="rq-heavyshell"
+                            >
+                                <img src="images/heavyammo.png" />
+                            </button>
+                        </div>
+                        <div>
+                            <div
+                                id="rq-utilities-popup"
+                                class="manu-button-popup-hidden"
+                            >
+                                3
+                            </div>
+
+                            <button
+                                class="manu-control-button"
+                                id="rq-utilities"
+                            >
+                                <img src="images/utility.png" />
+                            </button>
+                        </div>
+                        <div>
+                            <div
+                                id="rq-medical-popup"
+                                class="manu-button-popup-hidden"
+                            >
+                                3
+                            </div>
+
+                            <button class="manu-control-button" id="rq-medical">
+                                <img src="images/medical.png" />
+                            </button>
+                        </div>
+                        <div>
+                            <div
+                                id="rq-uniform-popup"
+                                class="manu-button-popup-hidden"
+                            >
+                                3
+                            </div>
+
+                            <button class="manu-control-button" id="rq-uniform">
+                                <img src="images/uniform.png" />
+                            </button>
+                        </div>
                     </div>
                     <div class="line">
                         <button id="rq-crafted" class="accent">Submit</button>
@@ -200,22 +339,20 @@
                 </div>
             </div>
             <div id="result-view" class="hidden">
-                <div class="statistic">
-                    <div class="group">
-                        <div class="label">Time spent Manufacturing</div>
-                        <div id="result-time"></div>
+                <div class="table" id="result-table">
+                    <div class="table-cell">
+                        <div class="table-header">Time Spent</div>
+                        <div class="table-content" id="result-time"></div>
                     </div>
-                    <div class="group">
-                        <div class="label">Total Crate Manufactured</div>
-                        <div id="result-crate"></div>
+                    <div class="table-cell">
+                        <div class="table-header">Total Crates</div>
+                        <div class="table-content" id="result-crate"></div>
                     </div>
                 </div>
-                <div class="line">
-                    <div class="label">Crates Manufactured</div>
-                    <div id="result-item-crafted"></div>
-                </div>
-                <button class="accent" id="return-button">Return</button>
+                <div class="result-hd">Crates Manufactured</div>
+                <div id="result-item-crafted"></div>
             </div>
         </main>
+        <footer>Choreographer v1.0 -- Foxhole 1.63 "Airborne"</footer>
     </body>
 </html>
